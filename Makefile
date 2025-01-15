@@ -4,7 +4,7 @@ CFLAGS		=		-Wall -Wextra -Werror
 RM			=		rm
 RMFLAGS		=		-f
 SRCDIR		=		src/
-CFILES		=		...
+CFILES		=		$(SRCDIR)minishell.c
 OBJS		=		$(CFILES:.c=.o)
 INCLDIR		=		include/
 IFILES		=		$(INCLDIR)minishell.h
@@ -18,7 +18,7 @@ $(NAME):			$(OBJS) $(LIBFT)
 
 
 %.o:				%.c
-					$(CC) $(CFLAGS) $^ -o $@
+					$(CC) $(CFLAGS) -I$(INCLDIR) $^ -o $@
 
 $(LIBFT):
 					make -C $(LIBFTDIR)

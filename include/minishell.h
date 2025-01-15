@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/15 15:12:03 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:25:50 by cheyo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define MINISHELL_H
 
 // Includes
-#include <stdio.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 #endif //MINISHELL_H

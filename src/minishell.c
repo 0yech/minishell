@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/15 15:08:39 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:19:15 by cheyo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,9 @@
 
 int	main(void)
 {
-	readline();
+	char *str;
+
+	str = readline(NULL);
+	printf("%s", str);
+	free(str);
 }

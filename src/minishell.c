@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/15 15:19:15 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/01/15 16:37:07 by cheyo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(void)
 {
 	char *str;
 
-	str = readline(NULL);
+	str = readline(":3 $>");
 	printf("%s", str);
 	free(str);
 }

@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/15 18:48:27 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/16 23:00:19 by cheyo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 
 // Libft
-# include "../libft/libft.h"
-# include "../ft_printf/include/ft_printf.h"
+# include "libft.h"
+# include "ft_printf.h"
 
 #endif //MINISHELL_H

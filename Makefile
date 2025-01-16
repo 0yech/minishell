@@ -33,7 +33,7 @@ $(PRINTF):		$(LIBFT)
 
 # Compile object files
 %.o:			%.c $(IFILES)
-				$(CC) $(CFLAGS) -I$(INCLDIR) -c $< -o $@
+				$(CC) $(CFLAGS) -I$(INCLDIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR)/include -c $< -o $@
 
 # Compile minishell with the existing libs
 $(NAME):		$(OBJS) $(LIBFT) $(PRINTF)

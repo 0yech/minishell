@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/16 23:14:24 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/01/17 14:36:48 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(void)
 {
 	char	*str;
 
-	while (1)
+	while (TRUE)
 	{
 		str = readline(":3 $>");
 		if (!ft_strncmp(str, "exit", 4))

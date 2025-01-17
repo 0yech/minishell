@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/17 14:36:48 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:59:19 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,20 @@
 
 int	main(void)
 {
-	char	*str;
+	char	**prompt;
 
 	while (TRUE)
 	{
-		str = readline(":3 $>");
-		if (!ft_strncmp(str, "exit", 4))
+		prompt = ft_split(readline(":3 $>"), ' ');
+
+		if (!ft_strncmp(prompt[0], "exit", 4))
 		{
-			free(str);
+			free(prompt);
 			exit(0);
 		}
-		ft_printf("%s\n", str);
-		free(str);
+		else if (!ft_strncmp(prompt[0], "cd", 2))
+			ft_cd(prompt[1]);
+		// ft_printf("%s\n", prompt[0]);
+		free(prompt); // WEEHOOWEEHOO LEAKS OVER HERE (need to free individual tokens)
 	}
 }

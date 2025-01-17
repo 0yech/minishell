@@ -5,7 +5,8 @@ RM			=	rm
 RMFLAGS		=	-f
 
 SRCDIR		=	./src
-CFILES		=	$(SRCDIR)/minishell.c
+CFILES		=	$(SRCDIR)/minishell.c \
+				$(SRCDIR)/cd.c
 OBJS		=	$(CFILES:.c=.o)
 
 INCLDIR		=	include/

@@ -6,11 +6,22 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/17 15:11:32 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/17 15:21:54 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* Don't worry we'll put this function elsewhere than here */
+void	free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		free(array[i++]);
+	free(array);
+}
 
 int	main(void)
 {
@@ -31,7 +42,6 @@ int	main(void)
 		}
 		else if (!ft_strncmp(prompt[0], "cd", 2))
 			ft_cd(prompt[1]);
-		// ft_printf("%s\n", prompt[0]);
-		free(prompt); // WEEHOOWEEHOO LEAKS OVER HERE (need to free individual tokens)
+		free_array(prompt);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/17 16:21:16 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/01/17 17:29:24 by cheyo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	main(void)
 		prompt = ft_split(input, ' ');
 		if (prompt == NULL || prompt[0] == NULL)
 			;
+		
 		else if (!ft_strncmp(prompt[0], "exit", 4))
 		{
 			free(prompt);

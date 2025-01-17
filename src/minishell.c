@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/17 14:59:19 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/17 15:11:32 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 int	main(void)
 {
 	char	**prompt;
+	char	cwd[1024];
 
 	while (TRUE)
 	{
+		ft_printf("%s ", getcwd(cwd, sizeof(cwd)));
 		prompt = ft_split(readline(":3 $>"), ' ');
 
-		if (!ft_strncmp(prompt[0], "exit", 4))
+		if (prompt == NULL || prompt[0] == NULL)
+			;
+		else if (!ft_strncmp(prompt[0], "exit", 4))
 		{
 			free(prompt);
 			exit(0);

@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:55:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/01/17 17:12:33 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/01/17 17:38:22 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	token_add_back(t_token **list, t_token *new)
 	t_token *last;
 
 	if (!new)
-		return (NULL);
+		return ;
 	last = token_last(*list);
 	if (!last)
 		*list = new;

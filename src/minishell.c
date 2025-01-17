@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/17 17:29:24 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/01/17 17:48:30 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,18 @@ int	main(void)
 	{
 		ft_printf("%s ", getcwd(cwd, sizeof(cwd)));
 		input = readline(":3 $>");
+		ft_printf("Main loop cycle!\n");
 		prompt = ft_split(input, ' ');
 		if (prompt == NULL || prompt[0] == NULL)
+		{
 			;
-		
+		}
+		else
+		{
+			t_token	**token_list = init_token_list(prompt);
+			ft_printf("%s\n", (*token_list)->value);
+		}
+		/*
 		else if (!ft_strncmp(prompt[0], "exit", 4))
 		{
 			free(prompt);
@@ -46,6 +54,8 @@ int	main(void)
 		}
 		else if (!ft_strncmp(prompt[0], "cd", 2))
 			ft_cd(prompt[1]);
+		*/
+
 		free_array(prompt);
 	}
 }

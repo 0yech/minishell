@@ -6,7 +6,9 @@ RMFLAGS		=	-f
 
 SRCDIR		=	./src
 CFILES		=	$(SRCDIR)/minishell.c \
-				$(SRCDIR)/builtins/cd.c
+				$(SRCDIR)/builtins/cd.c \
+				$(SRCDIR)/lexing.c \
+				$(SRCDIR)/token_tools.c
 OBJS		=	$(CFILES:.c=.o)
 
 INCLDIR		=	include/

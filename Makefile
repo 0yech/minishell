@@ -1,12 +1,12 @@
 NAME		=	minishell
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g
 RM			=	rm
 RMFLAGS		=	-f
 
 SRCDIR		=	./src
 CFILES		=	$(SRCDIR)/minishell.c \
-				$(SRCDIR)/cd.c
+				$(SRCDIR)/builtins/cd.c
 OBJS		=	$(CFILES:.c=.o)
 
 INCLDIR		=	include/

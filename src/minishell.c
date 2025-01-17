@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/17 15:21:54 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:21:16 by cheyo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	free_array(char **array)
 	int	i;
 
 	i = 0;
+	if (!array || !(*array))
+		return ;
 	while (array[i])
 		free(array[i++]);
 	free(array);
@@ -26,13 +28,14 @@ void	free_array(char **array)
 int	main(void)
 {
 	char	**prompt;
+	char	*input;
 	char	cwd[1024];
 
 	while (TRUE)
 	{
 		ft_printf("%s ", getcwd(cwd, sizeof(cwd)));
-		prompt = ft_split(readline(":3 $>"), ' ');
-
+		input = readline(":3 $>");
+		prompt = ft_split(input, ' ');
 		if (prompt == NULL || prompt[0] == NULL)
 			;
 		else if (!ft_strncmp(prompt[0], "exit", 4))

@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/17 17:48:30 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/19 22:41:03 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,9 @@ int	main(void)
 		ft_printf("Main loop cycle!\n");
 		prompt = ft_split(input, ' ');
 		if (prompt == NULL || prompt[0] == NULL)
-		{
-			;
-		}
-		else
-		{
-			t_token	**token_list = init_token_list(prompt);
-			ft_printf("%s\n", (*token_list)->value);
-		}
+			continue;
+        t_token	**token_list = init_token_list(prompt);
+        ft_printf("%s\n", (*token_list)->value);
 		/*
 		else if (!ft_strncmp(prompt[0], "exit", 4))
 		{

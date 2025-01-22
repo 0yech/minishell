@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/22 15:33:02 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:02:22 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/history.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <stdint.h>
 
 // Libft
 # include "libft.h"
@@ -50,6 +51,7 @@ typedef enum e_bool
 
 // Builtins
 int		ft_cd(char *path);
+void	ft_exit(t_token **token_list);
 
 // Lexing
 t_token	**init_token_list(char *input);

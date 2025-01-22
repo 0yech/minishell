@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:55:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/01/17 19:06:02 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:45:23 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token *token_new(char *token)
 {
 	t_token *new_token;
 
-	new_token = malloc(sizeof(new_token));
+	new_token = malloc(sizeof(*new_token));
 	if (!new_token)
 		return (NULL);
 	new_token->value = token;

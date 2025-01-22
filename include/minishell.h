@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/17 17:41:37 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:33:02 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef enum e_bool
 int		ft_cd(char *path);
 
 // Lexing
-t_token	**init_token_list(char **tokens);
+t_token	**init_token_list(char *input);
 
 // Token tools
 t_token *token_new(char *token);
@@ -61,5 +61,7 @@ void	token_add_back(t_token **list, t_token *new);
 void	token_add_front(t_token **list, t_token *new);
 void	tokens_clear(t_token **list);
 
+// Util functions
+void	free_array(char **array);
 
 #endif //MINISHELL_H

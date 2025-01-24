@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/22 16:02:22 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:42:23 by cheyo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,23 @@ typedef enum e_bool
 }	t_bool;
 
 // Builtins
-int		ft_cd(char *path);
+int		ft_cd(t_token **token_list);
 void	ft_exit(t_token **token_list);
 
 // Lexing
 t_token	**init_token_list(char *input);
 
 // Token tools
-t_token *token_new(char *token);
-t_token *token_last(t_token *list);
+t_token	*token_new(char *token);
+t_token	*token_last(t_token *list);
 void	token_add_back(t_token **list, t_token *new);
 void	token_add_front(t_token **list, t_token *new);
 void	tokens_clear(t_token **list);
 
 // Util functions
 void	free_array(char **array);
+
+// Command handler
+void	command_handler(t_token **token_list);
 
 #endif //MINISHELL_H

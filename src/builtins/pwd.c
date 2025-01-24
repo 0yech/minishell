@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_handler.c                                  :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/24 15:34:36 by cheyo             #+#    #+#             */
-/*   Updated: 2025/01/24 16:21:36 by cheyo            ###   ########.fr       */
+/*   Created: 2025/01/24 16:14:41 by cheyo             #+#    #+#             */
+/*   Updated: 2025/01/24 16:24:47 by cheyo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	command_handler(t_token **token_list)
+int	ft_pwd(void)
 {
-	ft_printf("%s\n", (*token_list)->value);
-	if (!ft_strncmp((*token_list)->value, "exit", 4))
-		ft_exit(token_list);
-	if (!ft_strncmp((*token_list)->value, "pwd", 3))
-		ft_pwd();
-	if (!ft_strncmp((*token_list)->value, "cd", 2))
-		ft_cd(token_list);
+	char	buf[1024];
+
+	if (getcwd(buf, sizeof(buf)))
+	{
+		ft_printf("%s\n", buf);
+		return (0);
+	}
+	return (1);
 }

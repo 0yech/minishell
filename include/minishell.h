@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/24 15:42:23 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/01/24 16:19:58 by cheyo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef enum e_bool
 // Builtins
 int		ft_cd(t_token **token_list);
 void	ft_exit(t_token **token_list);
+int		ft_pwd(void);
 
 // Lexing
 t_token	**init_token_list(char *input);

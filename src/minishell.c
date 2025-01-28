@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/28 10:07:23 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:42:09 by cheyo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,14 @@ void	free_array(char **array)
 	free(array);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_token	**token_list;
 	char	*input;
 	char	cwd[1024];
 
+	(void)argc;
+	(void)argv;
 	while (TRUE)
 	{
 		ft_printf("%s ", getcwd(cwd, sizeof(cwd)));
@@ -39,7 +41,7 @@ int	main(void)
 		token_list = init_token_list(input);
 		if (token_list == NULL)
 			continue ;
-		command_handler(token_list);
+		command_handler(token_list, envp);
 		tokens_clear(token_list);
 	}
 }

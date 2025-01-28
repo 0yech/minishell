@@ -9,6 +9,8 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/builtins/cd.c \
 				$(SRCDIR)/builtins/exit.c \
 				$(SRCDIR)/builtins/pwd.c \
+				$(SRCDIR)/builtins/env.c \
+				$(SRCDIR)/builtins/export.c \
 				$(SRCDIR)/lexing.c \
 				$(SRCDIR)/command_handler.c \
 				$(SRCDIR)/token_tools.c

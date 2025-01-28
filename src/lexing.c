@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/01/24 15:27:48 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/01/28 10:23:43 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	history_handler(char *input)
 
 t_token	**init_token_list(char *input)
 {
+	int		i;
 	char	**prompt;
 	t_token	**token_list;
 
@@ -32,8 +33,10 @@ t_token	**init_token_list(char *input)
 	if (!token_list)
 		return (NULL);
 	*token_list = NULL;
-	while (prompt && *prompt)
-		token_add_back(token_list, token_new(*(prompt++)));
-	free_array(prompt);
+	i = 0;
+	while (prompt[i])
+		token_add_back(token_list, token_new(prompt[i++]));
+	free(prompt[i]);
+	free(prompt);
 	return (token_list);
 }

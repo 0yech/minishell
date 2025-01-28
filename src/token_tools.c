@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:55:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/01/22 20:26:07 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/28 10:15:08 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*token_new(char *token)
 {
 	t_token	*new_token;
 
-	new_token = malloc(sizeof(*new_token));
+	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return (NULL);
 	new_token->value = token;
@@ -61,9 +61,9 @@ void	tokens_clear(t_token **list)
 	while (*list)
 	{
 		next_token = (*list)->next;
+		free((*list)->value);
 		free(*list);
 		*list = next_token;
 	}
-	*list = NULL;
 	free(list);
 }

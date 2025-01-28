@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/24 15:35:17 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/01/28 10:07:23 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_array(char **array)
 	int	i;
 
 	i = 0;
-	if (!array || !(*array))
+	if (!array || !array[i])
 		return ;
 	while (array[i])
 		free(array[i++]);

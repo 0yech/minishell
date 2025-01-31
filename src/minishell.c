@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/28 15:42:09 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/01/31 12:03:44 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	char	*input;
 	char	cwd[1024];
 
-	(void)argc;
-	(void)argv;
+	(void)argc, (void)argv;
 	while (TRUE)
 	{
 		ft_printf("%s ", getcwd(cwd, sizeof(cwd)));
@@ -43,5 +42,6 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		command_handler(token_list, envp);
 		tokens_clear(token_list);
+		free(input);
 	}
 }

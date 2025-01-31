@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/28 15:43:56 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/01/31 11:19:02 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	char			*value;
-	t_token_type	*type;
+	t_token_type	type;
 	struct s_token	*next;
 }	t_token;
 
@@ -54,7 +54,6 @@ int		ft_cd(t_token **token_list);
 void	ft_exit(t_token **token_list);
 int		ft_pwd(void);
 int		ft_env(char **envp);
-
 
 // Lexing
 t_token	**init_token_list(char *input);

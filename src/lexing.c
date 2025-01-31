@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/01/31 12:05:47 by estettle         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:31:09 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_token	**init_token_list(char *input)
 	if (prompt[0] == NULL)
 	{
 		free(prompt);
+		free(token_list);
 		return (NULL);
 	}
 	i = 0;

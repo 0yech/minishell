@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:55:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/01/31 11:37:16 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:05:13 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token	*token_last(t_token *list)
 {
 	if (!list)
 		return (NULL);
-	while (list->next && ft_printf("Token_last loop cycle\n"))
+	while (list->next && printf("Token_last loop cycle\n"))
 		list = list->next;
 	return (list);
 }

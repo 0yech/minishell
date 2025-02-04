@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:47:25 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/24 15:49:11 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/02/04 13:04:44 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	ft_cd(t_token **token_list)
 	}
 	if (chdir((*token_list)->next->value) == 0)
 	{
-		ft_printf("[!] - Switched working directory to %s\n",
+		printf("[!] - Switched working directory to %s\n",
 			(*token_list)->next->value);
 		return (0);
 	}
 	else
 	{
-		ft_printf("[!] - Failed to change working directory!\n");
+		printf("[!] - Failed to change working directory!\n");
 		return (-1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:14:41 by cheyo             #+#    #+#             */
-/*   Updated: 2025/01/24 16:24:47 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/02/04 13:05:01 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_pwd(void)
 
 	if (getcwd(buf, sizeof(buf)))
 	{
-		ft_printf("%s\n", buf);
+		printf("%s\n", buf);
 		return (0);
 	}
 	return (1);

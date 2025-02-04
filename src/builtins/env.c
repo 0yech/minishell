@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:33:11 by cheyo             #+#    #+#             */
-/*   Updated: 2025/01/28 15:43:26 by cheyo            ###   ########.fr       */
+/*   Updated: 2025/02/04 13:04:49 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_env(char **envp)
 {
 	while (*envp)
 	{
-		ft_printf("%s\n", *envp);
+		printf("%s\n", *envp);
 		envp++;
 	}
 	return (0);

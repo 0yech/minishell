@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/04 13:04:28 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:04:11 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ int	main(int argc, char **argv, char **envp)
 		printf("%s ", getcwd(cwd, sizeof(cwd)));
 		input = readline(":3 $>");
 		token_list = init_token_list(input);
+		free(input);
 		if (token_list == NULL)
 			continue ;
 		command_handler(token_list, envp);
 		tokens_clear(token_list);
-		free(input);
 	}
 }

@@ -25,7 +25,15 @@ LIBFT		=	$(LIBFT_DIR)/libft.a
 PRINTF_DIR	=	./ft_printf
 PRINTF		=	$(PRINTF_DIR)/libftprintf.a
 
-LIBS		=	-L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf
+LIBS		=	-L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf -lreadline
+
+# Link GNU readline on my mac
+UNAME_S		= 	$(shell uname -s)
+
+ifeq ($(UNAME_S),Darwin)
+$(info MacOS detected, linking with custom GNU Readline...)
+LIBS		+=	-L/opt/homebrew/opt/readline/lib -lreadline
+endif
 
 all:			$(NAME)
 
@@ -41,12 +49,15 @@ $(PRINTF):		$(LIBFT)
 
 # Compile object files
 %.o:			%.c $(IFILES)
+ifeq ($(UNAME_S),Darwin) # Is on MacOS
+				$(CC) $(CFLAGS) -I$(INCLDIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR)/include -I/opt/homebrew/opt/readline/include -c $< -o $@
+else # Is on anything else
 				$(CC) $(CFLAGS) -I$(INCLDIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR)/include -c $< -o $@
 
 # Compile minishell with the existing libs
 $(NAME):		$(OBJS) $(LIBFT) $(PRINTF)
 				@echo "Compiling $(NAME)"
-				$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME) -lreadline
+				$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 				@echo "$(NAME) created successfully"
 
 clean:

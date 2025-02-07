@@ -53,6 +53,7 @@ ifeq ($(UNAME_S),Darwin) # Is on MacOS
 				$(CC) $(CFLAGS) -I$(INCLDIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR)/include -I/opt/homebrew/opt/readline/include -c $< -o $@
 else # Is on anything else
 				$(CC) $(CFLAGS) -I$(INCLDIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR)/include -c $< -o $@
+endif
 
 # Compile minishell with the existing libs
 $(NAME):		$(OBJS) $(LIBFT) $(PRINTF)

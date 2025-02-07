@@ -11,6 +11,7 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/builtins/pwd.c \
 				$(SRCDIR)/builtins/env.c \
 				$(SRCDIR)/builtins/export.c \
+				$(SRCDIR)/environ/environ.c \
 				$(SRCDIR)/lexing.c \
 				$(SRCDIR)/command_handler.c \
 				$(SRCDIR)/token_tools.c

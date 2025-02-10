@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/10 18:33:59 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/10 18:43:04 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int		ft_env(t_env *env);
 
 // Lexing
 t_token	**init_token_list(char *input);
-
 
 // Environ, environ.c
 t_env	*inienv(char **envp);

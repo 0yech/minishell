@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/31 11:19:02 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:33:59 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,14 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_env
+{
+	char *name;
+	char *value;
+	struct s_env *next;
+	struct s_env *prev;
+}	t_env;
+
 typedef enum e_bool
 {
 	FALSE = 0,
@@ -53,10 +61,21 @@ typedef enum e_bool
 int		ft_cd(t_token **token_list);
 void	ft_exit(t_token **token_list);
 int		ft_pwd(void);
-int		ft_env(char **envp);
+int		ft_env(t_env *env);
 
 // Lexing
 t_token	**init_token_list(char *input);
+
+
+// Environ, environ.c
+t_env	*inienv(char **envp);
+
+// Clear environ, clear_env.c
+void	envclear(t_env **envcpy);
+void	envdelone(t_env *envcpy);
+
+// Fill env name to list, env_set_name.c
+int		fill_env_node(char *envp, t_env *node);
 
 // Token tools
 t_token	*token_new(char *token);
@@ -69,6 +88,6 @@ void	tokens_clear(t_token **list);
 void	free_array(char **array);
 
 // Command handler
-void	command_handler(t_token **token_list, char **envp);
+void	command_handler(t_token **token_list, t_env *env);
 
 #endif //MINISHELL_H

@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:33:11 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/04 13:04:49 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:35:27 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(char **envp)
+int	ft_env(t_env *env)
 {
-	while (*envp)
+	while (env)
 	{
-		printf("%s\n", *envp);
-		envp++;
+		printf("%s=%s\n", env->name, env->value);
+		env = env->next;
 	}
 	return (0);
 }

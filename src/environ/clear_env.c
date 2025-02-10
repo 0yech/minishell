@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_handler.c                                  :+:      :+:    :+:   */
+/*   clear_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/24 15:34:36 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/10 18:29:51 by nrey             ###   ########.fr       */
+/*   Created: 2025/02/10 16:27:02 by nrey              #+#    #+#             */
+/*   Updated: 2025/02/10 18:06:48 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	command_handler(t_token **token_list, t_env *env)
+void	envdelone(t_env *node)
 {
-	printf("%s\n", (*token_list)->value);
-	if (!ft_strncmp((*token_list)->value, "exit", 4))
-		ft_exit(token_list);
-	if (!ft_strncmp((*token_list)->value, "pwd", 3))
-		ft_pwd();
-	if (!ft_strncmp((*token_list)->value, "cd", 2))
-		ft_cd(token_list);
-	if (!ft_strncmp((*token_list)->value, "env", 3))
-		ft_env(env);
+	if (node)
+	{
+        free(node->name);
+        free(node->value);
+        free(node);
+	}
+}
+
+void	envclear(t_env **list)
+{
+	t_env	*tmp;
+	while (list && *list)
+	{
+	    tmp = (*list)->next;
+		envdelone(*list);
+		*list = tmp;
+	}
 }

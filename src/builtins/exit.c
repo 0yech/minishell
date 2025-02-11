@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:36:24 by estettle          #+#    #+#             */
-/*   Updated: 2025/01/28 10:21:37 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:09:58 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void	ft_exit(t_token **token_list)
 		exit_status = 0;
 	tokens_clear(token_list);
 	rl_clear_history();
+	envclear(get_env());
 	exit(exit_status);
 }

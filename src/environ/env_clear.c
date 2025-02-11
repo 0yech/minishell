@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear_env.c                                        :+:      :+:    :+:   */
+/*   env_clear.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -17,7 +17,7 @@
  *
  * @param node The node to delete.
  */
-void	envdelone(t_env *node)
+void	env_delone(t_env *node)
 {
 	if (node)
 	{
@@ -34,14 +34,14 @@ void	envdelone(t_env *node)
  *
  * @param list The env list to clear.
  */
-void	envclear(t_env **list)
+void	env_clear(t_env **list)
 {
 	t_env	*tmp;
 
 	while (list && *list)
 	{
 		tmp = (*list)->next;
-		envdelone(*list);
+		env_delone(*list);
 		*list = tmp;
 	}
 }

@@ -67,12 +67,12 @@ int		ft_env();
 t_token	**init_token_list(char *input);
 
 // Environ, environ.c
-void	inienv(char **envp);
+void	env_init(char **envp);
 t_env	**get_env(void);
 
-// Clear environ, clear_env.c
-void	envclear(t_env **envcpy);
-void	envdelone(t_env *envcpy);
+// Clear environ, env_clear.c
+void	env_clear(t_env **envcpy);
+void	env_delone(t_env *envcpy);
 
 // Fill env name to list, env_set_name.c
 int		fill_env_node(char *envp, t_env *node);

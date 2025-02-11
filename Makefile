@@ -12,7 +12,7 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/builtins/env.c \
 				$(SRCDIR)/builtins/export.c \
 				$(SRCDIR)/environ/environ.c \
-				$(SRCDIR)/environ/clear_env.c \
+				$(SRCDIR)/environ/env_clear.c \
 				$(SRCDIR)/environ/env_set_list.c \
 				$(SRCDIR)/lexing.c \
 				$(SRCDIR)/command_handler.c \

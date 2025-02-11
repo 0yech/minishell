@@ -26,6 +26,6 @@ void	ft_exit(t_token **token_list)
 		exit_status = 0;
 	tokens_clear(token_list);
 	rl_clear_history();
-	envclear(get_env());
+	env_clear(env_get());
 	exit(exit_status);
 }

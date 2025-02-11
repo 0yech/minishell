@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	char	cwd[1024];
 
 	(void)argc, (void)argv;
-    inienv(envp);
+    env_init(envp);
 	while (TRUE)
 	{
 		printf("%s ", getcwd(cwd, sizeof(cwd)));

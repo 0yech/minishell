@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/11 17:31:48 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/11 18:14:15 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ t_env	*get_key(char *key)
 	tmp = *env_get();
 	while (tmp && tmp->next)
 	{
-		if (ft_strncmp(key, tmp->name, ft_strlen(key) == 0)
-			&& ft_strlen(key) == ft_strlen(tmp->name))
+		if (ft_strlen(key) == ft_strlen(tmp->name)
+			&& ft_strncmp(key, tmp->name, ft_strlen(key) == 0))
 			return (tmp);
 		tmp = tmp->next;
 	}

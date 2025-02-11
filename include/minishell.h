@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/11 13:57:33 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:48:01 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	ft_exit(t_token **token_list);
 int		ft_pwd(void);
 int		ft_env();
 int		ft_export(char *str);
+int		ft_unset(char *key);
 
 // Lexing
 t_token	**init_token_list(char *input);
@@ -74,6 +75,7 @@ t_env	**env_get(void);
 // Env list utils, env_list.c
 void	env_clear(t_env **envcpy);
 void	env_delone(t_env *envcpy);
+t_env	*env_last(void);
 t_env	*env_new(char *key, char *value, t_env *prev, t_env *next);
 
 // Fill env name to list, env_set_list.c

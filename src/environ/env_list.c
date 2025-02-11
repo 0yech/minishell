@@ -6,11 +6,21 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:27:02 by nrey              #+#    #+#             */
-/*   Updated: 2025/02/11 13:51:29 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:30:48 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_env	*env_last(void)
+{
+	t_env	*node;
+
+	node = *env_get();
+	while (node && node->next)
+		node = node->next;
+	return (node);
+}
 
 t_env	*env_new(char *key, char *value, t_env *prev, t_env *next)
 {

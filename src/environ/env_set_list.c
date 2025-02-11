@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:07 by nrey              #+#    #+#             */
-/*   Updated: 2025/02/11 14:12:18 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:31:29 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,14 @@ int	env_set(char *key, char *value)
 	if (!value)
 		value = key;
 	node = get_key(key);
-	if (ft_strncmp(key, node->name, ft_strlen(key)) == 0)
+	if (node)
 	{
         node->value = ft_strdup(value);
 		if (!node->value)
 			return (2);
 		return (0);
 	}
+	node = env_last();
 	new = env_new(key, value, node, NULL);
 	if (!new)
 		return (2);

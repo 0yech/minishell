@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ZLSSettings">
+    <option name="zlsPath" value="/opt/homebrew/bin/zls" />
+  </component>
+  <component name="ZigProjectSettings">
+    <option name="explicitPathToStd" value="/opt/homebrew/Cellar/zig/0.13.0/lib/zig/std" />
+    <option name="toolchainPath" value="/opt/homebrew/bin" />
+  </component>
+</project>

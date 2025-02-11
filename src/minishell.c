@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/10 18:36:01 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/11 09:56:10 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc, (void)argv;
 	while (TRUE)
 	{
-		printf("%s ", getcwd(cwd, sizeof(cwd)));\
+		printf("%s ", getcwd(cwd, sizeof(cwd)));
 		env = inienv(envp);
 		input = readline(":3 $>");
 		token_list = init_token_list(input);

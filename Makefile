@@ -35,7 +35,7 @@ UNAME_S		= 	$(shell uname -s)
 
 ifeq ($(UNAME_S),Darwin)
 $(info MacOS detected, linking with custom GNU Readline...)
-LIBS		+=	-L/opt/homebrew/opt/readline/lib -lreadline
+LIBS		+=	-L/opt/homebrew/opt/readline/lib
 endif
 
 all:			$(NAME)

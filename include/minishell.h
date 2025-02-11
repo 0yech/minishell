@@ -68,7 +68,7 @@ t_token	**init_token_list(char *input);
 
 // Environ, environ.c
 void	env_init(char **envp);
-t_env	**get_env(void);
+t_env	**env_get(void);
 
 // Clear environ, env_clear.c
 void	env_clear(t_env **envcpy);

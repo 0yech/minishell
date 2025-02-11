@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_env	**get_env(void)
+t_env	**env_get(void)
 {
 	static t_env *env;
 
@@ -68,6 +68,6 @@ void	env_init(char **envp)
 {
 	t_env	**envcpy;
 
-	envcpy = get_env();
+	envcpy = env_get();
 	*envcpy = fill_envcpy(envp);
 }

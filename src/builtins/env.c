@@ -16,7 +16,7 @@ int	ft_env()
 {
 	t_env	*tmp;
 
-	tmp = *get_env();
+	tmp = *env_get();
 	while (tmp)
 	{
 		printf("%s=%s\n", tmp->name, tmp->value);

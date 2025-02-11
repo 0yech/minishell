@@ -6,18 +6,21 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:33:11 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/11 09:56:32 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:50:11 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(t_env *env)
+int	ft_env()
 {
-	while (env)
+	t_env	*tmp;
+
+	tmp = *get_env();
+	while (tmp)
 	{
-		printf("%s=%s\n", env->name, env->value);
-		env = env->next;
+		printf("%s=%s\n", tmp->name, tmp->value);
+		tmp = tmp->next;
 	}
 	return (0);
 }

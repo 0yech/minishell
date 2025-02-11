@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/10 18:43:04 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/11 10:50:51 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,14 @@ typedef enum e_bool
 int		ft_cd(t_token **token_list);
 void	ft_exit(t_token **token_list);
 int		ft_pwd(void);
-int		ft_env(t_env *env);
+int		ft_env();
 
 // Lexing
 t_token	**init_token_list(char *input);
 
 // Environ, environ.c
-t_env	*inienv(char **envp);
+void	inienv(char **envp);
+t_env	**get_env(void);
 
 // Clear environ, clear_env.c
 void	envclear(t_env **envcpy);
@@ -87,6 +88,6 @@ void	tokens_clear(t_token **list);
 void	free_array(char **array);
 
 // Command handler
-void	command_handler(t_token **token_list, t_env *env);
+void	command_handler(t_token **token_list);
 
 #endif //MINISHELL_H

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/11 09:56:10 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:48:30 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	free_array(char **array)
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	**token_list;
-	t_env	*env;
 	char	*input;
 	char	cwd[1024];
 
@@ -37,14 +36,14 @@ int	main(int argc, char **argv, char **envp)
 	while (TRUE)
 	{
 		printf("%s ", getcwd(cwd, sizeof(cwd)));
-		env = inienv(envp);
+		inienv(envp);
 		input = readline(":3 $>");
 		token_list = init_token_list(input);
 		free(input);
 		if (token_list == NULL)
 			continue ;
-		command_handler(token_list, env);
+		command_handler(token_list);
 		tokens_clear(token_list);
-		envclear(&env);
+		envclear(get_env());
 	}
 }

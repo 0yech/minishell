@@ -6,11 +6,18 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:50:52 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/11 10:22:16 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:51:07 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_env	**get_env(void)
+{
+	static t_env *env;
+
+	return (&env);
+}
 
 /**
  * @brief Copies envp environment data into a linked list for future reuse and
@@ -45,17 +52,22 @@ t_env	*fill_envcpy(char **envp)
 	}
 	return (head);
 }
+/*
+int	env_add(char *key, char *value)
+{
 
+}
+*/
 /**
  * @brief Initializes the environment of the shell.
  *
  * @param envp The environment as passed to the main() function.
  * @return A pointer to the head of the linked list just created.
  */
-t_env	*inienv(char **envp)
+void	inienv(char **envp)
 {
-	t_env	*envcpy;
+	t_env	**envcpy;
 
-	envcpy = fill_envcpy(envp);
-	return (envcpy);
+	envcpy = get_env();
+	*envcpy = fill_envcpy(envp);
 }

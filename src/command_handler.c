@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:34:36 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/11 10:51:21 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:06:44 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,11 @@ void	command_handler(t_token **token_list)
 		ft_cd(token_list);
 	if (!ft_strncmp((*token_list)->value, "env", 3))
 		ft_env();
+	if (!ft_strncmp((*token_list)->value, "export", 6))
+	{
+		if ((*token_list)->next)
+			ft_export((*token_list)->next->value);
+        else
+            ft_export(NULL);
+	}
 }

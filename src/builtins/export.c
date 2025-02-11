@@ -6,42 +6,31 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/11 09:57:23 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:42:39 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_arraysize(char **p)
+/**
+ * @return 0 if everything went well, 1 if an error occured.
+ */
+int	ft_export(char *str)
 {
-	int	i;
+	char	**slices;
 
-	i = 0;
-	while (p[i])
-		i++;
-	return (i);
-}
-
-void	ft_export(char *value)
-{
-	char	*var;
-	char	**check;
-
-	check = ft_split(value, '=');
-	if (check == NULL)
-		return ;
-	if (ft_arraysize(check) == 1)
+	if (!str)
 	{
-		var = getenv(value);
-		if (var == NULL)
-			return ;
+		ft_env();
+		return (0);
 	}
-	else if (ft_arraysize(check) == 2)
+	if (ft_strchr(str, '='))
 	{
-		var = getenv(check[0]);
+        slices = ft_split(str, '=');
+		if (env_set(slices[0], slices[1]) == 2)
+			return (1);
 	}
-	else
-	{
-		free_array(check);
-	}
+	else if (env_set(str, NULL) == 2)
+        return (1);
+	return (0);
 }

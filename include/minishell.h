@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/11 10:50:51 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:57:33 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int		ft_cd(t_token **token_list);
 void	ft_exit(t_token **token_list);
 int		ft_pwd(void);
 int		ft_env();
+int		ft_export(char *str);
 
 // Lexing
 t_token	**init_token_list(char *input);
@@ -70,12 +71,17 @@ t_token	**init_token_list(char *input);
 void	env_init(char **envp);
 t_env	**env_get(void);
 
-// Clear environ, env_clear.c
+// Env list utils, env_list.c
 void	env_clear(t_env **envcpy);
 void	env_delone(t_env *envcpy);
+t_env	*env_new(char *key, char *value, t_env *prev, t_env *next);
 
-// Fill env name to list, env_set_name.c
-int		fill_env_node(char *envp, t_env *node);
+// Fill env name to list, env_set_list.c
+int		env_fill_node(char *envp, t_env *node);
+int		env_set(char *key, char *value);
+
+// Env utils, env_utils.c
+t_env	*get_key(char *key);
 
 // Token tools
 t_token	*token_new(char *token);

@@ -12,8 +12,9 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/builtins/env.c \
 				$(SRCDIR)/builtins/export.c \
 				$(SRCDIR)/environ/environ.c \
-				$(SRCDIR)/environ/env_clear.c \
+				$(SRCDIR)/environ/env_list.c \
 				$(SRCDIR)/environ/env_set_list.c \
+				$(SRCDIR)/environ/env_utils.c \
 				$(SRCDIR)/lexing.c \
 				$(SRCDIR)/command_handler.c \
 				$(SRCDIR)/token_tools.c

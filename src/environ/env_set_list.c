@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:07 by nrey              #+#    #+#             */
-/*   Updated: 2025/02/11 10:29:55 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:12:18 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	env_name_size(char *str)
  * @param node The current node we want to fill.
  * @return 0 if there was an error, 1 if all went well.
  */
-int	fill_env_node(char *envp, t_env *node)
+int	env_fill_node(char *envp, t_env *node)
 {
 	size_t		namesize;
 	size_t		valuesize;
@@ -56,5 +56,33 @@ int	fill_env_node(char *envp, t_env *node)
 		return (0);
 	ft_strlcpy(node->name, envp, namesize + 1);
 	ft_strlcpy(node->value, ft_strchr(envp, '=') + 1, valuesize + 1);
+	return (1);
+}
+
+/**
+ * @return 0 if an already existing value was updated, 1 if a new value was
+ * added, 2 if an error occurred.
+ */
+int	env_set(char *key, char *value)
+{
+	t_env	*node;
+	t_env	*new;
+
+	if (!key || !*key)
+		return (2);
+	if (!value)
+		value = key;
+	node = get_key(key);
+	if (ft_strncmp(key, node->name, ft_strlen(key)) == 0)
+	{
+        node->value = ft_strdup(value);
+		if (!node->value)
+			return (2);
+		return (0);
+	}
+	new = env_new(key, value, node, NULL);
+	if (!new)
+		return (2);
+	node->next = new;
 	return (1);
 }

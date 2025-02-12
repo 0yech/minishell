@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:07 by nrey              #+#    #+#             */
-/*   Updated: 2025/02/12 14:53:14 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:04:31 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	env_fill_node(char *envp, t_env *node)
  */
 int	env_set(char *key, char *value)
 {
+	// TODO: this probably needs better error return values and especially freeing values
+	// when errors occur instead of creating a half baked env node.
 	t_env	*node;
 	t_env	*new;
 

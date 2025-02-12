@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:19:09 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/11 17:39:21 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:32:01 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	ft_unset(char *key)
 	if (!node)
 		return (1);
 	node->prev->next = node->next;
-	node->next->prev = node->prev;
+	if (node->next)
+		node->next->prev = node->prev;
 	env_delone(node);
 	return (0);
 }

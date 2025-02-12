@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/11 11:08:20 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:45:59 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	char	cwd[1024];
 
 	(void)argc, (void)argv;
-    env_init(envp);
+	env_init(envp);
 	while (TRUE)
 	{
 		printf("%s ", getcwd(cwd, sizeof(cwd)));

@@ -6,29 +6,42 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:47:25 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/04 13:04:44 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:17:10 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	cd_update_env(char *old_pwd)
+{
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (env_set("OLDPWD", old_pwd) == 2
+		|| env_set("PWD", cwd))
+		return (free(cwd), 1);
+	free(cwd);
+	return (0);
+}
+
 int	ft_cd(t_token **token_list)
 {
+	char	*cwd;
+
 	if ((*token_list)->next == NULL)
 	{
-		if (chdir(getenv("HOME")) == 0)
-			return (0);
+		cwd = getcwd(NULL, 0);
+		if (chdir(get_key("HOME")->value) == 0)
+			return (cd_update_env(cwd), free(cwd), 0);
 		return (1);
 	}
 	if (chdir((*token_list)->next->value) == 0)
 	{
+		cwd = getcwd(NULL, 0);
 		printf("[!] - Switched working directory to %s\n",
 			(*token_list)->next->value);
-		return (0);
+		return (cd_update_env(cwd), free(cwd), 0);
 	}
-	else
-	{
-		printf("[!] - Failed to change working directory!\n");
-		return (-1);
-	}
+	printf("[!] - Failed to change working directory!\n");
+	return (1);
 }

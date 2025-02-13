@@ -6,13 +6,13 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:33:11 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/11 10:50:11 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:54:58 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env()
+int	ft_env(void)
 {
 	t_env	*tmp;
 

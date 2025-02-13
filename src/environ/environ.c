@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:50:52 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/11 17:44:49 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:56:10 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_env	**env_get(void)
 {
-	static t_env *env;
+	static t_env	*env;
 
 	return (&env);
 }

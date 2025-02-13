@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:07 by nrey              #+#    #+#             */
-/*   Updated: 2025/02/13 16:30:37 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:53:40 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,17 @@ int	env_fill_node(char *envp, t_env *node)
 }
 
 /**
+ * @param key A malloced string that will represent the name of the node.
+ * @param value A malloced string that will represent the value of the node.
  * @return 0 if an already existing value was updated, 1 if a new value was
  * added, 2 if an error occurred.
  */
 int	env_set(char *key, char *value)
 {
-	// TODO: this probably needs better error return values and especially freeing values
-	// when errors occur instead of creating a half baked env node.
 	t_env	*node;
 	t_env	*new;
+	// TODO: this probably needs better error return values and especially freeing values
+	// when errors occur instead of creating a half baked env node.
 
 	if (!key || !*key)
 		return (2);
@@ -77,9 +79,10 @@ int	env_set(char *key, char *value)
 	node = get_key(key);
 	if (node)
 	{
+		free(key);
 		if (node->value)
 			free(node->value);
-        node->value = value;
+		node->value = value;
 		return (0);
 	}
 	node = env_last();

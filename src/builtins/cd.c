@@ -6,41 +6,40 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:47:25 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/12 15:21:29 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:09:24 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd_update_env(char *old_pwd)
+int	cd_update_env(char *old_cwd, char *new_cwd)
 {
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	if (env_set("OLDPWD", old_pwd) == 2)
-		return (free(old_pwd), free(cwd), 1);
-	if (env_set("PWD", cwd) == 2)
-		return (free(cwd), 2);
+	if (env_set("OLDPWD", old_cwd) == 2)
+		return (1);
+	if (env_set("PWD", new_cwd) == 2)
+		return (2);
 	return (0);
 }
 
 int	ft_cd(t_token **token_list)
 {
-	char	*cwd;
+	char	*old_cwd;
 
 	if ((*token_list)->next == NULL)
 	{
-		cwd = getcwd(NULL, 0);
-		if (chdir(get_key("HOME")->value) == 0 && cd_update_env(cwd) == 0)
+		old_cwd = getcwd(NULL, 0);
+		if (chdir(get_key("HOME")->value) == 0
+			&& cd_update_env(old_cwd, getcwd(NULL, 0)) == 0)
 			return (0);
+
 		return (1);
 	}
 	if (chdir((*token_list)->next->value) == 0)
 	{
-		cwd = getcwd(NULL, 0);
+		old_cwd = getcwd(NULL, 0);
 		printf("[!] - Switched working directory to %s\n",
 			(*token_list)->next->value);
-		cd_update_env(cwd);
+		cd_update_env(old_cwd, getcwd(NULL, 0));
 		return (0);
 	}
 	printf("[!] - Failed to change working directory!\n");

@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:47:25 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/13 16:54:33 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:06:22 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,18 @@ int	cd_update_env(char *old_cwd, char *new_cwd)
 int	ft_cd(t_token **token_list)
 {
 	char	*old_cwd;
+	char	*new_cwd;
 
 	if ((*token_list)->next == NULL)
 	{
 		old_cwd = getcwd(NULL, 0);
-		if (chdir(get_key("HOME")->value) == 0
-			&& cd_update_env(old_cwd, getcwd(NULL, 0)) == 0)
+		if (chdir(get_key("HOME")->value) == 0)
 			return (0);
+		new_cwd = getcwd(NULL, 0);
+		if (cd_update_env(old_cwd, new_cwd) == 0)
+			return (0);
+		free(old_cwd);
+		free(new_cwd);
 		return (1);
 	}
 	if (chdir((*token_list)->next->value) == 0)

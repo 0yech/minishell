@@ -27,10 +27,7 @@ IFILES		=	$(INCLDIR)minishell.h
 LIBFT_DIR	=	./libft
 LIBFT		=	$(LIBFT_DIR)/libft.a
 
-PRINTF_DIR	=	./ft_printf
-PRINTF		=	$(PRINTF_DIR)/libftprintf.a
-
-LIBS		=	-L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf -lreadline
+LIBS		=	-L$(LIBFT_DIR) -lft -lreadline
 
 # Link GNU readline on my mac
 UNAME_S		= 	$(shell uname -s)
@@ -44,37 +41,36 @@ all:			$(NAME)
 
 # Build libft first
 $(LIBFT):
-				@echo "Compiling libft"
-				@$(MAKE) -C $(LIBFT_DIR)
-
-# Build printf after libft
-$(PRINTF):		$(LIBFT)
-				@echo "Compiling ft_printf"
-				@$(MAKE) -C $(PRINTF_DIR)
+				@printf "\rCompiling libft"
+				@make -C $(LIBFT_DIR) --no-print-directory
+				@printf "\rCompiled libft successfully.\n"
 
 # Compile object files
 %.o:			%.c $(IFILES)
 ifeq ($(UNAME_S),Darwin) # Is on MacOS
-				$(CC) $(CFLAGS) -I$(INCLDIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR)/include -I/opt/homebrew/opt/readline/include -c $< -o $@
+				@printf "\rCompiling $<..."
+				@$(CC) $(CFLAGS) -I$(INCLDIR) -I$(LIBFT_DIR) -I/opt/homebrew/opt/readline/include -c $< -o $@
 else # Is on anything else
-				$(CC) $(CFLAGS) -I$(INCLDIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR)/include -c $< -o $@
+				@printf "\rCompiling $<..."
+				@$(CC) $(CFLAGS) -I$(INCLDIR) -I$(LIBFT_DIR) -c $< -o $@
 endif
 
 # Compile minishell with the existing libs
-$(NAME):		$(OBJS) $(LIBFT) $(PRINTF)
-				@echo "Compiling $(NAME)"
-				$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
-				@echo "$(NAME) created successfully"
-
+$(NAME):		$(OBJS) $(LIBFT)
+				@printf "\rCompiling $(NAME)..."
+				@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
+				@printf "\r\n\033[32m$(NAME) compiled.\033[0m\n"
 clean:
-				$(RM) $(RMFLAGS) $(OBJS)
-				@cd $(LIBFT_DIR) && make clean
-				@cd $(PRINTF_DIR) && make clean
+				@printf "\rCleaning object files..."
+				@$(RM) $(RMFLAGS) $(OBJS)
+				@make clean -C $(LIBFT_DIR)/ --no-print-directory
+				@printf "\rObject files cleaned.\n"
 
 fclean:			clean
-				$(RM) $(RMFLAGS) $(NAME)
-				@cd $(LIBFT_DIR) && make fclean
-				@cd $(PRINTF_DIR) && make fclean
+				@printf "\rRemoving $(NAME)..."
+				@$(RM) $(RMFLAGS) $(NAME)
+				@make fclean -C $(LIBFT_DIR)/ --no-print-directory
+				@printf "\r$(NAME) Removed.\n"
 
 re:				fclean all
 

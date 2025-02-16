@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/11 17:48:01 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/16 21:17:40 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 // Libft
 # include "libft.h"
-# include "ft_printf.h"
 
 // Enums
 typedef enum e_token_type

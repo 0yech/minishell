@@ -55,21 +55,21 @@ BONUS_O=$(BONUS_C:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OFILES)
-	@printf "\rCreating library $(NAME)..."
+	@printf "\rCreating library $(NAME)"
 	@$(AR) $(ARFLAGS) $@ $^
 %.o: %.c
-	@printf "\rCompiling $<...                   "
+	@printf "\rCompiling $<                      "
 	@$(CC) $(CFLAGS) -include $(INCLUDE) -o $@ -c $<
 bonus: $(OFILES) $(BONUS_O)
-	@printf "\rAdding bonus objects to $(NAME)..."
+	@printf "\rAdding bonus objects to $(NAME)"
 	@$(AR) $(ARFLAGS) $(NAME) $^
 	@printf "\rBonus objects added successfully.\n"
 clean:
-	@printf "\rCleaning object files..."
+	@printf "\rCleaning object files"
 	@$(RM) $(RMFLAGS) $(OFILES) $(BONUS_O)
 	@printf "\rObject files cleaned.\n"
 fclean: clean
-	@printf "\rRemoving $(NAME)..."
+	@printf "\rRemoving $(NAME)"
 	@$(RM) $(RMFLAGS) $(NAME)
 	@printf "\r$(NAME) removed.\n"
 re: fclean all

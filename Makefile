@@ -61,7 +61,7 @@ $(NAME):		$(OBJS) $(LIBFT)
 				@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 				@printf "\r\n\033[32m$(NAME) compiled.\033[0m\n"
 clean:
-				@printf "\rCleaning object files..."
+				@printf "\rCleaning object files"
 				@$(RM) $(RMFLAGS) $(OBJS)
 				@make clean -C $(LIBFT_DIR)/ --no-print-directory
 				@printf "\rObject files cleaned.\n"

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/16 21:17:40 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/18 15:03:08 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ typedef struct s_token
 
 typedef struct s_env
 {
-	char *name;
-	char *value;
-	struct s_env *next;
-	struct s_env *prev;
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+	struct s_env	*prev;
 }	t_env;
 
 typedef enum e_bool
@@ -60,7 +60,7 @@ typedef enum e_bool
 int		ft_cd(t_token **token_list);
 void	ft_exit(t_token **token_list);
 int		ft_pwd(void);
-int		ft_env();
+int		ft_env(void);
 int		ft_export(char *str);
 int		ft_unset(char *key);
 

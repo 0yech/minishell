@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/18 15:26:54 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/19 10:54:04 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,38 @@ void	history_handler(char *input)
 	add_history(input);
 }
 
-t_token	**init_token_list(char *input)
+static int	get_next_token(t_token **token_list, char *input)
 {
-	int		i;
-	char	**prompt;
-	t_token	**token_list;
+	int	i;
 
-	token_list = malloc(sizeof(t_token *));
+
+}
+
+static t_token	**create_tokens(char *input)
+{
+	t_token	**token_list;
+	int		total_progress;
+
+	token_list = ft_calloc(sizeof(t_token *), 1);
+	total_progress = 0;
 	if (!token_list)
 		return (NULL);
-	*token_list = NULL;
+	while (*(input + total_progress))
+	{
+		total_progress += get_next_token(token_list, input + total_progress);
+	}
+	return (token_list);
+}
+
+t_token	**init_token_list(char *input)
+{
+	t_token	**token_list;
+
 	history_handler(input);
+	token_list = create_tokens(input);
+	if (!token_list)
+		return (NULL);
+	/*
 	prompt = ft_split(input, ' ');
 	if (prompt == NULL)
 		return (NULL);
@@ -40,5 +61,6 @@ t_token	**init_token_list(char *input)
 		token_add_back(token_list, token_new(prompt[i++]));
 	free(prompt[i]); // Free only last element, the rest is used in tokens
 	free(prompt);
+	*/
 	return (token_list);
 }

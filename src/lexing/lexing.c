@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/01/31 13:31:09 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:26:54 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,7 @@ t_token	**init_token_list(char *input)
 	if (prompt == NULL)
 		return (NULL);
 	if (prompt[0] == NULL)
-	{
-		free(prompt);
-		free(token_list);
-		return (NULL);
-	}
+		return (free(prompt), free(token_list), NULL);
 	i = 0;
 	while (prompt[i])
 		token_add_back(token_list, token_new(prompt[i++]));

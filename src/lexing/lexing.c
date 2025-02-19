@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/19 11:41:52 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:54:43 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	history_handler(char *input)
 static int	get_next_token(t_token **token_list, char *input)
 {
 	t_token	*new;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (input && input[i] && ft_isprint(input[i]) && input[i] != ' ')
@@ -68,17 +68,5 @@ t_token	**init_token_list(char *input)
 	token_list = create_tokens(input);
 	if (!token_list)
 		return (NULL);
-	/*
-	prompt = ft_split(input, ' ');
-	if (prompt == NULL)
-		return (NULL);
-	if (prompt[0] == NULL)
-		return (free(prompt), free(token_list), NULL);
-	i = 0;
-	while (prompt[i])
-		token_add_back(token_list, token_new(prompt[i++]));
-	free(prompt[i]); // Free only last element, the rest is used in tokens
-	free(prompt);
-	*/
 	return (token_list);
 }

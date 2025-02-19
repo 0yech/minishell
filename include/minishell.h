@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/19 10:16:44 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:00:54 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int		env_set(char *key, char *value);
 t_env	*get_key(char *key);
 
 // Token tools
+void	print_tokens(t_token *list); // This one's temporary
 t_token	*token_new(char *token);
 t_token	*token_last(t_token *list);
 void	token_add_back(t_token **list, t_token *new);

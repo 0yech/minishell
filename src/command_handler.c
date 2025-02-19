@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:34:36 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/11 17:56:36 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:46:47 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	command_handler(t_token **token_list)
 {
-	// Need to take into account int return values of builtins
-	printf("%s\n", (*token_list)->value);
+	// TODO Need to take into account int return values of builtins
+	// printf("%s\n", (*token_list)->value);
 	if (!ft_strncmp((*token_list)->value, "exit", 4))
 		ft_exit(token_list);
 	if (!ft_strncmp((*token_list)->value, "pwd", 3))

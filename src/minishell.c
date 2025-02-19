@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/19 11:01:21 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:49:21 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 		if (token_list == NULL)
 			continue ;
+		if (*token_list == NULL)
+		{
+			free(token_list);
+			continue ;
+		}
 		print_tokens(*token_list);
 		command_handler(token_list);
 		tokens_clear(token_list);

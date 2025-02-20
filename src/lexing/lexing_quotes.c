@@ -6,33 +6,36 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/19 11:21:15 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:42:56 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-void	handle_quotes(t_token *start)
+
+int	quotes_handler(char *start)
 {
-	t_token	*tmp;
+	int	i;
 
-	tmp = start;
-	while (tmp)
+	// Here's the plan : copy the token containing all quotes and then clean them
+	// to get a clean token to be used
+	// Valid quotes delimiting a token must be either preceded by whitespace to open
+	// or followed by whitespace to close
+	i = 0;
+	if (start[i] == '"')
 	{
-		if (tmp->value);
+		i++;
+		while (start[i] && start[i] != '"')
+			i++;
+		if (start[i] == '"')
+			i++;
 	}
-}
-
-t_token	**merge_quotes(t_token **token_list)
-{
-	t_token	*tmp;
-
-	tmp = *token_list;
-	while (tmp)
+	else if (start[i] == '\'')
 	{
-		if (ft_strchr(tmp->value, '"') || ft_strchr(tmp->value, '\''))
-			handle_quotes(tmp);
-		tmp = tmp->next;
+		i++;
+		while (start[i] && start[i] != '\'')
+			i++;
+		if (start[i] == '\'')
+			i++;
 	}
+	return (i);
 }
-*/

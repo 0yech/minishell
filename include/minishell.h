@@ -66,9 +66,12 @@ int		ft_env(void);
 int		ft_export(char *str);
 int		ft_unset(char *key);
 
-// Lexing
+// Lexing - Main, lexing.c
 t_token	**init_token_list(char *input);
 void	assign_types(t_token **token_list);
+
+// Lexing - Quotes, lexing_quotes.c
+int		quotes_handler(char *start);
 
 // Environ, environ.c
 void	env_init(char **envp);

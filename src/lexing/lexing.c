@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/19 11:54:43 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/20 12:12:22 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ static int	get_next_token(t_token **token_list, char *input)
 	int		i;
 
 	i = 0;
-	while (input && input[i] && ft_isprint(input[i]) && input[i] != ' ')
-		i++;
 	new = token_new(NULL);
 	if (!new)
 		return (-1);
+	while (input && input[i] && ft_isprint(input[i]) && input[i] != ' ')
+	{
+		// if (input[i] == '\'' || input[i] == '"')
+			// quotes_handler(input);
+		i++;
+	}
 	new->value = ft_substr(input, 0, i);
 	if (!new->value)
 		return (free(new), -1);

@@ -18,6 +18,7 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/environ/env_utils.c \
 				$(SRCDIR)/lexing/lexing.c \
 				$(SRCDIR)/lexing/lexing_quotes.c \
+				$(SRCDIR)/lexing/lexing_assign_type.c \
 				$(SRCDIR)/command_handler.c \
 				$(SRCDIR)/token_tools.c
 OBJS		=	$(CFILES:.c=.o)

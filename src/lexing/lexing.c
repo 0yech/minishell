@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
 /*   Updated: 2025/02/20 15:41:30 by estettle         ###   ########.fr       */
@@ -75,5 +75,6 @@ t_token	**init_token_list(char *input)
 	token_list = create_tokens(input);
 	if (!token_list)
 		return (NULL);
+	assign_types(token_list);
 	return (token_list);
 }

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:47:25 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/18 15:01:15 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:09:16 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,12 @@ static int	cd_swap_old(void)
 	{
 		pwd = ft_strdup(get_key("PWD")->value);
 		if (env_set(ft_strdup("OLDPWD"), pwd) == 2)
-			return (1);
+			return (printf("[!] cd - Failed to change environment!\n"), 1);
 		if (env_set(ft_strdup("PWD"), old_pwd) == 2)
-			return (1);
+			return (printf("[!] cd - Failed to change environment!\n"), 1);
 		return (0);
 	}
+	printf("[!] - Failed to change directory!\n");
 	return (1);
 }
 
@@ -77,8 +78,10 @@ static int	cd_dir(t_token **token_list)
 		pwd = getcwd(NULL, 0);
 		if (cd_update_env(old_pwd, pwd) == 0)
 			return (0);
+		printf("[!] cd - Failed to change environment!\n");
 		return (free(old_pwd), free(pwd), 1);
 	}
+	printf("[!] - Failed to change directory!\n");
 	return (free(old_pwd), 1);
 }
 

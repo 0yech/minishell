@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/19 11:00:54 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/20 03:50:15 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@
 // Enums
 typedef enum e_token_type
 {
+	X,
 	COMMAND,
 	ARGUMENT,
 	PIPE,
 	REDIRECT_IN,
 	REDIRECT_OUT,
 	APPEND,
-	END
+	OPTION
 }	t_token_type;
 
 typedef struct s_token
@@ -67,6 +68,7 @@ int		ft_unset(char *key);
 
 // Lexing
 t_token	**init_token_list(char *input);
+void	assign_types(t_token **token_list);
 
 // Environ, environ.c
 void	env_init(char **envp);

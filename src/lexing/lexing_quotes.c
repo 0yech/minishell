@@ -6,13 +6,13 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/20 13:34:35 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:42:56 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_quotes(char *start)
+int	quotes_handler(char *start)
 {
 	int	i;
 
@@ -26,11 +26,15 @@ int	handle_quotes(char *start)
 		i++;
 		while (start[i] && start[i] != '"')
 			i++;
+		if (start[i] == '"')
+			i++;
 	}
 	else if (start[i] == '\'')
 	{
 		i++;
 		while (start[i] && start[i] != '\'')
+			i++;
+		if (start[i] == '\'')
 			i++;
 	}
 	return (i);

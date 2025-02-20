@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/19 11:00:54 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/20 14:59:18 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,11 @@ int		ft_env(void);
 int		ft_export(char *str);
 int		ft_unset(char *key);
 
-// Lexing
+// Lexing - Main, lexing.c
 t_token	**init_token_list(char *input);
+
+// Lexing - Quotes, lexing_quotes.c
+int		quotes_handler(char *start);
 
 // Environ, environ.c
 void	env_init(char **envp);

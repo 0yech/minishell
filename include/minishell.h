@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/20 03:50:15 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/21 11:34:29 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	assign_types(t_token **token_list);
 
 // Lexing - Quotes, lexing_quotes.c
 int		quotes_handler(char *start);
+char	*quotes_clean(char *raw_token);
 
 // Environ, environ.c
 void	env_init(char **envp);

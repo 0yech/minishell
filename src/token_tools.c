@@ -6,13 +6,13 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:55:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/19 11:00:23 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/24 11:02:15 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_tokens(t_token *list)
+void	print_tokens(t_token *list) // Eventually to be replaced with echo builtin
 {
 	t_token	*tmp;
 

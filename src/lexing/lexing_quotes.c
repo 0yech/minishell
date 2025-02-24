@@ -6,11 +6,33 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/24 12:48:17 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:02:30 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief A quote or single quote is considered "valid" if it is at the end or
+ * at the beginning of a token, as in followed or preceded by whitespace.
+ */
+t_bool	is_valid_quote(char *str, int index)
+{
+	if (!str || !str[index])
+		return (FALSE);
+	if ((str[index] == '\'' || str[index] == '"')
+		&& ((index == 0
+				|| (!ft_isprint(str[index - 1])
+					|| str[index - 1] == ' '))
+			|| (!ft_isprint(str[index + 1])
+				|| str[index + 1] == ' ')
+			)
+		)
+	{
+		return (TRUE);
+	}
+	return (FALSE);
+}
 
 int	quotes_handler(char *start)
 {
@@ -24,7 +46,7 @@ int	quotes_handler(char *start)
 	if (start[i] == '"')
 	{
 		i++;
-		while (start[i] && start[i] != '"')
+		while (start[i] && !is_valid_quote(start, i))
 			i++;
 		if (start[i] == '"')
 			i++;
@@ -32,7 +54,7 @@ int	quotes_handler(char *start)
 	else if (start[i] == '\'')
 	{
 		i++;
-		while (start[i] && start[i] != '\'')
+		while (start[i] && !is_valid_quote(start, i))
 			i++;
 		if (start[i] == '\'')
 			i++;
@@ -71,6 +93,5 @@ char	*quotes_clean(char *raw_token)
 		j++;
 	}
 	clean_token[i] = 0;
-	free(raw_token);
-	return (clean_token);
+	return (free(raw_token), clean_token);
 }

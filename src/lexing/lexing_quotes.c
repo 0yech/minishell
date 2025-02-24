@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/24 10:24:56 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/24 10:49:51 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ char	*quotes_clean(char *raw_token)
 	if (quotes_kind != '\'' && quotes_kind != '"')
 		return (NULL);
 	*/
-	clean_token = ft_substr(raw_token, 1, ft_strlen(raw_token) - 3);
+	clean_token = ft_substr(raw_token, 1, ft_strlen(raw_token) - 2);
+	free(raw_token);
 	if (!clean_token)
 		return (NULL);
 	return (clean_token);

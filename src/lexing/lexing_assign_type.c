@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 01:15:21 by nrey              #+#    #+#             */
-/*   Updated: 2025/02/24 22:01:50 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/24 22:03:49 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void	assign_types(t_token **token_list)
 			current->type = type;
 		else
 			current->type = look_for_command_type(current);
-		printf("\nNode value : %s\n", current->value);
-		printf("Node type : %d\n", current->type);
+		//printf("\nNode value : %s\n", current->value);
+		//printf("Node type : %d\n", current->type);
 		current = current->next;
 	}
 }

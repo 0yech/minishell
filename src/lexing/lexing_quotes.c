@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/24 10:58:04 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:48:17 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,28 @@ int	quotes_handler(char *start)
  */
 char	*quotes_clean(char *raw_token)
 {
-	// char	quotes_kind;
+	char	quotes_kind;
 	char	*clean_token;
+	int		i;
+	int		j;
 
-	if (!raw_token || !raw_token[0])
+	if (!raw_token)
 		return (NULL);
-	/* Quotes cleaning inside of token to be implemented
+	if (raw_token[0] != '"' && raw_token[0] != '\'')
+		return (free(raw_token), NULL);
 	quotes_kind = raw_token[0];
-	if (quotes_kind != '\'' && quotes_kind != '"')
-		return (NULL);
-	*/
-	clean_token = ft_substr(raw_token, 1, ft_strlen(raw_token) - 2);
-	free(raw_token);
+	clean_token = ft_calloc(ft_strlen(raw_token) - 1, sizeof(char));
 	if (!clean_token)
-		return (NULL);
+		return (free(raw_token), NULL);
+	i = 0;
+	j = 0;
+	while (raw_token[j])
+	{
+		if (raw_token[j] != quotes_kind)
+			clean_token[i++] = raw_token[j];
+		j++;
+	}
+	clean_token[i] = 0;
+	free(raw_token);
 	return (clean_token);
 }

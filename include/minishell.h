@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/24 15:39:21 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/24 21:39:19 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ typedef enum e_token_type
 	PIPE,
 	REDIRECT_IN,
 	REDIRECT_OUT,
+	DELIM,
+	REDIRECT_FILE,
 	APPEND,
+	VARASSIGN,
 	OPTION
 }	t_token_type;
 

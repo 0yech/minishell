@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/25 11:01:10 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:23:01 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	get_next_token(t_token **token_list, char *input)
 		if (is_valid_quote(input, i))
 		{
 			i = quotes_handler(input);
-			new->value = quotes_clean(ft_substr(input, 0, i));
+			new->value = ft_substr(input, 0, i);
 			if (!(new->value))
 				return (free(new), -1);
 			return (token_add_back(token_list, new), i);
@@ -56,7 +56,7 @@ static t_token	**create_tokens(char *input)
 	if (!token_list)
 		return (NULL);
 	tot_progress = 0;
-	while (*(input + tot_progress))
+	while (input && *(input + tot_progress))
 	{
 		progress = get_next_token(token_list, input + tot_progress);
 		if (progress < 0)

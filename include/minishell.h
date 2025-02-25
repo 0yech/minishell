@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/25 10:56:39 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/25 12:17:54 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_command {
     char				*command;
     char				**argv;
     struct s_command	*next;
+	struct s_command	*prev;
 }	t_command;
 
 
@@ -117,5 +118,8 @@ void	free_array(char **array);
 
 // Command handler
 void	command_handler(t_token **token_list);
+
+void    signal_handler(void);
+
 
 #endif //MINISHELL_H

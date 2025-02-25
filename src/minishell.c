@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/24 23:58:19 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/25 12:35:45 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	free_array(char **array)
 	free(array);
 }
 
+// TODO : Add non interactive mode
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	**token_list;
@@ -33,11 +34,14 @@ int	main(int argc, char **argv, char **envp)
 	char	cwd[1024];
 
 	(void)argc, (void)argv;
+	signal_handler();
 	env_init(envp);
 	while (TRUE)
 	{
 		printf("%s ", getcwd(cwd, sizeof(cwd)));
 		input = readline(":3 $>");
+		if (!input)
+			ft_exit(0);
 		token_list = init_token_list(input);
 		free(input);
 		if (token_list == NULL)

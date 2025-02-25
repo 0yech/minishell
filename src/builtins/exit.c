@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:36:24 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/11 11:09:58 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:36:39 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_exit(t_token **token_list)
 {
 	int	exit_status;
 
-	if ((*token_list)->next && (*token_list)->next->value)
+	if (token_list && ((*token_list)->next && (*token_list)->next->value))
 	{
 		exit_status = ft_atoi((*token_list)->next->value);
 		if (exit_status > 255 || exit_status < -256)

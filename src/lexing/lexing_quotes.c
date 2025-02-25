@@ -51,7 +51,7 @@ int	quotes_handler(char *start)
 	if (start[i] == '"')
 	{
 		i++;
-		while (start[i] && !is_valid_quote(start, i))
+		while (start[i] && (start[i]!='"' || !is_valid_quote(start, i)))
 			i++;
 		if (start[i] == '"')
 			i++;
@@ -59,7 +59,7 @@ int	quotes_handler(char *start)
 	else if (start[i] == '\'')
 	{
 		i++;
-		while (start[i] && !is_valid_quote(start, i))
+		while (start[i] && (start[i]!='\'' || !is_valid_quote(start, i)))
 			i++;
 		if (start[i] == '\'')
 			i++;

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/24 21:39:19 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/25 10:56:39 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdint.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 // Libft
 # include "libft.h"
@@ -38,6 +40,13 @@ typedef enum e_token_type
 	VARASSIGN,
 	OPTION
 }	t_token_type;
+
+typedef struct s_command {
+    char				*command;
+    char				**argv;
+    struct s_command	*next;
+}	t_command;
+
 
 typedef struct s_token
 {

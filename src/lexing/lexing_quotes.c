@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/24 16:02:30 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:25:38 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,28 @@ t_bool	is_valid_quote(char *str, int index)
 					|| str[index - 1] == ' '))
 			|| (!ft_isprint(str[index + 1])
 				|| str[index + 1] == ' ')
-			)
 		)
+	)
 	{
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
+/**
+ * @brief Goes through a string given as input and returns the index that
+ * ends the token contained within, checking for valid quotes along the way.
+ * This is just the delimiting the token part, cleaning the quotes comes after.
+ *
+ * @see quotes_clean
+ */
 int	quotes_handler(char *start)
 {
 	int	i;
 
-	// Here's the plan : copy the token containing all quotes and then clean them
-	// to get a clean token to be used
-	// Valid quotes delimiting a token must be either preceded by whitespace to open
-	// or followed by whitespace to close
 	i = 0;
+	while (start[i] != '"' && start[i] != '\'')
+		i++;
 	if (start[i] == '"')
 	{
 		i++;
@@ -78,20 +83,20 @@ char	*quotes_clean(char *raw_token)
 
 	if (!raw_token)
 		return (NULL);
-	if (raw_token[0] != '"' && raw_token[0] != '\'')
+	i = 0;
+	while (raw_token[i] && raw_token[i] != '"' && raw_token[i] != '\'')
+		i++;
+	if (raw_token[i] != '"' && raw_token[i] != '\'')
 		return (free(raw_token), NULL);
-	quotes_kind = raw_token[0];
+	quotes_kind = raw_token[i];
 	clean_token = ft_calloc(ft_strlen(raw_token) - 1, sizeof(char));
 	if (!clean_token)
 		return (free(raw_token), NULL);
 	i = 0;
-	j = 0;
-	while (raw_token[j])
-	{
+	j = -1;
+	while (raw_token[++j])
 		if (raw_token[j] != quotes_kind)
 			clean_token[i++] = raw_token[j];
-		j++;
-	}
 	clean_token[i] = 0;
 	return (free(raw_token), clean_token);
 }

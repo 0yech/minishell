@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/24 15:39:10 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:01:10 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	get_next_token(t_token **token_list, char *input)
 	{
 		if (is_valid_quote(input, i))
 		{
-			i = quotes_handler(input + i);
+			i = quotes_handler(input);
 			new->value = quotes_clean(ft_substr(input, 0, i));
 			if (!(new->value))
 				return (free(new), -1);

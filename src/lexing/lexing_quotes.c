@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/25 11:25:38 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:03:15 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	quotes_handler(char *start)
 	if (start[i] == '"')
 	{
 		i++;
-		while (start[i] && (start[i]!='"' || !is_valid_quote(start, i)))
+		while (start[i] && (start[i] != '"' || !is_valid_quote(start, i)))
 			i++;
 		if (start[i] == '"')
 			i++;
@@ -59,7 +59,7 @@ int	quotes_handler(char *start)
 	else if (start[i] == '\'')
 	{
 		i++;
-		while (start[i] && (start[i]!='\'' || !is_valid_quote(start, i)))
+		while (start[i] && (start[i] != '\'' || !is_valid_quote(start, i)))
 			i++;
 		if (start[i] == '\'')
 			i++;
@@ -89,7 +89,7 @@ char	*quotes_clean(char *raw_token)
 	if (raw_token[i] != '"' && raw_token[i] != '\'')
 		return (free(raw_token), NULL);
 	quotes_kind = raw_token[i];
-	clean_token = ft_calloc(ft_strlen(raw_token) - 1, sizeof(char));
+	clean_token = ft_calloc(ft_strlen(raw_token), sizeof(char));
 	if (!clean_token)
 		return (free(raw_token), NULL);
 	i = 0;

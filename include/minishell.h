@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/25 23:54:42 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/27 16:34:56 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ typedef enum e_token_type
 	OPTION
 }	t_token_type;
 
+typedef enum e_bool
+{
+	FALSE = 0,
+	TRUE = 1
+}	t_bool;
+
+// Structs
 typedef struct s_fd
 {
 	char	*input;
@@ -65,6 +72,7 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
+	t_bool			is_single_quote;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -76,12 +84,6 @@ typedef struct s_env
 	struct s_env	*next;
 	struct s_env	*prev;
 }	t_env;
-
-typedef enum e_bool
-{
-	FALSE = 0,
-	TRUE = 1
-}	t_bool;
 
 // Builtins
 int		ft_cd(t_token **token_list);

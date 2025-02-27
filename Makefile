@@ -19,6 +19,7 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/lexing/lexing.c \
 				$(SRCDIR)/lexing/lexing_quotes.c \
 				$(SRCDIR)/lexing/lexing_assign_type.c \
+				$(SRCDIR)/lexing/lexing_expand_var.c \
 				$(SRCDIR)/command_handler.c \
 				$(SRCDIR)/signal/signal.c \
 				$(SRCDIR)/parsing/parsing.c \

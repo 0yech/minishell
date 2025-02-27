@@ -21,6 +21,8 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/lexing/lexing_assign_type.c \
 				$(SRCDIR)/command_handler.c \
 				$(SRCDIR)/signal/signal.c \
+				$(SRCDIR)/parsing/parsing.c \
+				$(SRCDIR)/parsing/free_parser.c \
 				$(SRCDIR)/token_tools.c
 OBJS		=	$(CFILES:.c=.o)
 

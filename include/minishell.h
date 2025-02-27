@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/25 12:17:54 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/25 23:54:42 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,25 @@ typedef enum e_token_type
 	OPTION
 }	t_token_type;
 
-typedef struct s_command {
+typedef struct s_fd
+{
+	char	*input;
+	char	*output;
+	int		fdin;
+	int		fdout;
+	int		stdincpy;
+	int		stdoutcpy;
+}	t_fd;
+
+typedef struct s_command
+{
     char				*command;
+	char				*path;
+	struct s_fd			*fdio;
     char				**argv;
     struct s_command	*next;
 	struct s_command	*prev;
 }	t_command;
-
 
 typedef struct s_token
 {
@@ -121,5 +133,7 @@ void	command_handler(t_token **token_list);
 
 void    signal_handler(void);
 
+t_command *parsing_handler(t_token **token_list);
+void    free_command_list(t_command *cmd);
 
 #endif //MINISHELL_H

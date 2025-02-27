@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:34:36 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/25 12:25:34 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/25 22:03:36 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,6 @@ void	command_handler(t_token **token_list)
 		else
 			printf("unset : not enough arguments\n"); // Probably something better to do here (perror?)
 	}
+	t_command *cmd = parsing_handler(token_list);
+	free_command_list(cmd);
 }

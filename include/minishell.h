@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/27 16:34:56 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:58:11 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
-	t_bool			is_single_quote;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;

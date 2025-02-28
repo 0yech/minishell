@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/02/26 00:08:45 by nrey             ###   ########.fr       */
+/*   Updated: 2025/02/28 01:05:43 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,34 @@
 // Function to return OPTIONS/ARGUMENTS as char **args, ends with NULL
 // Function to count pipes/commands x
 // Function to fill EACH command, and advance to the next one. x
+
+// while cmd -> fill fds args per command
+
+void	fill_args_fds(t_command *cmd, t_token *token)
+{
+	t_command *current;
+	
+	current = cmd;
+
+    while (token)
+    {
+        if (token->type == PIPE)
+            current = current->next;
+        else if (token->type == REDIRECT_IN && token->next
+			&& token->next->type == REDIRECT_FILE) // <
+                current->fdio->input = ft_strdup(token->next->value);
+        else if (token->type == REDIRECT_OUT && token->next
+			&& token->next->type == REDIRECT_FILE) // >
+                current->fdio->output = ft_strdup(token->next->value);
+        else if (token->type == APPEND && token->next
+			&& token->next->type == REDIRECT_FILE) // >>
+        {
+                current->fdio->output = ft_strdup(token->next->value);
+                current->fdio->fdout = O_WRONLY | O_CREAT | O_APPEND;
+        }
+        token = token->next;
+    }
+}
 
 int count_argsopt(t_token *token)
 {
@@ -36,12 +64,15 @@ void print_commands(t_command *cmd)
 	i = 0;
     while (cmd)
     {
+		printf("Input fdio : %s\n", cmd->fdio->input);
+		printf("output fdio : %s\n\n", cmd->fdio->output);
         printf("Command : %s\n", cmd->command);
         while (cmd->argv[i])
 		{
             printf("argv%d : %s\n", i, cmd->argv[i]);
 			i++;
 		}
+		i = 0;
 		printf("\n");
         cmd = cmd->next;
     }
@@ -92,6 +123,10 @@ t_command *fill_parsing(t_token *token)
 	cmd->argv = extract_args(token);
 	cmd->next = NULL;
 	cmd->prev = NULL;
+	cmd->fdio = malloc(sizeof(t_fd));
+	if (!cmd->fdio)
+		return (NULL);
+	ft_memset(cmd->fdio, 0, sizeof(t_fd));
 	return (cmd);
 }
 
@@ -129,6 +164,7 @@ t_command *parsing_handler(t_token **token_list)
 	t_command   *command_list;
 
 	command_list = parse_commands(*token_list);
+	fill_args_fds(command_list, *token_list);
 	print_commands(command_list);
 	return (command_list);
 }

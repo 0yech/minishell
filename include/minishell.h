@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/27 17:43:24 by estettle         ###   ########.fr       */
+/*   Updated: 2025/02/28 00:49:58 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/history.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <stdint.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -50,6 +51,8 @@ typedef enum e_bool
 // Structs
 typedef struct s_fd
 {
+	char	*hd_delim;
+	int		hd_quotes;
 	char	*input;
 	char	*output;
 	int		fdin;

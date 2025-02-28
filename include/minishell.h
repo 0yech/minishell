@@ -106,7 +106,7 @@ int		quotes_handler(char *start);
 char	*quotes_clean(char *raw_token);
 
 // Lexing - Var expansion, lexing_expand_var.c
-char	*var_expand(char *raw_token);
+char	*var_expand(char *token);
 
 // Environ, environ.c
 void	env_init(char **envp);

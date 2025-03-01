@@ -6,39 +6,52 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/01 11:41:14 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/01 12:07:08 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	full_token_size(char *raw_token)
-{
-	int	i;
-	int	size;
-
-	i = 0;
-	size = 0;
-	while (raw_token[i])
-	{
-		size++;
-		i++;
-	}
-	return (size);
-}
-
 char	*get_variable(char *str)
 {
+	char	*key;
 	char	*raw_var;
 	char	*var;
 
-	raw_var = get_key(str)->value;
+	key = ft_calloc(ft_strlen(str), sizeof(char));
+	if (!key)
+		return (NULL);
+	ft_strlcpy(key, str, ft_strchr(str, ' ') - str);
+	raw_var = get_key(key)->value;
 	if (!raw_var)
 		return (NULL);
 	var = ft_strchr(raw_var, '=');
 	if (!var)
 		return (NULL);
 	return (var);
+}
+
+int	full_token_size(char *raw_token)
+{
+	char	*var;
+	size_t	i;
+	size_t	size;
+
+	i = 0;
+	size = 0;
+	while (raw_token[i])
+	{
+		if (raw_token[i] == '$')
+		{
+			var = get_variable(raw_token + i);
+			size += ft_strlen(var);
+			while (ft_isprint(raw_token[i]) && raw_token[i] != ' ')
+				i++;
+		}
+		size++;
+		i++;
+	}
+	return (size);
 }
 
 char	*var_expand(char *token)

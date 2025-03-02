@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/02/28 01:05:43 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/02 12:48:18 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +162,15 @@ t_command	*parse_commands(t_token *token)
 t_command *parsing_handler(t_token **token_list)
 {
 	t_command   *command_list;
+	//t_env		**env;
+	//char		**waos;
 
 	command_list = parse_commands(*token_list);
 	fill_args_fds(command_list, *token_list);
-	print_commands(command_list);
+	//print_commands(command_list);
+	//env = env_get();
+	//waos = env_to_char(*env);
+	//printf("%s", waos[1]);
+	//free_array(waos);
 	return (command_list);
 }

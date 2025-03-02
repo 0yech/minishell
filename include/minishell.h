@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/28 16:11:14 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/02 12:34:23 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int		env_fill_node(char *envp, t_env *node);
 int		env_set(char *key, char *value);
 
 // Env utils, env_utils.c
+char	**env_to_char(t_env *env);
 t_env	*get_key(char *key);
 
 // Token tools

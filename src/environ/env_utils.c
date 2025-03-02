@@ -3,14 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/13 16:54:23 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/02 12:44:52 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*strjoin_equals(char *s1, char *s2)
+{
+	char	*out;
+	int		len;
+	int		len2;
+	int		finallen;
+
+	if (!s1 || !s2)
+		return (NULL);
+	len = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	finallen = len + len2 + 2;
+	out = malloc(finallen);
+	if (!out)
+		return (NULL);
+	ft_strlcpy(out, s1, finallen);
+	out[len] = '=';
+	ft_strlcpy(out + len + 1, s2, finallen - len - 1);
+	return (out);
+}
+
+int	env_size(t_env *env)
+{
+	int		i;
+	t_env	*tmp;
+
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	return (i);
+}
+
+char	**env_to_char(t_env *env)
+{
+	char	**envtab;
+	t_env	*tmp;
+	int		i;
+
+	i = 0;
+	envtab = malloc(sizeof(char *) * (env_size(env) + 1));
+	if (!envtab)
+		return (NULL);
+	tmp = env;
+	while (i < env_size(env))
+	{
+		if (!tmp->name || !tmp->value)
+			envtab[i] = NULL;
+		else
+		{
+			envtab[i] = strjoin_equals(tmp->name, tmp->value);
+			if (!envtab[i])
+				free_array(envtab);
+		}
+		i++;
+		tmp = tmp->next;
+	}
+	envtab[i] = NULL;
+	return (envtab);
+}
 
 /**
  * @brief Searches through the environment of the shell for a node matching the

@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/01 13:15:31 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/01 13:37:59 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ int	full_token_size(char *raw_token)
 
 char	*var_expand(char *token)
 {
-	size_t		i;
-	size_t		j;
+	size_t	i;
+	size_t	j;
+	char	*var;
 	char	*expanded_token;
 
 	expanded_token = ft_calloc(full_token_size(token), sizeof(char));
@@ -75,9 +76,16 @@ char	*var_expand(char *token)
 	j = 0;
 	while (token[i])
 	{
-		expanded_token[j] = token[i];
-		i++;
-		j++;
+		if (token[i] == '$' && get_variable(token + i + 1))
+		{
+			var = get_variable(token + i + 1);
+			ft_strlcpy(expanded_token + j, var, ft_strlen(var));
+			j += ft_strlen(var);
+			i++;
+			while (ft_isalnum(token[i]))
+				i++;
+		}
+		expanded_token[j++] = token[i++];
 	}
 	free(token);
 	return (expanded_token);

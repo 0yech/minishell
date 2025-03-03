@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/03 10:30:28 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/03 11:35:11 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,9 @@ size_t full_token_size(char* raw_token)
 			i++;
 			var = get_variable(raw_token + i);
 			if (var)
-			{
 				size += ft_strlen(var);
-				while (ft_isprint(raw_token[i]) && raw_token[i] != ' ')
-					i++;
-			}
+			while (ft_isprint(raw_token[i]) && raw_token[i] != ' ')
+				i++;
 		}
 		size++;
 		i++;
@@ -66,11 +64,35 @@ size_t full_token_size(char* raw_token)
 	return (size);
 }
 
+/**
+ * @brief Is called when a $ is found in the token. Searches for the variable
+ * and copies it if it does exist, otherwise copies nothing and moves on.
+ */
+void	handle_var(char *token, char *expanded_token, size_t *i, size_t *j)
+{
+	char	*var;
+
+	(*i)++;
+	var = get_variable(token + *i);
+	if (var)
+	{
+		ft_strlcpy(expanded_token + *j, var, ft_strlen(var) + 1);
+		*j += ft_strlen(var);
+	}
+	while (ft_isprint(token[*i]))
+		(*i)++;
+}
+
+/**
+ * @brief Takes a token as an argument and returns the same token with all
+ * variables contained expanded. Valid variables that exist in the environment
+ * are expanded to their values, while variables that don't exist are expanded
+ * to "", an empty string.
+ */
 char	*var_expand(char *token)
 {
 	size_t	i;
 	size_t	j;
-	char	*var;
 	char	*expanded_token;
 
 	expanded_token = ft_calloc(full_token_size(token), sizeof(char));
@@ -87,15 +109,8 @@ char	*var_expand(char *token)
 				expanded_token[j++] = token[i++];
 			expanded_token[j++] = token[i++];
 		}
-		if (token[i] == '$' && get_variable(token + i + 1))
-		{
-			var = get_variable(token + i + 1);
-			ft_strlcpy(expanded_token + j, var, ft_strlen(var) + 1);
-			j += ft_strlen(var);
-			i++;
-			while (ft_isprint(token[i]))
-				i++;
-		}
+		if (token[i] == '$')
+			handle_var(token, expanded_token, &i, &j);
 		expanded_token[j++] = token[i++];
 	}
 	free(token);

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/02 12:34:23 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/03 10:34:01 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,60 +89,60 @@ typedef struct s_env
 }	t_env;
 
 // Builtins
-int		ft_cd(t_token **token_list);
-void	ft_exit(t_token **token_list);
-int		ft_pwd(void);
-int		ft_env(void);
-int		ft_export(char *str);
-int		ft_unset(char *key);
+int			ft_cd(t_token **token_list);
+void		ft_exit(t_token **token_list);
+int			ft_pwd(void);
+int			ft_env(void);
+int			ft_export(char *str);
+int			ft_unset(char *key);
 
 // Lexing - Main, lexing.c
-t_token	**init_token_list(char *input);
-void	assign_types(t_token **token_list);
+t_token		**init_token_list(char *input);
+void		assign_types(t_token **token_list);
 
 // Lexing - Quotes, lexing_quotes.c
-t_bool	is_valid_quote(char *str, int index);
-int		quotes_handler(char *start);
-char	*quotes_clean(char *raw_token);
+t_bool		is_valid_quote(char *str, int index);
+int			quotes_handler(char *start);
+char		*quotes_clean(char *raw_token);
 
 // Lexing - Var expansion, lexing_expand_var.c
-char	*var_expand(char *token);
+char		*var_expand(char *token);
 
 // Environ, environ.c
-void	env_init(char **envp);
-t_env	**env_get(void);
+void		env_init(char **envp);
+t_env		**env_get(void);
 
 // Env list utils, env_list.c
-void	env_clear(t_env **envcpy);
-void	env_delone(t_env *envcpy);
-t_env	*env_last(void);
-t_env	*env_new(char *key, char *value, t_env *prev, t_env *next);
+void		env_clear(t_env **envcpy);
+void		env_delone(t_env *envcpy);
+t_env		*env_last(void);
+t_env		*env_new(char *key, char *value, t_env *prev, t_env *next);
 
 // Fill env name to list, env_set_list.c
-int		env_fill_node(char *envp, t_env *node);
-int		env_set(char *key, char *value);
+int			env_fill_node(char *envp, t_env *node);
+int			env_set(char *key, char *value);
 
 // Env utils, env_utils.c
-char	**env_to_char(t_env *env);
-t_env	*get_key(char *key);
+char		**env_to_char(t_env *env);
+t_env		*get_key(char *key);
 
 // Token tools
-void	print_tokens(t_token *list); // This one's temporary
-t_token	*token_new(char *token);
-t_token	*token_last(t_token *list);
-void	token_add_back(t_token **list, t_token *new);
-void	token_add_front(t_token **list, t_token *new);
-void	tokens_clear(t_token **list);
+void		print_tokens(t_token *list); // This one's temporary
+t_token		*token_new(char *token);
+t_token		*token_last(t_token *list);
+void		token_add_back(t_token **list, t_token *new);
+void		token_add_front(t_token **list, t_token *new);
+void		tokens_clear(t_token **list);
 
 // Util functions
-void	free_array(char **array);
+void		free_array(char **array);
 
 // Command handler
-void	command_handler(t_token **token_list);
+void		command_handler(t_token **token_list);
 
-void    signal_handler(void);
+void		signal_handler(void);
 
-t_command *parsing_handler(t_token **token_list);
-void    free_command_list(t_command *cmd);
+t_command	*parsing_handler(t_token **token_list);
+void		free_command_list(t_command *cmd);
 
 #endif //MINISHELL_H

@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/03 10:11:48 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/03 10:30:28 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ char	*get_variable(char *str)
 	return (var->value);
 }
 
-int	full_token_size(char *raw_token)
+/**
+ * @brief Takes a raw_token as an input and returns its length with all
+ * variables contained withing expanded.
+ */
+size_t full_token_size(char* raw_token)
 {
 	char	*var;
 	size_t	i;
@@ -49,11 +53,12 @@ int	full_token_size(char *raw_token)
 		{
 			i++;
 			var = get_variable(raw_token + i);
-			printf("%s\n", var);
 			if (var)
+			{
 				size += ft_strlen(var);
-			while (ft_isprint(raw_token[i]) && raw_token[i] != ' ')
-				i++;
+				while (ft_isprint(raw_token[i]) && raw_token[i] != ' ')
+					i++;
+			}
 		}
 		size++;
 		i++;
@@ -75,13 +80,20 @@ char	*var_expand(char *token)
 	j = 0;
 	while (token[i])
 	{
+		if (token[i] == '\'')
+		{
+			expanded_token[j++] = token[i++];
+			while (token[i] && token[i] != '\'')
+				expanded_token[j++] = token[i++];
+			expanded_token[j++] = token[i++];
+		}
 		if (token[i] == '$' && get_variable(token + i + 1))
 		{
 			var = get_variable(token + i + 1);
 			ft_strlcpy(expanded_token + j, var, ft_strlen(var) + 1);
 			j += ft_strlen(var);
 			i++;
-			while (ft_isalnum(token[i]))
+			while (ft_isprint(token[i]))
 				i++;
 		}
 		expanded_token[j++] = token[i++];

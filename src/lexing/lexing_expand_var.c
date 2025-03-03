@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/03 11:35:11 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:58:34 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_variable(char *str)
  * @brief Takes a raw_token as an input and returns its length with all
  * variables contained withing expanded.
  */
-size_t full_token_size(char* raw_token)
+size_t	full_token_size(char* raw_token)
 {
 	char	*var;
 	size_t	i;
@@ -47,6 +47,8 @@ size_t full_token_size(char* raw_token)
 
 	i = 0;
 	size = 0;
+	if (!raw_token)
+		return (0);
 	while (raw_token[i])
 	{
 		if (raw_token[i] == '$')
@@ -55,11 +57,12 @@ size_t full_token_size(char* raw_token)
 			var = get_variable(raw_token + i);
 			if (var)
 				size += ft_strlen(var);
-			while (ft_isprint(raw_token[i]) && raw_token[i] != ' ')
+			while (raw_token[i] && ft_isprint(raw_token[i]) && raw_token[i] != ' ')
 				i++;
 		}
 		size++;
-		i++;
+		if (raw_token[i])
+			i++;
 	}
 	return (size);
 }
@@ -95,7 +98,7 @@ char	*var_expand(char *token)
 	size_t	j;
 	char	*expanded_token;
 
-	expanded_token = ft_calloc(full_token_size(token), sizeof(char));
+	expanded_token = ft_calloc(full_token_size(token) + 1, sizeof(char));
 	if (!expanded_token)
 		return (NULL);
 	i = 0;
@@ -109,10 +112,11 @@ char	*var_expand(char *token)
 				expanded_token[j++] = token[i++];
 			expanded_token[j++] = token[i++];
 		}
-		if (token[i] == '$')
+		else if (token[i] == '$')
 			handle_var(token, expanded_token, &i, &j);
-		expanded_token[j++] = token[i++];
+		else
+			expanded_token[j++] = token[i++];
 	}
-	free(token);
-	return (expanded_token);
+	expanded_token[j] = 0;
+	return (free(token), expanded_token);
 }

@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/03 09:51:36 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/03 10:11:48 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ char	*get_variable(char *str)
 {
 	size_t	i;
 	char	key[9999];
-	char	*var;
+	t_env	*var;
 
 	i = 0;
 	while (ft_isalnum(str[i]))
 		i++;
 	ft_strlcpy(key, str, i + 1);
-	var = get_key(key)->value;
-	if (!var)
+	var = get_key(key);
+	if (!var || !(var->value))
 		return (NULL);
-	return (var);
+	return (var->value);
 }
 
 int	full_token_size(char *raw_token)

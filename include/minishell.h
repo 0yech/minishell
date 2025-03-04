@@ -36,10 +36,10 @@ typedef enum e_token_type
 	PIPE,
 	REDIRECT_IN,
 	REDIRECT_OUT,
+	HEREDOC,
 	DELIM,
 	REDIRECT_FILE,
 	APPEND,
-	VARASSIGN,
 	OPTION
 }	t_token_type;
 
@@ -144,5 +144,9 @@ void		signal_handler(void);
 
 t_command	*parsing_handler(t_token **token_list);
 void		free_command_list(t_command *cmd);
+
+void    heredoc_handler(t_command *cmd);
+void    process_heredoc(t_command *cmd);
+int		valid_pipes(t_token *token);
 
 #endif //MINISHELL_H

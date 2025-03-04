@@ -6,18 +6,11 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/02 12:48:18 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/04 10:03:41 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// Fill node command
-// Function to return OPTIONS/ARGUMENTS as char **args, ends with NULL
-// Function to count pipes/commands x
-// Function to fill EACH command, and advance to the next one. x
-
-// while cmd -> fill fds args per command
 
 void	fill_args_fds(t_command *cmd, t_token *token)
 {
@@ -28,22 +21,33 @@ void	fill_args_fds(t_command *cmd, t_token *token)
     while (token)
     {
         if (token->type == PIPE)
+		{
+			if (current == NULL || current->next == NULL) // Vérifie avant d'accéder à `next`
+				return;
             current = current->next;
-        else if (token->type == REDIRECT_IN && token->next
-			&& token->next->type == REDIRECT_FILE) // <
-                current->fdio->input = ft_strdup(token->next->value);
-        else if (token->type == REDIRECT_OUT && token->next
-			&& token->next->type == REDIRECT_FILE) // >
-                current->fdio->output = ft_strdup(token->next->value);
-        else if (token->type == APPEND && token->next
-			&& token->next->type == REDIRECT_FILE) // >>
-        {
-                current->fdio->output = ft_strdup(token->next->value);
-                current->fdio->fdout = O_WRONLY | O_CREAT | O_APPEND;
-        }
-        token = token->next;
-    }
+		}
+		else if (current && current->fdio)
+		{
+    	    if (token->type == REDIRECT_IN && token->next
+				&& token->next->type == REDIRECT_FILE) // <
+        	        current->fdio->input = ft_strdup(token->next->value);
+        	else if (token->type == REDIRECT_OUT && token->next
+				&& token->next->type == REDIRECT_FILE) // >
+        	        current->fdio->output = ft_strdup(token->next->value);
+        	else if (token->type == APPEND && token->next
+				&& token->next->type == REDIRECT_FILE) // >>
+        	{
+        	        current->fdio->output = ft_strdup(token->next->value);
+        	        current->fdio->fdout = O_WRONLY | O_CREAT | O_APPEND;
+        	}
+			else if (token->type == HEREDOC && token->next
+				&& token->next->type == DELIM)
+					current->fdio->hd_delim = ft_strdup(token->next->value);
+		}
+		token = token->next;
+	}
 }
+
 
 int count_argsopt(t_token *token)
 {
@@ -64,7 +68,12 @@ void print_commands(t_command *cmd)
 	i = 0;
     while (cmd)
     {
+		printf("-----------------------------------------\n");
 		printf("Input fdio : %s\n", cmd->fdio->input);
+		printf("Heredoc_quotes : %d\n", cmd->fdio->hd_quotes);
+		printf("hd_delim : %s\n", cmd->fdio->hd_delim);
+		printf("fdin : %d\n", cmd->fdio->fdin);
+		printf("fdout : %d\n", cmd->fdio->fdout);
 		printf("output fdio : %s\n\n", cmd->fdio->output);
         printf("Command : %s\n", cmd->command);
         while (cmd->argv[i])
@@ -114,7 +123,7 @@ t_command *fill_parsing(t_token *token)
 {
 	t_command	*cmd;
 
-	if (!token || token->type != COMMAND)
+	if (!token)
 		return (NULL);
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
@@ -140,7 +149,7 @@ t_command	*parse_commands(t_token *token)
 	current = NULL;
 	while (token)
 	{
-		if (token->type == COMMAND)
+		if (token->type == COMMAND || (token->prev && token->prev->type == PIPE))
 		{
 			new_cmd = fill_parsing(token);
 			if (!new_cmd)
@@ -166,8 +175,11 @@ t_command *parsing_handler(t_token **token_list)
 	//char		**waos;
 
 	command_list = parse_commands(*token_list);
+	if (valid_pipes(*token_list) == 1)
+		return (free_command_list(command_list), NULL);
 	fill_args_fds(command_list, *token_list);
-	//print_commands(command_list);
+	process_heredoc(command_list);
+	print_commands(command_list);
 	//env = env_get();
 	//waos = env_to_char(*env);
 	//printf("%s", waos[1]);

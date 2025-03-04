@@ -24,6 +24,8 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/signal/signal.c \
 				$(SRCDIR)/parsing/parsing.c \
 				$(SRCDIR)/parsing/free_parser.c \
+				$(SRCDIR)/parsing/heredoc_handler.c \
+				$(SRCDIR)/parsing/invalid_checks.c \
 				$(SRCDIR)/token_tools.c
 OBJS		=	$(CFILES:.c=.o)
 

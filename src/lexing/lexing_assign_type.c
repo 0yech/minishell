@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 01:15:21 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/02 12:47:17 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/04 07:56:20 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	look_for_operations(char *str)
 	if (ft_strncmp(str, ">>", ft_strlen(str)) == 0)
 		return (APPEND);
 	if (ft_strncmp(str, "<<", ft_strlen(str)) == 0)
-		return (DELIM);
+		return (HEREDOC);
 	return (0); // NOT an operation
 }
 
@@ -39,12 +39,14 @@ int	look_for_command_type(t_token *token)
 				&& token->prev->prev->prev == NULL)
 			return (COMMAND);
 		if (token->prev->type == REDIRECT_IN
-			|| token->prev->type == REDIRECT_OUT 
+			|| token->prev->type == REDIRECT_OUT
 			|| token->prev->type == APPEND)
 			return (REDIRECT_FILE);
+		if (token->prev->type == HEREDOC)
+			return (DELIM);
 		if (token->prev->type == PIPE)
 			return (COMMAND);
-		if (token->prev->type == COMMAND
+		if ((token->prev->type == COMMAND || token->prev->type == OPTION)
 			&& ft_strncmp(token->value, "-", 1) == 0
 			&& ft_strlen(token->value) > 1)
 			return (OPTION);
@@ -71,8 +73,8 @@ void	assign_types(t_token **token_list)
 			current->type = type;
 		else
 			current->type = look_for_command_type(current);
-		//printf("\nNode value : %s\n", current->value);
-		//printf("Node type : %d\n", current->type);
+		printf("\nNode value : %s\n", current->value);
+		printf("Node type : %d\n", current->type);
 		current = current->next;
 	}
 }

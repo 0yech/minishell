@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/05 10:28:35 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/05 10:58:18 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,28 @@ void	history_handler(char *input)
 	add_history(input);
 }
 
+static t_bool	is_special_char(char c)
+{
+	if (c == '|' || c == '>' || c == '<')
+		return TRUE;
+	return FALSE;
+}
+
 static int	isolate_token(char *input)
 {
 	int	i;
 
 	i = 0;
-	while (input && input[i] && ft_isprint(input[i]) && input[i] != ' ')
+	if (!input)
+		return (i);
+	if (is_special_char(input[i]))
+	{
+		if (is_special_char(input[i + 1]))
+			return (i + 2);
+		return (i + 1);
+	}
+	while (input[i] && ft_isprint(input[i]) && input[i] != ' '
+		&& !is_special_char(input[i]))
 	{
 		if (input[i] == '"' || input[i] == '\'')
 			return (quotes_handler(input));
@@ -61,7 +77,7 @@ static t_token	**create_tokens(char *input)
 	while (*(input + tot_progress) && (!ft_isprint(*(input + tot_progress))
 			|| *(input + tot_progress) == ' '))
 		tot_progress++;
-	while (input && input[tot_progress])
+	while (input[tot_progress])
 	{
 		progress = get_next_token(token_list, input + tot_progress);
 		if (progress < 0)
@@ -69,6 +85,7 @@ static t_token	**create_tokens(char *input)
 		tot_progress += progress;
 		while (*(input + tot_progress) && (!ft_isprint(*(input + tot_progress))
 				|| *(input + tot_progress) == ' '))
+				// || is_special_char(*(input + tot_progress))))
 			tot_progress++;
 	}
 	return (token_list);

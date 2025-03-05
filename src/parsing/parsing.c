@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/04 10:03:41 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/05 11:01:03 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	fill_args_fds(t_command *cmd, t_token *token)
         	else if (token->type == APPEND && token->next
 				&& token->next->type == REDIRECT_FILE) // >>
         	{
-        	        current->fdio->output = ft_strdup(token->next->value);
+        	        current->fdio->output = ft_strdup(token->next->value); // TODO noticed this leaked
         	        current->fdio->fdout = O_WRONLY | O_CREAT | O_APPEND;
         	}
 			else if (token->type == HEREDOC && token->next

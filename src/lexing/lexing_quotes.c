@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/27 18:15:35 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/05 10:28:58 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	quotes_handler(char *start)
  * preceding or even contained inside.
  *
  * @param raw_token The token still wrapped in quotes.
- * @return A cleaned version of the token.
+ * @return A cleaned version of the token. NULL if an error occurred.
  */
 char	*quotes_clean(char *raw_token)
 {
@@ -87,7 +87,7 @@ char	*quotes_clean(char *raw_token)
 	while (raw_token[i] && raw_token[i] != '"' && raw_token[i] != '\'')
 		i++;
 	if (raw_token[i] != '"' && raw_token[i] != '\'')
-		return (free(raw_token), NULL);
+		return (raw_token);
 	quotes_kind = raw_token[i];
 	clean_token = ft_calloc(ft_strlen(raw_token), sizeof(char));
 	if (!clean_token)

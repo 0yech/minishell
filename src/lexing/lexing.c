@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/03 10:14:33 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/05 10:28:35 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,30 @@ void	history_handler(char *input)
 	add_history(input);
 }
 
+static int	isolate_token(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input && input[i] && ft_isprint(input[i]) && input[i] != ' ')
+	{
+		if (input[i] == '"' || input[i] == '\'')
+			return (quotes_handler(input));
+		i++;
+	}
+	return (i);
+}
+
 static int	get_next_token(t_token **token_list, char *input)
 {
 	t_token	*new;
 	int		i;
 
-	i = 0;
 	new = token_new(NULL);
 	if (!new)
 		return (-1);
-	while (input && input[i] && ft_isprint(input[i]) && input[i] != ' ')
-	{
-		if (input[i] == '"' || input[i] == '\'')
-		{
-			i = quotes_handler(input);
-			new->value = quotes_clean(var_expand(ft_substr(input, 0, i)));
-			if (!(new->value))
-				return (free(new), -1);
-			return (token_add_back(token_list, new), i);
-		}
-		i++;
-	}
-	new->value = var_expand(ft_substr(input, 0, i));
+	i = isolate_token(input);
+	new->value = quotes_clean(var_expand(ft_substr(input, 0, i)));
 	if (!new->value)
 		return (free(new), -1);
 	return (token_add_back(token_list, new), i);

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/05 11:01:03 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/06 00:21:37 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	fill_args_fds(t_command *cmd, t_token *token)
     {
         if (token->type == PIPE)
 		{
-			if (current == NULL || current->next == NULL) // Vérifie avant d'accéder à `next`
+			if (current == NULL || current->next == NULL)
 				return;
             current = current->next;
 		}
@@ -178,6 +178,7 @@ t_command *parsing_handler(t_token **token_list)
 	if (valid_pipes(*token_list) == 1)
 		return (free_command_list(command_list), NULL);
 	fill_args_fds(command_list, *token_list);
+	assign_pipes(command_list);
 	process_heredoc(command_list);
 	print_commands(command_list);
 	//env = env_get();

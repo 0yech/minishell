@@ -89,7 +89,7 @@ typedef struct s_env
 }	t_env;
 
 // Builtins
-int			ft_cd(t_token **token_list);
+int			ft_cd(t_command *cmd);
 void		ft_exit(t_token **token_list);
 int			ft_pwd(void);
 int			ft_env(void);
@@ -148,5 +148,8 @@ void		free_command_list(t_command *cmd);
 void    heredoc_handler(t_command *cmd);
 void    process_heredoc(t_command *cmd);
 int		valid_pipes(t_token *token);
+void    assign_pipes(t_command *cmd);
+void    execute_piped_commands(t_command *cmd);
+char    *find_executable_path(char *command);
 
 #endif //MINISHELL_H

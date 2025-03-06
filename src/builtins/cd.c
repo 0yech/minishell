@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:47:25 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/20 15:09:16 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:18:20 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ static int	cd_swap_old(void)
 	return (1);
 }
 
-static int	cd_dir(t_token **token_list)
+static int	cd_dir(t_command *cmd)
 {
 	char	*pwd;
 	char	*old_pwd;
 
 	old_pwd = ft_strdup(get_key("PWD")->value);
-	if (chdir((*token_list)->next->value) == 0)
+	if (chdir(cmd->argv[1]) == 0)
 	{
 		pwd = getcwd(NULL, 0);
 		if (cd_update_env(old_pwd, pwd) == 0)
@@ -85,12 +85,12 @@ static int	cd_dir(t_token **token_list)
 	return (free(old_pwd), 1);
 }
 
-int	ft_cd(t_token **token_list)
+int	ft_cd(t_command *cmd)
 {
-	if ((*token_list)->next == NULL
-		|| !ft_strncmp((*token_list)->next->value, "~", 1))
+	if (cmd->argv[1] == NULL
+		|| !ft_strncmp(cmd->argv[1], "~", 2))
 		return (cd_home());
-	if (!ft_strncmp((*token_list)->next->value, "-", 1))
+	if (!ft_strncmp(cmd->argv[1], "-", 2))
 		return (cd_swap_old());
-	return (cd_dir(token_list));
+	return (cd_dir(cmd));
 }

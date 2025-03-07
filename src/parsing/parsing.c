@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/06 00:21:37 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/07 09:38:00 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,32 @@
 
 void	fill_args_fds(t_command *cmd, t_token *token)
 {
-	t_command *current;
-	
+	t_command	*current;
+
 	current = cmd;
 
-    while (token)
-    {
-        if (token->type == PIPE)
+	while (token)
+	{
+		if (token->type == PIPE)
 		{
 			if (current == NULL || current->next == NULL)
-				return;
-            current = current->next;
+				return ;
+			current = current->next;
 		}
 		else if (current && current->fdio)
 		{
-    	    if (token->type == REDIRECT_IN && token->next
+			if (token->type == REDIRECT_IN && token->next
 				&& token->next->type == REDIRECT_FILE) // <
-        	        current->fdio->input = ft_strdup(token->next->value);
-        	else if (token->type == REDIRECT_OUT && token->next
+					current->fdio->input = ft_strdup(token->next->value);
+			else if (token->type == REDIRECT_OUT && token->next
 				&& token->next->type == REDIRECT_FILE) // >
-        	        current->fdio->output = ft_strdup(token->next->value);
-        	else if (token->type == APPEND && token->next
+					current->fdio->output = ft_strdup(token->next->value);
+			else if (token->type == APPEND && token->next
 				&& token->next->type == REDIRECT_FILE) // >>
-        	{
-        	        current->fdio->output = ft_strdup(token->next->value); // TODO noticed this leaked
-        	        current->fdio->fdout = O_WRONLY | O_CREAT | O_APPEND;
-        	}
+			{
+					current->fdio->output = ft_strdup(token->next->value); // TODO noticed this leaked
+					current->fdio->fdout = O_WRONLY | O_CREAT | O_APPEND;
+			}
 			else if (token->type == HEREDOC && token->next
 				&& token->next->type == DELIM)
 					current->fdio->hd_delim = ft_strdup(token->next->value);
@@ -51,14 +51,14 @@ void	fill_args_fds(t_command *cmd, t_token *token)
 
 int count_argsopt(t_token *token)
 {
-    int count = 0;
-    while (token && token->type != PIPE)
-    {
-        if (token->type == OPTION || token->type == ARGUMENT)
-            count++;
-        token = token->next;
-    }
-    return count;
+	int count = 0;
+	while (token && token->type != PIPE)
+	{
+		if (token->type == OPTION || token->type == ARGUMENT)
+			count++;
+		token = token->next;
+	}
+	return count;
 }
 
 void print_commands(t_command *cmd)
@@ -66,8 +66,8 @@ void print_commands(t_command *cmd)
 	int i;
 
 	i = 0;
-    while (cmd)
-    {
+	while (cmd)
+	{
 		printf("-----------------------------------------\n");
 		printf("Input fdio : %s\n", cmd->fdio->input);
 		printf("Heredoc_quotes : %d\n", cmd->fdio->hd_quotes);
@@ -75,16 +75,16 @@ void print_commands(t_command *cmd)
 		printf("fdin : %d\n", cmd->fdio->fdin);
 		printf("fdout : %d\n", cmd->fdio->fdout);
 		printf("output fdio : %s\n\n", cmd->fdio->output);
-        printf("Command : %s\n", cmd->command);
-        while (cmd->argv[i])
+		printf("Command : %s\n", cmd->command);
+		while (cmd->argv[i])
 		{
-            printf("argv%d : %s\n", i, cmd->argv[i]);
+			printf("argv%d : %s\n", i, cmd->argv[i]);
 			i++;
 		}
 		i = 0;
 		printf("\n");
-        cmd = cmd->next;
-    }
+		cmd = cmd->next;
+	}
 }
 
 char	**extract_args(t_token *token)
@@ -119,7 +119,7 @@ char	**extract_args(t_token *token)
 	return (args);
 }
 
-t_command *fill_parsing(t_token *token)
+t_command	*fill_parsing(t_token *token)
 {
 	t_command	*cmd;
 
@@ -168,7 +168,7 @@ t_command	*parse_commands(t_token *token)
 	return (head);
 }
 
-t_command *parsing_handler(t_token **token_list)
+t_command	*parsing_handler(t_token **token_list)
 {
 	t_command   *command_list;
 	//t_env		**env;

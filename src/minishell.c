@@ -50,8 +50,8 @@ int	main(int argc, char **argv, char **envp)
 			free(token_list);
 			continue ;
 		}
-		print_tokens(*token_list);
 		command_handler(token_list);
+		print_tokens(*token_list);
 		tokens_clear(token_list);
 	}
 }

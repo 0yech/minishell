@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/05 10:58:18 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/07 09:47:28 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	history_handler(char *input)
 static t_bool	is_special_char(char c)
 {
 	if (c == '|' || c == '>' || c == '<')
-		return TRUE;
-	return FALSE;
+		return (TRUE);
+	return (FALSE);
 }
 
 static int	isolate_token(char *input)

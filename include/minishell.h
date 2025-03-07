@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/03 15:39:05 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/07 09:36:01 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ typedef struct s_fd
 
 typedef struct s_command
 {
-    char				*command;
+	char				*command;
 	char				*path;
 	struct s_fd			*fdio;
-    char				**argv;
-    struct s_command	*next;
+	char				**argv;
+	struct s_command	*next;
 	struct s_command	*prev;
 }	t_command;
 
@@ -147,11 +147,11 @@ void		signal_handler(void);
 t_command	*parsing_handler(t_token **token_list);
 void		free_command_list(t_command *cmd);
 
-void    heredoc_handler(t_command *cmd);
-void    process_heredoc(t_command *cmd);
-int		valid_pipes(t_token *token);
-void    assign_pipes(t_command *cmd);
-void    execute_piped_commands(t_command *cmd);
-char    *find_executable_path(char *command);
+void		heredoc_handler(t_command *cmd);
+void		process_heredoc(t_command *cmd);
+int			valid_pipes(t_token *token);
+void		assign_pipes(t_command *cmd);
+void		execute_piped_commands(t_command *cmd);
+char		*find_executable_path(char *command);
 
 #endif //MINISHELL_H

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:00:16 by nrey              #+#    #+#             */
-/*   Updated: 2025/02/25 12:40:00 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/07 05:29:02 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void    refresh_prompt(int sig)
     write(1, "\n", 1);
     rl_on_new_line();
     rl_replace_line("", 0);
+    display_prompt();
     rl_redisplay();
 }
 

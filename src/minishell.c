@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/25 12:35:45 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/07 04:59:50 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_token	**token_list;
 	char	*input;
-	char	cwd[1024];
 
 	(void)argc, (void)argv;
 	signal_handler();
 	env_init(envp);
 	while (TRUE)
 	{
-		printf("%s ", getcwd(cwd, sizeof(cwd)));
+		display_prompt();
 		input = readline(":3 $>");
 		if (!input)
 			ft_exit(0);

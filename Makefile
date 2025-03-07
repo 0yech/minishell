@@ -29,6 +29,7 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/parsing/pipe_assign.c \
 				$(SRCDIR)/exec/exec_pipes.c \
 				$(SRCDIR)/exec/exec_tools.c \
+				$(SRCDIR)/gitprompt/git_handler.c \
 				$(SRCDIR)/token_tools.c
 OBJS		=	$(CFILES:.c=.o)
 

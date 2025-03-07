@@ -88,6 +88,8 @@ typedef struct s_env
 	struct s_env	*prev;
 }	t_env;
 
+// Display prompt + Git
+void		display_prompt(void);
 // Builtins
 int			ft_cd(t_command *cmd);
 void		ft_exit(t_token **token_list);

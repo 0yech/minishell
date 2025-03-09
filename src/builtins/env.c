@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:33:11 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/13 16:54:58 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/09 16:30:37 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	ft_env(void)
 	tmp = *env_get();
 	while (tmp)
 	{
-		printf("%s=%s\n", tmp->name, tmp->value);
+		write(STDOUT_FILENO, tmp->name, ft_strlen(tmp->name));
+		write(STDOUT_FILENO, "=", 1);
+		ft_putendl_fd(tmp->value, STDOUT_FILENO);
 		tmp = tmp->next;
 	}
 	return (0);

@@ -49,17 +49,24 @@ typedef enum e_bool
 	TRUE = 1
 }	t_bool;
 
+typedef enum e_outtype
+{
+	Z,
+	RED_OUT,
+	APD
+}	t_outtype;
 // Structs
 typedef struct s_fd
 {
-	char	*hd_delim;
-	int		hd_quotes;
-	char	*input;
-	char	*output;
-	int		fdin;
-	int		fdout;
-	int		stdincpy;
-	int		stdoutcpy;
+	char		*hd_delim;
+	int			hd_quotes;
+	char		*input;
+	char		*output;
+	t_outtype	outtype;
+	int			fdin;
+	int			fdout;
+	int			stdincpy;
+	int			stdoutcpy;
 }	t_fd;
 
 typedef struct s_command
@@ -92,7 +99,7 @@ typedef struct s_env
 void		display_prompt(void);
 // Builtins
 int			ft_cd(t_command *cmd);
-void		ft_exit(t_token **token_list);
+void		ft_exit(t_command *cmd);
 int			ft_pwd(void);
 int			ft_env(void);
 int			ft_export(char *str);

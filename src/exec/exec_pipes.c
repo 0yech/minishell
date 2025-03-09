@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/06 17:58:13 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/09 16:44:32 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int		exec_builtin(t_command *current)
 			ft_unset(current->argv[1]);
 		else
 			printf("unset : not enough arguments\n");
-	}	
+	}
+	if (ft_strncmp(current->command, "exit", 5) == 0)
+		ft_exit(current);
 	return (127);
 }
 
@@ -75,6 +77,8 @@ int		is_builtin(t_command *current)
 		return (1);
 	if (ft_strncmp(current->command, "pwd", 4) == 0)
 		return (1);
+	if (ft_strncmp(current->command, "exit", 5) == 0)
+		return (1);
 	return (0);
 }
 
@@ -84,6 +88,60 @@ void	exec_child(t_command *current)
 	execve(find_executable_path(current->command), current->argv, NULL);
 	perror("execve");
 	exit(124);
+}
+
+void	setup_redirections(t_command *cmd)
+{
+	int	flags;
+
+	flags = O_WRONLY | O_CREAT;
+	if (cmd->fdio->output)
+	{
+		if (cmd->fdio->outtype == RED_OUT)
+			flags |= O_TRUNC; // Truncate, overwrites the file
+		else if (cmd->fdio->outtype == APD)
+			flags |= O_APPEND; // Append, adds it at the end
+		cmd->fdio->fdout = open(cmd->fdio->output, flags, 0644);
+		if (cmd->fdio->fdout == -1)
+		{
+			perror("open output");
+			exit(1);
+		}
+	}
+	if (cmd->fdio->input)
+	{
+		cmd->fdio->fdin = open(cmd->fdio->input, O_RDONLY);
+		if (cmd->fdio->fdin == -1)
+		{
+			perror("open input");
+			exit(1);
+		}
+	}
+}
+
+void	exec_pipe_builtin(int pid, t_command *current)
+{
+	if (is_builtin(current))
+	{
+		if (current->next) 
+		{
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("fork");
+				exit(124);
+			}
+			if (pid == 0)
+			{
+				close_child(current);
+				exec_builtin(current);
+				exit(0);
+			}
+		}
+		else
+			exec_builtin(current);
+		current = current->next;
+	}
 }
 
 void	execute_piped_commands(t_command *cmd)
@@ -98,12 +156,8 @@ void	execute_piped_commands(t_command *cmd)
 	cmd->fdio->stdoutcpy = dup(STDOUT_FILENO);
 	while (current)
 	{
-		if (is_builtin(current))
-		{
-			exec_builtin(current);
-			current = current->next;
-			continue ;
-		}
+		setup_redirections(current);
+		exec_pipe_builtin(pid, current);
 		pid = fork();
 		if (pid == -1)
 		{
@@ -111,7 +165,11 @@ void	execute_piped_commands(t_command *cmd)
 			exit(124);
 		}
 		if (pid > 0)
+		{
 			close_parent(current);
+			if (current->next)
+				close(current->fdio->fdout);
+		}
 		if (pid == 0)
 			exec_child(current);
 		current = current->next;

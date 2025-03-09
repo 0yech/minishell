@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/07 09:38:00 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/09 15:51:28 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,14 @@ void	fill_args_fds(t_command *cmd, t_token *token)
 					current->fdio->input = ft_strdup(token->next->value);
 			else if (token->type == REDIRECT_OUT && token->next
 				&& token->next->type == REDIRECT_FILE) // >
+				{
+					current->fdio->outtype = RED_OUT;
 					current->fdio->output = ft_strdup(token->next->value);
+				}
 			else if (token->type == APPEND && token->next
 				&& token->next->type == REDIRECT_FILE) // >>
 			{
+					current->fdio->outtype = APD;
 					current->fdio->output = ft_strdup(token->next->value); // TODO noticed this leaked
 					current->fdio->fdout = O_WRONLY | O_CREAT | O_APPEND;
 			}

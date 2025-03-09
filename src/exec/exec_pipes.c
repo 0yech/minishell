@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/09 16:44:32 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/09 19:20:06 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,13 @@ void	setup_redirections(t_command *cmd)
 	}
 }
 
-void	exec_pipe_builtin(int pid, t_command *current)
+// I'm so sorry about this function, it's so ass D:
+// env/export is very annoying with Fds
+
+int	exec_pipe_builtin(t_command *current)
 {
+	int pid;
+
 	if (is_builtin(current))
 	{
 		if (current->next) 
@@ -135,13 +140,19 @@ void	exec_pipe_builtin(int pid, t_command *current)
 			{
 				close_child(current);
 				exec_builtin(current);
+				close(current->fdio->fdout);
 				exit(0);
 			}
+			else
+				return (close(current->fdio->fdout), 1);
 		}
 		else
+		{
 			exec_builtin(current);
-		current = current->next;
+			return (1);
+		}
 	}
+	return (0);
 }
 
 void	execute_piped_commands(t_command *cmd)
@@ -157,7 +168,11 @@ void	execute_piped_commands(t_command *cmd)
 	while (current)
 	{
 		setup_redirections(current);
-		exec_pipe_builtin(pid, current);
+		if (exec_pipe_builtin(current))
+		{
+			current = current->next;
+			continue ;
+		}
 		pid = fork();
 		if (pid == -1)
 		{

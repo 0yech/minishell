@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/10 12:43:08 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:19:50 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,17 @@ int	exec_builtin(t_command *current)
 	return (127);
 }
 
-// TODO : rewrite this with || statements
 int	is_builtin(t_command *current)
 {
 	if (!current)
 		return (0);
-	if (ft_strncmp(current->command, "cd", 3) == 0)
-		return (1);
-	if (ft_strncmp(current->command, "pwd", 4) == 0)
-		return (1);
-	if (ft_strncmp(current->command, "env", 4) == 0)
-		return (1);
-	if (ft_strncmp(current->command, "export", 7) == 0)
-		return (1);
-	if (ft_strncmp(current->command, "unset", 6) == 0)
-		return (1);
-	if (ft_strncmp(current->command, "pwd", 4) == 0)
-		return (1);
-	if (ft_strncmp(current->command, "exit", 5) == 0)
+	if (ft_strncmp(current->command, "cd", 3) == 0
+		|| ft_strncmp(current->command, "pwd", 4) == 0
+		|| ft_strncmp(current->command, "env", 4) == 0
+		|| ft_strncmp(current->command, "export", 7) == 0
+		|| ft_strncmp(current->command, "unset", 6) == 0
+		|| ft_strncmp(current->command, "pwd", 4) == 0
+		|| ft_strncmp(current->command, "exit", 5) == 0)
 		return (1);
 	return (0);
 }

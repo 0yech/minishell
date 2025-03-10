@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/10 12:32:36 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:20:28 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ t_command	*fill_parsing(t_token *token)
 	cmd->argv = extract_args(token);
 	cmd->next = NULL;
 	cmd->prev = NULL;
-	cmd->fdio = malloc(sizeof(t_fd)); // TODO ft_calloc instead of malloc + memset
+	cmd->fdio = ft_calloc(1, sizeof(t_fd));
 	if (!cmd->fdio)
 		return (NULL);
-	ft_memset(cmd->fdio, 0, sizeof(t_fd));
 	return (cmd);
 }
 

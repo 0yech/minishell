@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/07 09:36:01 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/10 09:01:46 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef enum e_outtype
 	RED_OUT,
 	APD
 }	t_outtype;
+
 // Structs
 typedef struct s_fd
 {
@@ -73,7 +74,7 @@ typedef struct s_command
 {
 	char				*command;
 	char				*path;
-	struct s_fd			*fdio;
+	t_fd				*fdio;
 	char				**argv;
 	struct s_command	*next;
 	struct s_command	*prev;
@@ -95,9 +96,10 @@ typedef struct s_env
 	struct s_env	*prev;
 }	t_env;
 
-// Display prompt + Git
+// Display prompt + Git - git_handler.c
 void		display_prompt(void);
-// Builtins
+
+// Builtins - builtins folder
 int			ft_cd(t_command *cmd);
 void		ft_exit(t_command *cmd);
 int			ft_pwd(void);
@@ -160,5 +162,9 @@ int			valid_pipes(t_token *token);
 void		assign_pipes(t_command *cmd);
 void		execute_piped_commands(t_command *cmd);
 char		*find_executable_path(char *command);
+
+// Parsing arguments - parsing_args.c
+char	**extract_args(t_token *token);
+void	fill_args_fds(t_command *cmd, t_token *token);
 
 #endif //MINISHELL_H

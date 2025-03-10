@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 01:15:21 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/04 07:56:20 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/10 09:16:09 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,24 @@ int	look_for_command_type(t_token *token)
 {
 	if (token->prev == NULL)
 		return (COMMAND);
-	else if (token->prev != NULL)
-	{
-		if (token->prev->type == REDIRECT_FILE
-				&& token->prev->prev->prev == NULL)
-			return (COMMAND);
-		if (token->prev->type == REDIRECT_IN
-			|| token->prev->type == REDIRECT_OUT
-			|| token->prev->type == APPEND)
-			return (REDIRECT_FILE);
-		if (token->prev->type == HEREDOC)
-			return (DELIM);
-		if (token->prev->type == PIPE)
-			return (COMMAND);
-		if ((token->prev->type == COMMAND || token->prev->type == OPTION)
-			&& ft_strncmp(token->value, "-", 1) == 0
-			&& ft_strlen(token->value) > 1)
-			return (OPTION);
-		if (token->prev->type == COMMAND)
-			return (ARGUMENT);
-		else
-			return (ARGUMENT);
-	}
-	return (0);
+	if (token->prev->type == REDIRECT_FILE
+		&& token->prev->prev->prev == NULL)
+		return (COMMAND);
+	if (token->prev->type == REDIRECT_IN
+		|| token->prev->type == REDIRECT_OUT
+		|| token->prev->type == APPEND)
+		return (REDIRECT_FILE);
+	if (token->prev->type == HEREDOC)
+		return (DELIM);
+	if (token->prev->type == PIPE)
+		return (COMMAND);
+	if ((token->prev->type == COMMAND || token->prev->type == OPTION)
+		&& ft_strncmp(token->value, "-", 1) == 0
+		&& ft_strlen(token->value) > 1)
+		return (OPTION);
+	if (token->prev->type == COMMAND)
+		return (ARGUMENT);
+	return (ARGUMENT);
 }
 
 void	assign_types(t_token **token_list)

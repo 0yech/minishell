@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/07 09:47:28 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/10 09:22:28 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@ void	history_handler(char *input)
 	add_history(input);
 }
 
-static t_bool	is_special_char(char c)
-{
-	if (c == '|' || c == '>' || c == '<')
-		return (TRUE);
-	return (FALSE);
-}
-
 static int	isolate_token(char *input)
 {
 	int	i;
@@ -33,14 +26,14 @@ static int	isolate_token(char *input)
 	i = 0;
 	if (!input)
 		return (i);
-	if (is_special_char(input[i]))
+	if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 	{
-		if (is_special_char(input[i + 1]))
+		if (input[i + 1] == '|' || input[i + 1] == '>' || input[i + 1] == '<')
 			return (i + 2);
 		return (i + 1);
 	}
 	while (input[i] && ft_isprint(input[i]) && input[i] != ' '
-		&& !is_special_char(input[i]))
+		&& !(input[i] == '|' || input[i] == '>' || input[i] == '<'))
 	{
 		if (input[i] == '"' || input[i] == '\'')
 			return (quotes_handler(input));

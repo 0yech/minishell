@@ -27,6 +27,7 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/parsing/heredoc_handler.c \
 				$(SRCDIR)/parsing/invalid_checks.c \
 				$(SRCDIR)/parsing/pipe_assign.c \
+				$(SRCDIR)/parsing/parsing_args.c \
 				$(SRCDIR)/exec/exec_pipes.c \
 				$(SRCDIR)/exec/exec_tools.c \
 				$(SRCDIR)/gitprompt/git_handler.c \

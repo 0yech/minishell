@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/03 15:58:34 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/10 09:14:34 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ char	*get_variable(char *str)
 
 /**
  * @brief Takes a raw_token as an input and returns its length with all
- * variables contained withing expanded.
+ * variables contained within expanded.
  */
-size_t	full_token_size(char* raw_token)
+size_t	full_token_size(char *raw_token)
 {
 	char	*var;
 	size_t	i;
@@ -57,7 +57,8 @@ size_t	full_token_size(char* raw_token)
 			var = get_variable(raw_token + i);
 			if (var)
 				size += ft_strlen(var);
-			while (raw_token[i] && ft_isprint(raw_token[i]) && raw_token[i] != ' ')
+			while (raw_token[i]
+				&& ft_isprint(raw_token[i]) && raw_token[i] != ' ')
 				i++;
 		}
 		size++;

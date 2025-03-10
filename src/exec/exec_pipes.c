@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/09 19:20:06 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/10 09:25:27 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	close_parent(t_command *current)
 		close(current->fdio->fdout);
 }
 
-int		exec_builtin(t_command *current)
+int	exec_builtin(t_command *current)
 {
 	if (ft_strncmp(current->command, "cd", 3) == 0)
 		return (ft_cd(current));
@@ -61,7 +61,7 @@ int		exec_builtin(t_command *current)
 	return (127);
 }
 
-int		is_builtin(t_command *current)
+int	is_builtin(t_command *current)
 {
 	if (!current)
 		return (0);
@@ -128,7 +128,7 @@ int	exec_pipe_builtin(t_command *current)
 
 	if (is_builtin(current))
 	{
-		if (current->next) 
+		if (current->next)
 		{
 			pid = fork();
 			if (pid == -1)
@@ -143,22 +143,18 @@ int	exec_pipe_builtin(t_command *current)
 				close(current->fdio->fdout);
 				exit(0);
 			}
-			else
-				return (close(current->fdio->fdout), 1);
+			return (close(current->fdio->fdout), 1);
 		}
-		else
-		{
-			exec_builtin(current);
-			return (1);
-		}
+		exec_builtin(current);
+		return (1);
 	}
 	return (0);
 }
 
 void	execute_piped_commands(t_command *cmd)
 {
-	pid_t   pid;
-	t_command *current;
+	pid_t		pid;
+	t_command	*current;
 
 	if (!cmd)
 		return ;
@@ -189,7 +185,8 @@ void	execute_piped_commands(t_command *cmd)
 			exec_child(current);
 		current = current->next;
 	}
-	while (wait(NULL) > 0);
+	while (wait(NULL) > 0)
+		;
 	dup2(cmd->fdio->stdincpy, STDIN_FILENO);
 	dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO);
 }

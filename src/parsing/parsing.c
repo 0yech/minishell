@@ -6,68 +6,15 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/09 15:51:28 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/10 09:03:32 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fill_args_fds(t_command *cmd, t_token *token)
+void	print_commands(t_command *cmd)
 {
-	t_command	*current;
-
-	current = cmd;
-
-	while (token)
-	{
-		if (token->type == PIPE)
-		{
-			if (current == NULL || current->next == NULL)
-				return ;
-			current = current->next;
-		}
-		else if (current && current->fdio)
-		{
-			if (token->type == REDIRECT_IN && token->next
-				&& token->next->type == REDIRECT_FILE) // <
-					current->fdio->input = ft_strdup(token->next->value);
-			else if (token->type == REDIRECT_OUT && token->next
-				&& token->next->type == REDIRECT_FILE) // >
-				{
-					current->fdio->outtype = RED_OUT;
-					current->fdio->output = ft_strdup(token->next->value);
-				}
-			else if (token->type == APPEND && token->next
-				&& token->next->type == REDIRECT_FILE) // >>
-			{
-					current->fdio->outtype = APD;
-					current->fdio->output = ft_strdup(token->next->value); // TODO noticed this leaked
-					current->fdio->fdout = O_WRONLY | O_CREAT | O_APPEND;
-			}
-			else if (token->type == HEREDOC && token->next
-				&& token->next->type == DELIM)
-					current->fdio->hd_delim = ft_strdup(token->next->value);
-		}
-		token = token->next;
-	}
-}
-
-
-int count_argsopt(t_token *token)
-{
-	int count = 0;
-	while (token && token->type != PIPE)
-	{
-		if (token->type == OPTION || token->type == ARGUMENT)
-			count++;
-		token = token->next;
-	}
-	return count;
-}
-
-void print_commands(t_command *cmd)
-{
-	int i;
+	int	i;
 
 	i = 0;
 	while (cmd)
@@ -89,38 +36,6 @@ void print_commands(t_command *cmd)
 		printf("\n");
 		cmd = cmd->next;
 	}
-}
-
-char	**extract_args(t_token *token)
-{
-	int count;
-	int i;
-	char **args;
-
-	i = 0;
-	count = count_argsopt(token);
-	args = malloc(sizeof(char *) * (count + 2));
-	if (!args)
-		return (free(args), NULL);
-	args[i++] = ft_strdup(token->value);
-	token = token->next;
-	while (token && token->type != PIPE)
-	{
-		if (token->type == OPTION || token->type == ARGUMENT)
-		{
-			args[i] = ft_strdup(token->value);
-			if (!args[i])
-			{
-				while (i > 0)
-					free(args[--i]);
-				return (free(args), NULL);
-			}
-			i++;		
-		}
-		token = token->next;
-	}
-	args[i] = NULL;
-	return (args);
 }
 
 t_command	*fill_parsing(t_token *token)
@@ -145,9 +60,9 @@ t_command	*fill_parsing(t_token *token)
 
 t_command	*parse_commands(t_token *token)
 {
-	t_command *head;
-	t_command *current;
-	t_command *new_cmd;
+	t_command	*head;
+	t_command	*current;
+	t_command	*new_cmd;
 
 	head = NULL;
 	current = NULL;
@@ -174,7 +89,7 @@ t_command	*parse_commands(t_token *token)
 
 t_command	*parsing_handler(t_token **token_list)
 {
-	t_command   *command_list;
+	t_command	*command_list;
 	//t_env		**env;
 	//char		**waos;
 

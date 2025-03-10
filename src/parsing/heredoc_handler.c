@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:47:58 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/10 09:09:17 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/10 12:20:05 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	heredoc_handler(t_command *cmd)
 	if (!cmd->fdio->hd_delim)
 		return ;
 	if (pipe(pipefd) == -1)
-		return (perror("pipe"));
+		return (perror("minishell (heredoc_handler) - pipe"));
 	while (1)
 	{
 		line = readline("> ");

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/10 09:01:46 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/10 11:57:25 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,27 @@ typedef enum e_token_type
 	DELIM,
 	REDIRECT_FILE,
 	APPEND,
-	OPTION
+	OPTION,
 }	t_token_type;
 
 typedef enum e_bool
 {
 	FALSE = 0,
-	TRUE = 1
+	TRUE = 1,
 }	t_bool;
 
 typedef enum e_outtype
 {
-	Z,
-	RED_OUT,
-	APD
+	Z,			// ?
+	RED_OUT,	// Redirect Out
+	APD,		// Append
 }	t_outtype;
 
 // Structs
 typedef struct s_fd
 {
-	char		*hd_delim;
-	int			hd_quotes;
+	char		*hd_delim;	// Heredoc delim
+	t_bool		hd_quotes;	// Heredoc quotes
 	char		*input;
 	char		*output;
 	t_outtype	outtype;
@@ -159,12 +159,12 @@ void		free_command_list(t_command *cmd);
 void		heredoc_handler(t_command *cmd);
 void		process_heredoc(t_command *cmd);
 int			valid_pipes(t_token *token);
-void		assign_pipes(t_command *cmd);
+void		assign_pipes(t_command *cmd_list);
 void		execute_piped_commands(t_command *cmd);
 char		*find_executable_path(char *command);
 
 // Parsing arguments - parsing_args.c
-char	**extract_args(t_token *token);
-void	fill_args_fds(t_command *cmd, t_token *token);
+char		**extract_args(t_token *token);
+void		fill_args_fds(t_command *cmd, t_token *token);
 
 #endif //MINISHELL_H

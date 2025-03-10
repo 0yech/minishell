@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/10 09:03:32 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/10 12:32:36 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	print_commands(t_command *cmd)
 {
 	int	i;
 
-	i = 0;
 	while (cmd)
 	{
 		printf("-----------------------------------------\n");
@@ -27,12 +26,12 @@ void	print_commands(t_command *cmd)
 		printf("fdout : %d\n", cmd->fdio->fdout);
 		printf("output fdio : %s\n\n", cmd->fdio->output);
 		printf("Command : %s\n", cmd->command);
+		i = 0;
 		while (cmd->argv[i])
 		{
 			printf("argv%d : %s\n", i, cmd->argv[i]);
 			i++;
 		}
-		i = 0;
 		printf("\n");
 		cmd = cmd->next;
 	}
@@ -51,7 +50,7 @@ t_command	*fill_parsing(t_token *token)
 	cmd->argv = extract_args(token);
 	cmd->next = NULL;
 	cmd->prev = NULL;
-	cmd->fdio = malloc(sizeof(t_fd));
+	cmd->fdio = malloc(sizeof(t_fd)); // TODO ft_calloc instead of malloc + memset
 	if (!cmd->fdio)
 		return (NULL);
 	ft_memset(cmd->fdio, 0, sizeof(t_fd));

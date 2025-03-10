@@ -6,13 +6,13 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:57:02 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/07 09:39:53 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/10 11:27:03 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	git_str_replace(char branch[128], int bytes_read)
+void	git_str_replace(char branch[128], size_t bytes_read)
 {
 	while (bytes_read-- > 0)
 	{
@@ -53,7 +53,7 @@ void	display_prompt(void)
 	char	*branch;
 
 	branch = get_git_branch();
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	if (getcwd(cwd, sizeof(cwd)) == NULL) // TODO: replace with getkey to avoid syscall
 		return ;
 	if (branch)
 	{

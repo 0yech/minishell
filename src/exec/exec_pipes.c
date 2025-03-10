@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/10 09:25:27 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/10 12:43:08 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	exec_builtin(t_command *current)
 	return (127);
 }
 
+// TODO : rewrite this with || statements
 int	is_builtin(t_command *current)
 {
 	if (!current)
@@ -86,7 +87,7 @@ void	exec_child(t_command *current)
 {
 	close_child(current);
 	execve(find_executable_path(current->command), current->argv, NULL);
-	perror("execve");
+	perror("minishell (exec_child) - execve"); // TODO: errno for command not found? what's up with "bad address"
 	exit(124);
 }
 
@@ -104,7 +105,7 @@ void	setup_redirections(t_command *cmd)
 		cmd->fdio->fdout = open(cmd->fdio->output, flags, 0644);
 		if (cmd->fdio->fdout == -1)
 		{
-			perror("open output");
+			perror("minishell (setup_redirections) - open (output)");
 			exit(1);
 		}
 	}
@@ -113,7 +114,7 @@ void	setup_redirections(t_command *cmd)
 		cmd->fdio->fdin = open(cmd->fdio->input, O_RDONLY);
 		if (cmd->fdio->fdin == -1)
 		{
-			perror("open input");
+			perror("minishell (setup_redirections) - open (input)");
 			exit(1);
 		}
 	}
@@ -133,8 +134,8 @@ int	exec_pipe_builtin(t_command *current)
 			pid = fork();
 			if (pid == -1)
 			{
-				perror("fork");
-				exit(124);
+				perror("minishell (exec_pipe_builtin) - fork");
+				exit(1);
 			}
 			if (pid == 0)
 			{

@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/05 10:28:58 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/11 09:40:35 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ char	*quotes_clean(char *raw_token)
 	quotes_kind = raw_token[i];
 	clean_token = ft_calloc(ft_strlen(raw_token), sizeof(char));
 	if (!clean_token)
-		return (free(raw_token), NULL);
+		return (perror("minishell (quotes_clean) - ft_calloc"),
+			free(raw_token), NULL);
 	i = 0;
 	j = -1;
 	while (raw_token[++j])

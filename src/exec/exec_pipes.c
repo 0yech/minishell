@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/10 19:19:50 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/11 09:45:51 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,11 @@ void	execute_piped_commands(t_command *cmd)
 	current = cmd;
 	cmd->fdio->stdincpy = dup(STDIN_FILENO);
 	cmd->fdio->stdoutcpy = dup(STDOUT_FILENO);
+	if (cmd->fdio->stdincpy == -1 || cmd->fdio->stdoutcpy == -1)
+	{
+		perror("minishell (execute_piped_commands) - dup");
+		exit(-1);
+	}
 	while (current)
 	{
 		setup_redirections(current);
@@ -166,14 +171,20 @@ void	execute_piped_commands(t_command *cmd)
 		pid = fork();
 		if (pid == -1)
 		{
-			perror("fork");
-			exit(124);
+			perror("minishell (execute_piped_commands) - fork");
+            exit(-1);
 		}
 		if (pid > 0)
 		{
 			close_parent(current);
 			if (current->next)
-				close(current->fdio->fdout);
+			{
+				if (close(current->fdio->fdout) != 0)
+				{
+					perror("minishell (execute_piped_commands) - close");
+					exit(-1);
+				}
+			}
 		}
 		if (pid == 0)
 			exec_child(current);
@@ -183,4 +194,6 @@ void	execute_piped_commands(t_command *cmd)
 		;
 	dup2(cmd->fdio->stdincpy, STDIN_FILENO);
 	dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO);
+	if (cmd->fdio->stdincpy == -1 || cmd->fdio->stdoutcpy == -1)
+		perror("minishell (execute_piped_commands) - dup2");
 }

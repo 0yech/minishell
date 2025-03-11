@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:53:14 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/10 09:13:29 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/11 09:48:24 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*join_path_command(char *path, char *command)
 	len = ft_strlen(path) + ft_strlen(command) + 2;
 	full_path = malloc(len);
 	if (!full_path)
-		return (NULL);
+		return (perror("minishell (join_path_command) - malloc"), NULL);
 	full_path[0] = '\0';
 	ft_strlcat(full_path, path, len);
 	ft_strlcat(full_path, "/", len);
@@ -60,7 +60,7 @@ char	*find_executable_path(char *command)
 		return (ft_strdup(command));
 	paths = ft_strdup(path_node->value);
 	if (!paths)
-		return (NULL);
+		return (perror("minishell (find_executable_path) - ft_strdup"), NULL);
 	token = ft_strtok(paths, ":");
 	while (token)
 	{

@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:00:08 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/10 11:41:25 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/11 09:56:13 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,35 @@ void	fill_args_fds(t_command *cmd, t_token *token)
 		{
 			if (token->type == REDIRECT_IN && token->next
 				&& token->next->type == REDIRECT_FILE) // <
+			{
 				current->fdio->input = ft_strdup(token->next->value);
+				if (!current->fdio->input)
+					perror("minishell (fill_args_fds) - ft_strdup");
+			}
 			else if (token->type == REDIRECT_OUT && token->next
 				&& token->next->type == REDIRECT_FILE) // >
 			{
 				current->fdio->outtype = RED_OUT;
 				current->fdio->output = ft_strdup(token->next->value);
+				if (!current->fdio->output)
+					perror("minishell (fill_args_fds) - ft_strdup");
 			}
 			else if (token->type == APPEND && token->next
 				&& token->next->type == REDIRECT_FILE) // >>
 			{
 				current->fdio->outtype = APD;
 				current->fdio->output = ft_strdup(token->next->value); // TODO noticed this leaked
+				if (!current->fdio->output)
+					perror("minishell (fill_args_fds) - ft_strdup");
 				current->fdio->fdout = O_WRONLY | O_CREAT | O_APPEND;
 			}
 			else if (token->type == HEREDOC && token->next
 				&& token->next->type == DELIM)
+			{
 				current->fdio->hd_delim = ft_strdup(token->next->value);
+				if (!current->fdio->hd_delim)
+					perror("minishell (fill_args_fds) - ft_strdup");
+			}
 		}
 		token = token->next;
 	}
@@ -75,8 +87,10 @@ char	**extract_args(t_token *token)
 	count = count_argsopt(token);
 	args = malloc(sizeof(char *) * (count + 2));
 	if (!args)
-		return (free(args), NULL);
-	args[i++] = ft_strdup(token->value);
+		return (perror("minishell (extract_args) - malloc"), NULL);
+	args[i] = ft_strdup(token->value);
+	if (!args[i++])
+		return (perror("minishell (extract_args) - ft_strdup"), free(args), NULL);
 	token = token->next;
 	while (token && token->type != PIPE) // TODO Or redirections? Why stop only at pipes?
 	{
@@ -85,6 +99,7 @@ char	**extract_args(t_token *token)
 			args[i] = ft_strdup(token->value);
 			if (!args[i])
 			{
+				perror("minishell (extract_args) - ft_strdup");
 				while (i > 0)
 					free(args[--i]);
 				return (free(args), NULL);

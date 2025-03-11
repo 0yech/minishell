@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:50:52 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/13 16:56:10 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/11 09:57:07 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ t_env	*fill_envcpy(char **envp)
 	{
 		new_node = ft_calloc(1, sizeof(t_env));
 		if (!new_node)
-			return (env_clear(&head), NULL);
+			return (perror("minishell (fill_envcpy) - ft_calloc"),
+				env_clear(&head), NULL);
 		if (!env_fill_node(*envp, new_node))
 			return (env_delone(new_node), env_clear(&head), NULL);
 		if (!head)

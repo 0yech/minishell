@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:57:02 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/10 11:27:03 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/11 10:08:00 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,24 @@ char	*get_git_branch(void)
 
 void	display_prompt(void)
 {
-	char	cwd[1024];
+	t_env	*cwd;
 	char	*branch;
 
 	branch = get_git_branch();
-	if (getcwd(cwd, sizeof(cwd)) == NULL) // TODO: replace with getkey to avoid syscall
+	cwd = get_key("PWD");
+	if (cwd == NULL)
+	{
+		write(2, "minishell (display_prompt) - get_key: $PWD not set", 50);
+		free(branch);
 		return ;
+	}
 	if (branch)
 	{
 		printf("\033[1m\033[38;2;255;190;100m(git: %s)"
 			"\033[38;2;160;240;130m%s"
-			"\033[0m ", branch, cwd);
+			"\033[0m ", branch, cwd->value);
 		free(branch);
 	}
 	else
-		printf("%s ", cwd);
+		printf("%s ", cwd->value);
 }

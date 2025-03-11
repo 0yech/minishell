@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:55:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/02/24 11:02:15 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/11 09:39:28 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_token	*token_new(char *token)
 
 	new_token = ft_calloc(1, sizeof(t_token));
 	if (!new_token)
-		return (NULL);
+		return (perror("minishell (token_new) - malloc"), NULL);
 	new_token->value = token;
 	return (new_token);
 }

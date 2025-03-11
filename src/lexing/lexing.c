@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/11 09:26:55 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/11 09:38:30 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static t_token	**create_tokens(char *input)
 
 	token_list = ft_calloc(sizeof(t_token *), 1);
 	if (!token_list)
-		return (NULL);
+		return (perror("minishell (create_token) - malloc"), NULL);
 	tot_progress = 0;
 	while (*(input + tot_progress) && (!ft_isprint(*(input + tot_progress))
 			|| *(input + tot_progress) == ' '))

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/10 11:34:12 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/11 09:26:55 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,18 @@ static int	isolate_token(char *input)
 static int	get_next_token(t_token **token_list, char *input)
 {
 	t_token	*new;
+	char	*substr;
 	int		i;
 
 	new = token_new(NULL);
 	if (!new)
 		return (-1);
 	i = isolate_token(input);
-	// TODO: add a check to NOT expand vars (and calloc) if no $ is found
-	new->value = quotes_clean(var_expand(ft_substr(input, 0, i)));
+	substr = ft_substr(input, 0, i);
+	if (ft_strchr(substr, '$'))
+        new->value = quotes_clean(var_expand(substr));
+	else
+        new->value = quotes_clean(substr);
 	if (!new->value)
 		return (free(new), -1);
 	return (token_add_back(token_list, new), i);

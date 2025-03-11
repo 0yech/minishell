@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/11 14:41:54 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:48:50 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int	ft_export(char *str)
 		free(slices);
 	}
 	else
-		return (printf("[!] - Export without = isn't supported yet!\n"), -1);
+		return (printf("[!] - Export without = isn't supported yet!\n"), -1); // TODO
 	return (0);
 }

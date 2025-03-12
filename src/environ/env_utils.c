@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/12 13:30:35 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/12 17:43:11 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ t_env	*get_key(char *key)
 			return (tmp);
 		tmp = tmp->next;
 	}
+	printf("minishell (get_key): %s is not set!\n", key);
 	return (NULL);
 }

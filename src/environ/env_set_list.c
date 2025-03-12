@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:07 by nrey              #+#    #+#             */
-/*   Updated: 2025/02/17 00:45:12 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/12 13:02:22 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,31 +64,35 @@ int	env_fill_node(char *envp, t_env *node)
  * @param value A malloced string that will represent the value of the node.
  * @return 0 if an already existing value was updated, 1 if a new value was
  * added, 2 if an error occurred.
+ * TODO : try and find a way to not take malloced strings because this is awful
+ * TODO: this probably needs better error return values and especially freeing values
+ * when errors occur instead of creating a half baked env node.
  */
 int	env_set(char *key, char *value)
 {
 	t_env	*node;
-	t_env	*new;
-	// TODO: this probably needs better error return values and especially freeing values
-	// when errors occur instead of creating a half baked env node.
+	char	*alloc_key;
+	char	*alloc_value;
 
 	if (!key || !*key)
 		return (2);
-	if (!value)
-		value = key;
+	alloc_key = ft_strdup(key);
+	if (!alloc_key)
+		return (perror("minishell (env_set) - ft_strdup"), 2);
+	alloc_value = alloc_key;
+	if (value)
+		alloc_value = ft_strdup(value);
 	node = get_key(key);
 	if (node)
 	{
-		free(key);
 		if (node->value)
 			free(node->value);
-		node->value = value;
+		node->value = alloc_value;
 		return (0);
 	}
 	node = env_last();
-	new = env_new(key, value, node, NULL);
-	if (!new)
+	node->next = env_new(alloc_key, alloc_value, node, NULL);
+	if (!node->next)
 		return (2);
-	node->next = new;
 	return (1);
 }

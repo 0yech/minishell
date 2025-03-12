@@ -6,27 +6,18 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:47:25 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/06 17:18:20 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/12 13:06:00 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd_update_env(char *old_cwd, char *new_cwd)
+static int	cd_update_env(char *old_pwd, char *new_pwd)
 {
-	char	*str_oldpwd;
-	char	*str_pwd;
-
-	str_oldpwd = ft_strdup("OLDPWD");
-	if (!str_oldpwd)
-		return (free(str_oldpwd), 1);
-	str_pwd = ft_strdup("PWD");
-	if (!str_pwd)
-		return (free(str_pwd), 1);
-	if (env_set(str_oldpwd, old_cwd) == 2)
-		return (free(str_oldpwd), free(str_pwd), 1);
-	if (env_set(str_pwd, new_cwd) == 2)
-		return (free(str_pwd), 1);
+	if (env_set("OLDPWD", old_pwd) == 2)
+		return (1);
+	if (env_set("PWD", new_pwd) == 2)
+		return (1);
 	return (0);
 }
 

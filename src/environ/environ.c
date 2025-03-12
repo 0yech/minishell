@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:50:52 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/11 09:57:07 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:57:24 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,5 @@ void	env_init(char **envp)
 
 	envcpy = env_get();
 	*envcpy = fill_envcpy(envp);
+	// env_set("SH_LVL", ft_itoa(ft_atoi(get_key("SH_LVL")->value) + 1));
 }

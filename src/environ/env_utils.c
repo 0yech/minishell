@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/02 12:44:52 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/12 13:30:35 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	env_size(t_env *env)
 	return (i);
 }
 
+// TODO: why does this exist?
 char	**env_to_char(t_env *env)
 {
 	char	**envtab;

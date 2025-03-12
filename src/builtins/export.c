@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/11 14:48:50 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/12 13:29:22 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ int	ft_export(char *str)
 			return (printf("[!] - Invalid identifier!\n"), free_array(slices), -1);
 		if (env_set(slices[0], slices[1]) == 2)
 			return (free_array(slices), 1);
-		free(slices[2]);
-		free(slices);
+		free_array(slices);
 	}
 	else
 		return (printf("[!] - Export without = isn't supported yet!\n"), -1); // TODO

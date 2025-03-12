@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:47:25 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/12 17:39:15 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/12 20:40:05 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,23 @@
 
 static int	cd_update_env(char *old_pwd, char *new_pwd)
 {
-	if (env_set("OLDPWD", old_pwd) == 2)
+	if (!old_pwd)
 	{
-		printf("minishell (cd_update_env) - env_set: "
-		 "Failed to change environment!\n");
-		return (1);
+		if (env_set("OLDPWD", new_pwd) == 2)
+		{
+			printf("minishell (cd_update_env) - env_set: "
+			 "Failed to change environment!\n");
+			return (1);
+		}
+	}
+	else
+	{
+		if (env_set("OLDPWD", old_pwd) == 2)
+		{
+			printf("minishell (cd_update_env) - env_set: "
+			 "Failed to change environment!\n");
+			return (1);
+		}
 	}
 	if (env_set("PWD", new_pwd) == 2)
 	{
@@ -79,18 +91,22 @@ static int	cd_swap_old(void)
 
 static int	cd_dir(t_command *cmd)
 {
-	char	*pwd;
+	t_env	*pwd;
+	char	*str_pwd;
 	char	*old_pwd;
 
-	old_pwd = ft_strdup(get_key("PWD")->value);
+	pwd = get_key("PWD");
+	old_pwd = NULL;
+	if (pwd)
+		old_pwd = ft_strdup(pwd->value);
 	if (chdir(cmd->argv[1]) == 0)
 	{
-		pwd = getcwd(NULL, 0);
-		if (!pwd)
+		str_pwd = getcwd(NULL, 0);
+		if (!str_pwd)
 			return (perror("minishell (cd_dir) - getcwd"), 1);
-		if (cd_update_env(old_pwd, pwd) == 0)
-			return (free(old_pwd), 0);
-		return (free(old_pwd), free(pwd), 1);
+		if (cd_update_env(old_pwd, str_pwd) == 0)
+			return (free(old_pwd), free(str_pwd), 0);
+		return (free(old_pwd), free(str_pwd), 1);
 	}
 	perror("minishell (cd_swap_old) - chdir");
 	return (free(old_pwd), 1);

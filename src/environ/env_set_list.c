@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:07 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/12 13:02:22 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/12 18:47:34 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	env_fill_node(char *envp, t_env *node)
  * @param value A malloced string that will represent the value of the node.
  * @return 0 if an already existing value was updated, 1 if a new value was
  * added, 2 if an error occurred.
- * TODO : try and find a way to not take malloced strings because this is awful
  * TODO: this probably needs better error return values and especially freeing values
  * when errors occur instead of creating a half baked env node.
  */
@@ -85,6 +84,7 @@ int	env_set(char *key, char *value)
 	node = get_key(key);
 	if (node)
 	{
+		free(alloc_key);
 		if (node->value)
 			free(node->value);
 		node->value = alloc_value;

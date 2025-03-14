@@ -6,9 +6,11 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:47:25 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/14 09:09:37 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/14 09:24:38 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// TODO: add comments to functions
 
 #include "minishell.h"
 
@@ -63,30 +65,30 @@ static int	cd_home(void)
 
 static int	cd_swap_old(void)
 {
-	t_env	*pwd;
-	t_env	*oldpwd;
 	char	*tmp;
 
-	oldpwd = get_key("OLDPWD");
-	if (!oldpwd)
-		return (printf("minishell (cd_swap_old) - "
-				  "get_key: OLDPWD is not set!\n"), 1);
-	tmp = ft_strdup(oldpwd->value);
+	if (!get_key("OLDPWD"))
+		return (printf("minishell (cd_swap_old): OLDPWD is not set!\n"), 1);
+	if (!get_key("PWD"))
+	{
+		tmp = getcwd(NULL, 0);
+		if (!tmp)
+			return (perror("minishell (cd_swap_old) - getcwd"), 1);
+		env_set("PWD", tmp);
+		free(tmp);
+	}
+	tmp = ft_strdup(get_key("OLDPWD")->value);
 	if (!tmp)
 		return (perror("minishell (cd_swap_old) - ft_strdup"), 1);
-	if (chdir(oldpwd->value) == 0)
+	if (chdir(tmp) == 0)
 	{
-		pwd = get_key("PWD");
-		if (env_set("OLDPWD", pwd->value) == 2)
-			return (free(tmp), printf("minishell (cd_swap_old) - "
-				  "envset: Failed to set OLDPWD!\n"), 1);
+		if (env_set("OLDPWD", get_key("PWD")->value) == 2)
+			return (free(tmp), printf("minishell: Failed to set OLDPWD!\n"), 1);
 		if (env_set("PWD", tmp) == 2)
-			return (free(tmp), printf("minishell (cd_swap_old) - "
-				  "envset: Failed to set PWD!\n"), 1);
+			return (free(tmp), printf("minishell: Failed to set PWD!\n"), 1);
 		return (free(tmp), 0);
 	}
-	perror("minishell (cd_swap_old) - chdir");
-	return (free(tmp), 1);
+	return (perror("minishell (cd_swap_old) - chdir"), free(tmp), 1);
 }
 
 static int	cd_dir(t_command *cmd)

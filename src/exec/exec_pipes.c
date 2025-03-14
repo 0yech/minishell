@@ -101,10 +101,10 @@ void	setup_redirections(t_command *cmd)
 			perror("minishell (setup_redirections) - open (output)");
 			exit(1);
 		}
-		if (cmd->next && cmd->next->fdio->fdin != 0) // Close pipes when an fd redirection is active
+		if (cmd->next) // Close pipes when an fd redirection is active
     	{
         	close(cmd->next->fdio->fdin);
-        	cmd->next->fdio->fdin = open(cmd->fdio->output, O_RDONLY);
+        	cmd->next->fdio->fdin = open("/dev/null", O_RDONLY);
     	}
 	}
 	if (cmd->fdio->input) // setup input

@@ -165,6 +165,8 @@ int			valid_pipes(t_token *token);
 void		assign_pipes(t_command *cmd_list);
 void		execute_piped_commands(t_command *cmd);
 char		*find_executable_path(char *command);
+int			is_builtin(t_command *current);
+
 
 // Parsing arguments - parsing_args.c
 char		**extract_args(t_token *token);

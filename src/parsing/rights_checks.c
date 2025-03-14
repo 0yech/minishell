@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:56:38 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/14 11:56:39 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/14 13:33:14 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,16 @@ int	exec_checks(t_command *cmd)
 	current = cmd;
 	while (current)
 	{
-		code = exec_types(current);
-		if (code == 2)
-			return (printf("\nCommand not found\n"), 1);
-		if (code == 3)
-			return (printf("\nIs a directory\n"), 1);
-		if (code == 4)
-			return (printf("\nCan't execute\n"), 1);
+		if (is_builtin(current) == 0)
+		{
+			code = exec_types(current);
+			if (code == 2)
+				return (printf("\nCommand not found\n"), 1);
+			if (code == 3)
+				return (printf("\nIs a directory\n"), 1);
+			if (code == 4)
+				return (printf("\nCan't execute\n"), 1);
+		}
 		current = current->next;
 	}
 	return (0);

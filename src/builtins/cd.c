@@ -6,91 +6,108 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:47:25 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/06 17:18:20 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/14 10:25:39 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd_update_env(char *old_cwd, char *new_cwd)
+/**
+ * @brief Updates the environment variables PWD and OLDPWD with the values
+ * contained withing new_pwd and old_pwd respectively. Called by the cd builtin.
+ *
+ * @param old_pwd A string to replace OLDPWD with.
+ * @param new_pwd A string to replace PWD with.
+ * @return 0 if everything went well, 1 if an error occurred.
+ */
+static int	cd_update_env(char *old_pwd, char *new_pwd)
 {
-	char	*str_oldpwd;
-	char	*str_pwd;
-
-	str_oldpwd = ft_strdup("OLDPWD");
-	if (!str_oldpwd)
-		return (free(str_oldpwd), 1);
-	str_pwd = ft_strdup("PWD");
-	if (!str_pwd)
-		return (free(str_pwd), 1);
-	if (env_set(str_oldpwd, old_cwd) == 2)
-		return (free(str_oldpwd), free(str_pwd), 1);
-	if (env_set(str_pwd, new_cwd) == 2)
-		return (free(str_pwd), 1);
+	if (!old_pwd)
+	{
+		if (env_set("OLDPWD", new_pwd) == 2)
+		{
+			printf("minishell (cd_update_env) - env_set: "
+				"Failed to change environment!\n");
+			return (1);
+		}
+	}
+	else
+	{
+		if (env_set("OLDPWD", old_pwd) == 2)
+		{
+			printf("minishell (cd_update_env) - env_set: "
+				"Failed to change environment!\n");
+			return (1);
+		}
+	}
+	if (env_set("PWD", new_pwd) == 2)
+	{
+		printf("minishell (cd_update_env) - env_set: "
+			"Failed to change environment!\n");
+		return (1);
+	}
 	return (0);
 }
 
-static int	cd_home(void)
+/**
+ * @brief Changes the current working directory according to the given path.
+ *
+ * @return 0 if everything went well, -1 if an error occurred.
+ */
+static int	cd_dir(char *path)
 {
-	char	*old_cwd;
-	char	*new_cwd;
-
-	old_cwd = getcwd(NULL, 0);
-	if (chdir(get_key("HOME")->value) == 0)
-	{
-		new_cwd = getcwd(NULL, 0);
-		if (cd_update_env(old_cwd, new_cwd) == 0)
-			return (0);
-		return (free(old_cwd), free(new_cwd), 1);
-	}
-	return (free(old_cwd), 1);
-}
-
-static int	cd_swap_old(void)
-{
-	char	*pwd;
+	t_env	*pwd;
+	char	*str_pwd;
 	char	*old_pwd;
 
-	if (!get_key("OLDPWD"))
-		return (printf("[!] - No OLDPWD\n"), 1);
-	old_pwd = ft_strdup(get_key("OLDPWD")->value);
-	if (get_key("OLDPWD") && chdir(get_key("OLDPWD")->value) == 0)
+	if (!get_key("PWD"))
 	{
-		pwd = ft_strdup(get_key("PWD")->value);
-		if (env_set(ft_strdup("OLDPWD"), pwd) == 2)
-			return (printf("[!] cd - Failed to change environment!\n"), 1);
-		if (env_set(ft_strdup("PWD"), old_pwd) == 2)
-			return (printf("[!] cd - Failed to change environment!\n"), 1);
-		return (0);
+		str_pwd = getcwd(NULL, 0);
+		if (!str_pwd)
+			return (perror("minishell (cd_dir) - getcwd"), 1);
+		env_set("PWD", str_pwd);
+		free(str_pwd);
 	}
-	printf("[!] - Failed to change directory!\n");
-	return (1);
+	pwd = get_key("PWD");
+	old_pwd = ft_strdup(pwd->value);
+	if (chdir(path) == 0)
+	{
+		str_pwd = getcwd(NULL, 0);
+		if (!str_pwd)
+			return (perror("minishell (cd_dir) - getcwd"), -1);
+		if (cd_update_env(old_pwd, str_pwd) == 0)
+			return (free(old_pwd), free(str_pwd), 0);
+		return (free(old_pwd), free(str_pwd), -1);
+	}
+	perror("minishell (cd_swap_old) - chdir");
+	return (free(old_pwd), -1);
 }
 
-static int	cd_dir(t_command *cmd)
-{
-	char	*pwd;
-	char	*old_pwd;
-
-	old_pwd = ft_strdup(get_key("PWD")->value);
-	if (chdir(cmd->argv[1]) == 0)
-	{
-		pwd = getcwd(NULL, 0);
-		if (cd_update_env(old_pwd, pwd) == 0)
-			return (0);
-		printf("[!] cd - Failed to change environment!\n");
-		return (free(old_pwd), free(pwd), 1);
-	}
-	printf("[!] - Failed to change directory!\n");
-	return (free(old_pwd), 1);
-}
-
+/**
+ * @brief "cd" minishell builtin. Handles "cd <dir>", as well as "cd -"
+ * and "cd".
+ *
+ * @param cmd The cd command token.
+ * @return 0 if all went well, -1 if an error occurred.
+ */
 int	ft_cd(t_command *cmd)
 {
+	t_env	*var;
+
 	if (cmd->argv[1] == NULL
 		|| !ft_strncmp(cmd->argv[1], "~", 2))
-		return (cd_home());
+	{
+		var = get_key("HOME");
+		if (!var || !var->value)
+			return (printf("minishell (ft_cd): $HOME is not set!\n"), -1);
+		return (cd_dir(var->value));
+	}
 	if (!ft_strncmp(cmd->argv[1], "-", 2))
-		return (cd_swap_old());
-	return (cd_dir(cmd));
+	{
+		var = get_key("OLDPWD");
+		if (!var || !var->value)
+			return (printf("minishell (ft_cd): $OLDPWD is not set!\n"), -1);
+		return (cd_dir(var->value));
+	}
+	return (cd_dir(cmd->argv[1]));
 }

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/11 09:27:44 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/13 22:08:40 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	free_array(char **array)
 
 // TODO : Add non interactive mode
 // TODO : Use perror everywhere that's applicable ([!] - minishell (<function>) - <failed syscall function>)
-// TODO : Rewrite builtins that printf (env, export) to redirect output to fds
+// TODO : echo builtin
+// TODO : add SHELL env var support
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	**token_list;

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/02 12:44:52 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/14 10:04:57 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	env_size(t_env *env)
 	return (i);
 }
 
+// TODO: why does this exist?
 char	**env_to_char(t_env *env)
 {
 	char	**envtab;
@@ -84,6 +85,7 @@ char	**env_to_char(t_env *env)
  * @return A pointer to the env node containing the key we're searching for. If
  * no node was found containing it, return the last node of the environment.
  */
+// TODO: redo nomenclature around get_key, env_set, env_get etc etc
 t_env	*get_key(char *key)
 {
 	t_env	*tmp;
@@ -98,5 +100,6 @@ t_env	*get_key(char *key)
 			return (tmp);
 		tmp = tmp->next;
 	}
+	// printf("minishell (get_key): %s is not set!\n", key);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/12 19:05:30 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/14 10:04:57 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char	**env_to_char(t_env *env)
  * @return A pointer to the env node containing the key we're searching for. If
  * no node was found containing it, return the last node of the environment.
  */
+// TODO: redo nomenclature around get_key, env_set, env_get etc etc
 t_env	*get_key(char *key)
 {
 	t_env	*tmp;

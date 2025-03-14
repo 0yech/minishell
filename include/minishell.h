@@ -23,6 +23,8 @@
 # include <stdint.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/stat.h>
+# include <stdbool.h>
 
 // Libft
 # include "libft.h"
@@ -51,9 +53,9 @@ typedef enum e_bool
 
 typedef enum e_outtype
 {
-	Z,			// ?
-	RED_OUT,	// Redirect Out
-	APD,		// Append
+	Z,
+	RED_OUT,
+	APD,
 }	t_outtype;
 
 // Structs
@@ -165,6 +167,7 @@ void		process_heredoc(t_command *cmd);
 int			valid_pipes(t_token *token);
 void		assign_pipes(t_command *cmd_list);
 void		execute_piped_commands(t_command *cmd);
+int			exec_checks(t_command *current);
 char		*find_executable_path(char *command);
 
 // Parsing arguments - parsing_args.c

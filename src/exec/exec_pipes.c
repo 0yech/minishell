@@ -79,8 +79,11 @@ int	is_builtin(t_command *current)
 void	exec_child(t_command *current)
 {
 	close_child(current);
-	execve(find_executable_path(current->command), current->argv, NULL);
-	perror("minishell (exec_child) - execve"); // TODO: errno for command not found? what's up with "bad address"
+	if (exec_checks(current) == 0)
+	{
+		execve(find_executable_path(current->command), current->argv, NULL);
+		perror("minishell (exec_child) - execve"); // TODO: errno for command not found? what's up with "bad address"
+	}
 	exit(124);
 }
 
@@ -89,7 +92,7 @@ void	setup_redirections(t_command *cmd)
 	int	flags;
 
 	flags = O_WRONLY | O_CREAT;
-	if (cmd->fdio->output)
+	if (cmd->fdio->output) // setup output
 	{
 		if (cmd->fdio->outtype == RED_OUT)
 			flags |= O_TRUNC; // Truncate, overwrites the file
@@ -101,8 +104,13 @@ void	setup_redirections(t_command *cmd)
 			perror("minishell (setup_redirections) - open (output)");
 			exit(1);
 		}
+		if (cmd->next && cmd->next->fdio->fdin != 0) // Close pipes when an fd redirection is active
+    	{
+        	close(cmd->next->fdio->fdin);
+        	cmd->next->fdio->fdin = open(cmd->fdio->output, O_RDONLY);
+    	}
 	}
-	if (cmd->fdio->input)
+	if (cmd->fdio->input) // setup input
 	{
 		cmd->fdio->fdin = open(cmd->fdio->input, O_RDONLY);
 		if (cmd->fdio->fdin == -1)
@@ -112,9 +120,6 @@ void	setup_redirections(t_command *cmd)
 		}
 	}
 }
-
-// I'm so sorry about this function, it's so ass D:
-// env/export is very annoying with Fds
 
 int	exec_pipe_builtin(t_command *current)
 {
@@ -175,17 +180,7 @@ void	execute_piped_commands(t_command *cmd)
             exit(-1);
 		}
 		if (pid > 0)
-		{
 			close_parent(current);
-			if (current->next)
-			{
-				if (close(current->fdio->fdout) != 0)
-				{
-					perror("minishell (execute_piped_commands) - close");
-					exit(-1);
-				}
-			}
-		}
 		if (pid == 0)
 			exec_child(current);
 		current = current->next;

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:47:25 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/12 20:40:05 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/14 09:09:37 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,15 @@ static int	cd_swap_old(void)
 	{
 		pwd = get_key("PWD");
 		if (env_set("OLDPWD", pwd->value) == 2)
-			return (printf("minishell (cd_swap_old) - "
+			return (free(tmp), printf("minishell (cd_swap_old) - "
 				  "envset: Failed to set OLDPWD!\n"), 1);
 		if (env_set("PWD", tmp) == 2)
-			return (printf("minishell (cd_swap_old) - "
+			return (free(tmp), printf("minishell (cd_swap_old) - "
 				  "envset: Failed to set PWD!\n"), 1);
-		return (0);
+		return (free(tmp), 0);
 	}
 	perror("minishell (cd_swap_old) - chdir");
-	return (1);
+	return (free(tmp), 1);
 }
 
 static int	cd_dir(t_command *cmd)

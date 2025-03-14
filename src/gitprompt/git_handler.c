@@ -68,5 +68,5 @@ void	display_prompt(void)
 		free(branch);
 	}
 	else
-		printf("%s ", cwd->value);
+		printf("\033[38;2;160;240;130m%s \033[0m ", cwd->value);
 }

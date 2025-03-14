@@ -17,7 +17,6 @@ void	command_handler(t_token **token_list)
 	t_command	*cmd;
 
 	cmd = parsing_handler(token_list);
-	// TODO Need to take into account int return values of builtins
 	// printf("%s\n", (*token_list)->value);
 	//printf("Executable found : %s\n", find_executable_path(cmd->command));
 	//printf("Executable found : %s\n", find_executable_path(cmd->next->command));

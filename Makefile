@@ -12,6 +12,7 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/builtins/env.c \
 				$(SRCDIR)/builtins/export.c \
 				$(SRCDIR)/builtins/unset.c \
+				$(SRCDIR)/builtins/echo.c \
 				$(SRCDIR)/environ/environ.c \
 				$(SRCDIR)/environ/env_list.c \
 				$(SRCDIR)/environ/env_set_list.c \

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/14 13:47:35 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:59:09 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void		ft_exit(t_command *cmd);
 int			ft_pwd(void);
 int			ft_env(void);
 int			ft_export(char *str);
+int			ft_echo(t_command *cmd);
 int			ft_unset(char *key);
 
 // Lexing - Main, lexing.c
@@ -170,7 +171,6 @@ void		assign_pipes(t_command *cmd_list);
 void		execute_piped_commands(t_command *cmd);
 char		*find_executable_path(char *command);
 int			is_builtin(t_command *current);
-
 
 // Parsing arguments - parsing_args.c
 char		**extract_args(t_token *token);

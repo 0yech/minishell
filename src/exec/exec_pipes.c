@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/13 22:10:36 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/14 15:17:47 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	close_parent(t_command *current)
 		close(current->fdio->fdout);
 }
 
+// TODO Need to take into account int return values of builtins
 int	exec_builtin(t_command *current)
 {
 	if (ft_strncmp(current->command, "cd", 3) == 0)
@@ -56,6 +57,8 @@ int	exec_builtin(t_command *current)
 		else
 			printf("unset : not enough arguments\n");
 	}
+	if (ft_strncmp(current->command, "echo", 5) == 0)
+		ft_echo(current);
 	if (ft_strncmp(current->command, "exit", 5) == 0)
 		ft_exit(current);
 	return (127);
@@ -71,6 +74,7 @@ int	is_builtin(t_command *current)
 		|| ft_strncmp(current->command, "export", 7) == 0
 		|| ft_strncmp(current->command, "unset", 6) == 0
 		|| ft_strncmp(current->command, "pwd", 4) == 0
+		|| ft_strncmp(current->command, "echo", 5) == 0
 		|| ft_strncmp(current->command, "exit", 5) == 0)
 		return (1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:56:38 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/14 14:15:49 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/14 14:40:35 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int    exec_types(t_command *current)
 {
 	char *path;
 
+	if (strncmp(current->command, "<<", 3) == 0)
+		return (0);
 	if (is_cmd_dir(current->command))
 		return (3);
 	path = find_executable_path(current->command);

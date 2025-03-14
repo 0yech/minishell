@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_checks.c                                       :+:      :+:    :+:   */
+/*   rights_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 21:52:45 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/13 22:05:19 by nrey             ###   ########.fr       */
+/*   Created: 2025/03/14 11:56:38 by nrey              #+#    #+#             */
+/*   Updated: 2025/03/14 11:56:39 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,39 @@ bool   is_cmd_dir(char *cmd)
 
 int    exec_types(t_command *current)
 {
+	char *path;
+
 	if (is_cmd_dir(current->command))
 		return (3);
-	if (find_executable_path(current->command) == NULL)
+	path = find_executable_path(current->command);
+	if (!path)
 		return (2);
-	if (access(find_executable_path(current->command), F_OK) != 0)
-		return (2);
+	if (access(path, F_OK) != 0)
+		return (free(path), 2);
 	else if (is_cmd_dir(current->command))
-		return (3);
-	else if (access(find_executable_path(current->command), F_OK | X_OK) != 0)
-		return (4);
+		return (free(path), 3);
+	else if (access(path, F_OK | X_OK) != 0)
+		return (free(path), 4);
+	free(path);
 	return (0);
 }
 
-int	exec_checks(t_command *current)
+int	exec_checks(t_command *cmd)
 {
 	int code;
+	t_command *current;
 
-	code = exec_types(current);
-	if (code == 2)
-		return (printf("\nCommand not found\n"), 1);
-	if (code == 3)
-		return (printf("\nIs a directory\n"), 1);
-	if (code == 4)
-		return (printf("\nCan't execute\n"), 1);
+	current = cmd;
+	while (current)
+	{
+		code = exec_types(current);
+		if (code == 2)
+			return (printf("\nCommand not found\n"), 1);
+		if (code == 3)
+			return (printf("\nIs a directory\n"), 1);
+		if (code == 4)
+			return (printf("\nCan't execute\n"), 1);
+		current = current->next;
+	}
 	return (0);
 }

@@ -157,13 +157,13 @@ void		signal_handler(void);
 
 t_command	*parsing_handler(t_token **token_list);
 void		free_command_list(t_command *cmd);
+int			exec_checks(t_command *current);
 
 void		heredoc_handler(t_command *cmd);
 void		process_heredoc(t_command *cmd);
 int			valid_pipes(t_token *token);
 void		assign_pipes(t_command *cmd_list);
 void		execute_piped_commands(t_command *cmd);
-int			exec_checks(t_command *current);
 char		*find_executable_path(char *command);
 
 // Parsing arguments - parsing_args.c

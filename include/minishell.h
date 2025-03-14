@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/10 11:57:25 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/13 22:06:15 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_command
 	char				*command;
 	char				*path;
 	t_fd				*fdio;
-	char				**argv;
+	char				**argv; // TODO: add the last argument of the last command to _ env var
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_command;

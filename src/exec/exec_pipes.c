@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/12 13:52:42 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/13 22:10:36 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	is_builtin(t_command *current)
 void	exec_child(t_command *current)
 {
 	close_child(current);
-	execve(find_executable_path(current->command), current->argv, NULL);
+	execve(find_executable_path(current->command), current->argv, NULL); // TODO: need a function to give environment to child
 	perror("minishell (exec_child) - execve"); // TODO: errno for command not found? what's up with "bad address"
 	exit(124);
 }

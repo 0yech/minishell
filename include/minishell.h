@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/13 22:06:15 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/14 10:29:15 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,10 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
+// TODO: support for non-exported variables : add a "exported" bool to indicate
+// if a variable is part of the environment or just a standard var
+// lexing will need to be updated to add the functionality to just make variables
+// without export
 typedef struct s_env
 {
 	char			*name;

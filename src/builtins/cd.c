@@ -24,7 +24,7 @@ static int	cd_update_env(char *old_pwd, char *new_pwd)
 {
 	if (!old_pwd)
 	{
-		if (env_set("OLDPWD", new_pwd) == 2)
+		if (env_set_key("OLDPWD", new_pwd) == 2)
 		{
 			printf("minishell (cd_update_env) - env_set: "
 				"Failed to change environment!\n");
@@ -33,14 +33,14 @@ static int	cd_update_env(char *old_pwd, char *new_pwd)
 	}
 	else
 	{
-		if (env_set("OLDPWD", old_pwd) == 2)
+		if (env_set_key("OLDPWD", old_pwd) == 2)
 		{
 			printf("minishell (cd_update_env) - env_set: "
 				"Failed to change environment!\n");
 			return (1);
 		}
 	}
-	if (env_set("PWD", new_pwd) == 2)
+	if (env_set_key("PWD", new_pwd) == 2)
 	{
 		printf("minishell (cd_update_env) - env_set: "
 			"Failed to change environment!\n");
@@ -60,15 +60,15 @@ static int	cd_dir(char *path)
 	char	*str_pwd;
 	char	*old_pwd;
 
-	if (!get_key("PWD"))
+	if (!env_get_key("PWD"))
 	{
 		str_pwd = getcwd(NULL, 0);
 		if (!str_pwd)
 			return (perror("minishell (cd_dir) - getcwd"), 1);
-		env_set("PWD", str_pwd);
+		env_set_key("PWD", str_pwd);
 		free(str_pwd);
 	}
-	pwd = get_key("PWD");
+	pwd = env_get_key("PWD");
 	old_pwd = ft_strdup(pwd->value);
 	if (chdir(path) == 0)
 	{
@@ -97,14 +97,14 @@ int	ft_cd(t_command *cmd)
 	if (cmd->argv[1] == NULL
 		|| !ft_strncmp(cmd->argv[1], "~", 2))
 	{
-		var = get_key("HOME");
+		var = env_get_key("HOME");
 		if (!var || !var->value)
 			return (printf("minishell (ft_cd): $HOME is not set!\n"), -1);
 		return (cd_dir(var->value));
 	}
 	if (!ft_strncmp(cmd->argv[1], "-", 2))
 	{
-		var = get_key("OLDPWD");
+		var = env_get_key("OLDPWD");
 		if (!var || !var->value)
 			return (printf("minishell (ft_cd): $OLDPWD is not set!\n"), -1);
 		return (cd_dir(var->value));

@@ -67,7 +67,7 @@ int	env_fill_node(char *envp, t_env *node)
  * TODO: this probably needs better error return values and especially freeing values
  * when errors occur instead of creating a half baked env node.
  */
-int	env_set(char *key, char *value)
+int	env_set_key(char *key, char *value)
 {
 	t_env	*node;
 	char	*alloc_key;
@@ -81,7 +81,7 @@ int	env_set(char *key, char *value)
 	alloc_value = alloc_key;
 	if (value)
 		alloc_value = ft_strdup(value);
-	node = get_key(key);
+	node = env_get_key(key);
 	if (node)
 	{
 		free(alloc_key);

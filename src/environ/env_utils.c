@@ -86,7 +86,7 @@ char	**env_to_char(t_env *env)
  * no node was found containing it, return the last node of the environment.
  */
 // TODO: redo nomenclature around get_key, env_set, env_get etc etc
-t_env	*get_key(char *key)
+t_env	*env_get_key(char *key)
 {
 	t_env	*tmp;
 

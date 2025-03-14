@@ -20,7 +20,7 @@ int	ft_unset(char *key)
 {
 	t_env	*node;
 
-	node = get_key(key);
+	node = env_get_key(key);
 	if (!node)
 		return (1);
 	node->prev->next = node->next;

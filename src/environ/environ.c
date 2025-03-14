@@ -69,15 +69,15 @@ void	env_init(char **envp)
 
 	envcpy = env_get();
 	*envcpy = fill_envcpy(envp);
-	shlvl = get_key("SHLVL");
+	shlvl = env_get_key("SHLVL");
 	if (shlvl && shlvl->value)
 	{
 		new_shlvl = ft_itoa(ft_atoi(shlvl->value) + 1);
 		if (!new_shlvl)
 			perror("minishell (env_init) - ft_itoa");
-		env_set("SHLVL", new_shlvl);
+		env_set_key("SHLVL", new_shlvl);
 		free(new_shlvl);
 	}
 	else
-		env_set("SHLVL", "1");
+		env_set_key("SHLVL", "1");
 }

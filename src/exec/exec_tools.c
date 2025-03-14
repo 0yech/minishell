@@ -55,7 +55,7 @@ char	*find_executable_path(char *command)
 	char	*full_path;
 	char	*token;
 
-	path_node = get_key("PATH");
+	path_node = env_get_key("PATH");
 	if (!path_node || !path_node->value || ft_strchr(command, '/'))
 		return (ft_strdup(command));
 	paths = ft_strdup(path_node->value);

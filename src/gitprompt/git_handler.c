@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:57:02 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/11 10:08:00 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:48:13 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	display_prompt(void)
 	char	*branch;
 
 	branch = get_git_branch();
-	cwd = get_key("PWD");
+	cwd = env_get_key("PWD");
 	if (cwd == NULL)
 	{
 		write(2, "minishell (display_prompt) - get_key: $PWD not set", 50);
@@ -68,5 +68,5 @@ void	display_prompt(void)
 		free(branch);
 	}
 	else
-		printf("\033[38;2;160;240;130m%s \033[0m ", cwd->value);
+		printf("\033[1m\033[38;2;160;240;130m%s\033[0m ", cwd->value);
 }

@@ -32,13 +32,13 @@ int	ft_export(char *str)
 			return (perror("minishell (ft_export) - ft_split"), -1);
 		if (!slices[1])
 			return (printf("[!] - Invalid identifier!\n"), free_array(slices), -1);
-		if (env_set(slices[0], slices[1]) == 2)
+		if (env_set_key(slices[0], slices[1]) == 2)
 			return (free_array(slices), -1);
 		free_array(slices);
 	}
 	else
 	{
-		if (env_set(str, str) == 2)
+		if (env_set_key(str, str) == 2)
 			return (-1);
 	}
 	return (0);

@@ -29,7 +29,7 @@ char	*get_variable(char *str)
 	while (ft_isalnum(str[i]))
 		i++;
 	ft_strlcpy(key, str, i + 1);
-	var = get_key(key);
+	var = env_get_key(key);
 	if (!var || !(var->value))
 		return (NULL);
 	return (var->value);

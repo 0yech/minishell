@@ -79,11 +79,8 @@ int	is_builtin(t_command *current)
 void	exec_child(t_command *current)
 {
 	close_child(current);
-	if (exec_checks(current) == 0)
-	{
-		execve(find_executable_path(current->command), current->argv, NULL); // TODO: envp
-		perror("minishell (exec_child) - execve"); // TODO: errno for command not found? what's up with "bad address"
-	}
+	execve(find_executable_path(current->command), current->argv, NULL); // TODO: envp
+	perror("minishell (exec_child) - execve"); // TODO: errno for command not found? what's up with "bad address"
 	exit(124);
 }
 

@@ -102,5 +102,7 @@ t_command	*parsing_handler(t_token **token_list)
 	//waos = env_to_char(*env);
 	//printf("%s", waos[1]);
 	//free_array(waos);
+	if (exec_checks(command_list) != 0)
+		return(free_command_list(command_list), NULL);
 	return (command_list);
 }

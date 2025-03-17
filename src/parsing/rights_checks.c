@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:56:38 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/14 14:40:35 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/17 14:04:46 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // first arg is the input, the second one is the struct (*buf)
 // returns false if it's NOT a directory
 
-bool   is_cmd_dir(char *cmd)
+bool	is_cmd_dir(char *cmd)
 {
 	struct stat	cmdstat;
 
@@ -31,9 +31,9 @@ bool   is_cmd_dir(char *cmd)
 // 4 means command is not executable
 // should be replaced by macros and strerror()
 
-int    exec_types(t_command *current)
+int	exec_types(t_command *current)
 {
-	char *path;
+	char	*path;
 
 	if (strncmp(current->command, "<<", 3) == 0)
 		return (0);
@@ -54,9 +54,9 @@ int    exec_types(t_command *current)
 
 int	exec_checks(t_command *cmd)
 {
-	int code;
-	int	valid;
-	t_command *current;
+	int			code;
+	int			valid;
+	t_command	*current;
 
 	current = cmd;
 	code = 0;
@@ -77,7 +77,5 @@ int	exec_checks(t_command *cmd)
 		}
 		current = current->next;
 	}
-	if (valid == -1)
-		return (1);
-	return (0);
+	return (valid);
 }

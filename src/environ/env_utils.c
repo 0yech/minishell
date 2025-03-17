@@ -6,12 +6,16 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/17 11:54:40 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:15:08 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Joins two strings together with a '=' signe inbetween. Used for env
+ * to char ** conversion.
+ */
 static char	*strjoin_equals(char *s1, char *s2)
 {
 	char		*out;
@@ -33,6 +37,9 @@ static char	*strjoin_equals(char *s1, char *s2)
 	return (out);
 }
 
+/**
+ * @brief Calculates the number of variables contained in the environment.
+ */
 int	env_size(t_env *env)
 {
 	int		i;
@@ -48,6 +55,13 @@ int	env_size(t_env *env)
 	return (i);
 }
 
+/**
+ * @brief Formats the environment linked list as a malloced double char pointer,
+ * and returns it.
+ *
+ * @param env A pointer to the first environment node of the linked list.
+ * @return A double char pointer containing the environment line by line.
+ */
 char	**env_to_char(t_env *env)
 {
 	char	**envtab;

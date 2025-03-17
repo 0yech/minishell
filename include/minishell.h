@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/17 11:30:00 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:11:18 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ typedef struct s_token
 
 // TODO: support for non-exported variables : add a "exported" bool to indicate
 // if a variable is part of the environment or just a standard var
-// lexing will need to be updated to add the functionality to just make variables
-// without export
+// lexing will need to be updated to add the functionality to just make
+// variables without export
 typedef struct s_env
 {
 	char			*name;
@@ -168,7 +168,7 @@ void		heredoc_handler(t_command *cmd);
 void		process_heredoc(t_command *cmd);
 int			valid_pipes(t_token *token);
 void		assign_pipes(t_command *cmd_list);
-int			execute_piped_commands(t_command* cmd);
+int			execute_piped_commands(t_command *cmd);
 char		*find_executable_path(char *command);
 int			is_builtin(t_command *current);
 

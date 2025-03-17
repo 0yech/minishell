@@ -6,15 +6,21 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 01:15:21 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/10 09:16:09 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 10:41:35 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Checks a given string and determines if it is part of standard
+ * minishell operations : pipes, redirections or heredocs.
+ *
+ * @return The operation found, or 0 if the string isn't one.
+ */
 int	look_for_operations(char *str)
 {
-	if (!str)
+	if (!str || !*str)
 		return (0);
 	if (ft_strncmp(str, "|", ft_strlen(str)) == 0)
 		return (PIPE);
@@ -26,7 +32,7 @@ int	look_for_operations(char *str)
 		return (APPEND);
 	if (ft_strncmp(str, "<<", ft_strlen(str)) == 0)
 		return (HEREDOC);
-	return (0); // NOT an operation
+	return (0);
 }
 
 int	look_for_command_type(t_token *token)

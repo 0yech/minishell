@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/17 14:24:22 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:01:17 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,18 +166,41 @@ int	exec_pipe_builtin(t_command *current)
 	return (1);
 }
 
+static int	exec_update_env(t_command *cmd, int *stat_loc)
+{
+	char	**tmp;
+	int		i;
+	char	*str_exit_status;
+
+	tmp = cmd->argv;
+	i = 0;
+	while (tmp[i] && tmp[i + 1])
+		i++;
+	env_set_key("_", tmp[i]);
+	if (stat_loc)
+	{
+		str_exit_status = ft_itoa(WEXITSTATUS(*stat_loc));
+		if (!str_exit_status)
+			return (perror("minishell (exec_update_env) - ft_itoa"), -1);
+		env_set_key("$", str_exit_status);
+		free(str_exit_status);
+	}
+	return (0);
+}
+
 int execute_piped_commands(t_command *cmd)
 {
 	pid_t		pid;
 	t_command	*current;
+	int			*stat_loc;
 
 	if (!cmd)
 		return (-1);
-	current = cmd;
 	cmd->fdio->stdincpy = dup(STDIN_FILENO);
 	cmd->fdio->stdoutcpy = dup(STDOUT_FILENO);
 	if (cmd->fdio->stdincpy == -1 || cmd->fdio->stdoutcpy == -1)
 		return (perror("minishell (execute_piped_commands) - dup"), -1);
+	current = cmd;
 	while (current)
 	{
 		setup_redirections(current);
@@ -193,10 +216,14 @@ int execute_piped_commands(t_command *cmd)
 			close_parent(current);
 		if (pid == 0)
 			exec_child(current);
+		stat_loc = ft_calloc(1, sizeof(int));
+		if (!stat_loc)
+			perror("minishell (execute_piped_commands) - ft_calloc");
+		wait(stat_loc);
+		exec_update_env(current, stat_loc);
+		free(stat_loc);
 		current = current->next;
 	}
-	while (wait(NULL) > 0)
-		;
 	dup2(cmd->fdio->stdincpy, STDIN_FILENO);
 	dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO);
 	if (cmd->fdio->stdincpy == -1 || cmd->fdio->stdoutcpy == -1)

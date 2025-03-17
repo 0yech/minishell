@@ -6,11 +6,13 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/11 09:40:35 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 10:37:15 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// FIXME: echo "$USER $PATH" only outputs the contents of $USER, the second var is ignored
 
 /**
  * @brief A quote or single quote is considered "valid" if it is at the end or

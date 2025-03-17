@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/14 10:04:57 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:27:20 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 static char	*strjoin_equals(char *s1, char *s2)
 {
-	char	*out;
-	int		len;
-	int		len2;
-	int		finallen;
+	char		*out;
+	size_t		len;
+	size_t		len2;
+	size_t		final_len;
 
 	if (!s1 || !s2)
 		return (NULL);
 	len = ft_strlen(s1);
 	len2 = ft_strlen(s2);
-	finallen = len + len2 + 2;
-	out = malloc(finallen);
+	final_len = len + len2 + 2;
+	out = malloc(final_len);
 	if (!out)
-		return (NULL);
-	ft_strlcpy(out, s1, finallen);
+		return (perror("minishell (strjoin_equals) - malloc"), NULL);
+	ft_strlcpy(out, s1, final_len);
 	out[len] = '=';
-	ft_strlcpy(out + len + 1, s2, finallen - len - 1);
+	ft_strlcpy(out + len + 1, s2, final_len - len - 1);
 	return (out);
 }
 
@@ -48,7 +48,6 @@ int	env_size(t_env *env)
 	return (i);
 }
 
-// TODO: why does this exist?
 char	**env_to_char(t_env *env)
 {
 	char	**envtab;
@@ -58,7 +57,7 @@ char	**env_to_char(t_env *env)
 	i = 0;
 	envtab = malloc(sizeof(char *) * (env_size(env) + 1));
 	if (!envtab)
-		return (NULL);
+		return (perror("minishell (env_to_char) - malloc"), NULL);
 	tmp = env;
 	while (i < env_size(env))
 	{

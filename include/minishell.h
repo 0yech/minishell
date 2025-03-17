@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/14 14:59:09 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:30:00 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void		heredoc_handler(t_command *cmd);
 void		process_heredoc(t_command *cmd);
 int			valid_pipes(t_token *token);
 void		assign_pipes(t_command *cmd_list);
-void		execute_piped_commands(t_command *cmd);
+int			execute_piped_commands(t_command* cmd);
 char		*find_executable_path(char *command);
 int			is_builtin(t_command *current);
 

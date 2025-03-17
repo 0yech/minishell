@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/14 15:17:47 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:27:54 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,21 @@ int	exec_builtin(t_command *current)
 		return (ft_env());
 	if (ft_strncmp(current->command, "export", 7) == 0)
 	{
-		if (current->argv[1])
-			ft_export(current->argv[1]);
-		else
-			ft_export(NULL);
+		if (!current->argv[1])
+			return(ft_export(NULL));
+		return (ft_export(current->argv[1]));
 	}
 	if (ft_strncmp(current->command, "unset", 6) == 0)
 	{
-		if (current->argv[1])
-			ft_unset(current->argv[1]);
-		else
-			printf("unset : not enough arguments\n");
+		if (!current->argv[1])
+			return (printf("unset : not enough arguments\n"), -1);
+		return (ft_unset(current->argv[1]));
 	}
 	if (ft_strncmp(current->command, "echo", 5) == 0)
-		ft_echo(current);
+		return (ft_echo(current));
 	if (ft_strncmp(current->command, "exit", 5) == 0)
 		ft_exit(current);
-	return (127);
+	return (-1);
 }
 
 int	is_builtin(t_command *current)
@@ -80,15 +78,20 @@ int	is_builtin(t_command *current)
 	return (0);
 }
 
-void	exec_child(t_command *current)
+int exec_child(t_command* current)
 {
+	char	**envtab;
+
 	close_child(current);
 	if (ft_strncmp(current->command, "<<", 3) != 0)
 	{
-		execve(find_executable_path(current->command), current->argv, NULL); // TODO: envp
-		perror("minishell (exec_child) - execve"); // TODO: errno for command not found? what's up with "bad address"
+		envtab = env_to_char(*env_get());
+		if (!envtab)
+			return (-1);
+		execve(find_executable_path(current->command), current->argv, envtab);
+		perror("minishell (exec_child) - execve");
 	}
-	exit(124);
+	return (-1);
 }
 
 void	setup_redirections(t_command *cmd)
@@ -154,21 +157,18 @@ int	exec_pipe_builtin(t_command *current)
 	return (0);
 }
 
-void	execute_piped_commands(t_command *cmd)
+int execute_piped_commands(t_command* cmd)
 {
 	pid_t		pid;
 	t_command	*current;
 
 	if (!cmd)
-		return ;
+		return (-1);
 	current = cmd;
 	cmd->fdio->stdincpy = dup(STDIN_FILENO);
 	cmd->fdio->stdoutcpy = dup(STDOUT_FILENO);
 	if (cmd->fdio->stdincpy == -1 || cmd->fdio->stdoutcpy == -1)
-	{
-		perror("minishell (execute_piped_commands) - dup");
-		exit(-1);
-	}
+		return(perror("minishell (execute_piped_commands) - dup"), -1);
 	while (current)
 	{
 		setup_redirections(current);
@@ -179,10 +179,7 @@ void	execute_piped_commands(t_command *cmd)
 		}
 		pid = fork();
 		if (pid == -1)
-		{
-			perror("minishell (execute_piped_commands) - fork");
-            exit(-1);
-		}
+            return(perror("minishell (execute_piped_commands) - fork"), -1);
 		if (pid > 0)
 			close_parent(current);
 		if (pid == 0)
@@ -195,4 +192,5 @@ void	execute_piped_commands(t_command *cmd)
 	dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO);
 	if (cmd->fdio->stdincpy == -1 || cmd->fdio->stdoutcpy == -1)
 		perror("minishell (execute_piped_commands) - dup2");
+	return (0);
 }

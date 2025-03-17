@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:27:02 by nrey              #+#    #+#             */
-/*   Updated: 2025/02/11 17:30:48 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 12:03:18 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*env_new(char *key, char *value, t_env *prev, t_env *next)
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-		return (NULL);
+		return (perror("minishell (env_new) - malloc"), NULL);
 	new->name = key;
 	new->value = value;
 	new->prev = prev;

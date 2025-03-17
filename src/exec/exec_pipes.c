@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/17 11:27:54 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 12:00:33 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	close_parent(t_command *current)
 		close(current->fdio->fdout);
 }
 
-// TODO Need to take into account int return values of builtins
+// TODO Need to take into account int return values of builtins (for $?)
 int	exec_builtin(t_command *current)
 {
 	if (ft_strncmp(current->command, "cd", 3) == 0)

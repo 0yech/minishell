@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/14 10:50:45 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 12:04:25 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ int	ft_export(char *str)
 			return (perror("minishell (ft_export) - ft_split"), -1);
 		if (!slices[1])
 			return (printf("[!] - Invalid identifier!\n"), free_array(slices), -1);
-		if (env_set_key(slices[0], slices[1]) == 2)
+		if (env_set_key(slices[0], slices[1]) == -1)
 			return (free_array(slices), -1);
 		free_array(slices);
 	}
 	else
 	{
-		if (env_set_key(str, str) == 2)
+		if (env_set_key(str, str) == -1)
 			return (-1);
 	}
 	return (0);

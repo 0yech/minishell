@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:07 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/12 18:47:34 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 12:06:11 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,7 @@ int	env_fill_node(char *envp, t_env *node)
  * @param key A malloced string that will represent the name of the node.
  * @param value A malloced string that will represent the value of the node.
  * @return 0 if an already existing value was updated, 1 if a new value was
- * added, 2 if an error occurred.
- * TODO: this probably needs better error return values and especially freeing values
- * when errors occur instead of creating a half baked env node.
+ * added, -1 if an error occurred.
  */
 int	env_set_key(char *key, char *value)
 {
@@ -74,10 +72,10 @@ int	env_set_key(char *key, char *value)
 	char	*alloc_value;
 
 	if (!key || !*key)
-		return (2);
+		return (-1);
 	alloc_key = ft_strdup(key);
 	if (!alloc_key)
-		return (perror("minishell (env_set) - ft_strdup"), 2);
+		return (perror("minishell (env_set) - ft_strdup"), -1);
 	alloc_value = alloc_key;
 	if (value)
 		alloc_value = ft_strdup(value);
@@ -93,6 +91,6 @@ int	env_set_key(char *key, char *value)
 	node = env_last();
 	node->next = env_new(alloc_key, alloc_value, node, NULL);
 	if (!node->next)
-		return (2);
+		return (free(alloc_key), free(alloc_value), -1);
 	return (1);
 }

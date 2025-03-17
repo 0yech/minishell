@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:50:52 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/12 18:41:18 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 12:05:50 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,11 @@ void	env_init(char **envp)
 		new_shlvl = ft_itoa(ft_atoi(shlvl->value) + 1);
 		if (!new_shlvl)
 			perror("minishell (env_init) - ft_itoa");
-		env_set_key("SHLVL", new_shlvl);
+		if (env_set_key("SHLVL", new_shlvl) == -1)
+			printf("minishell (env_init): failed to set SHLVL!\n");
 		free(new_shlvl);
 	}
 	else
-		env_set_key("SHLVL", "1");
+		if (env_set_key("SHLVL", "1") == -1)
+			printf("minishell (env_init): failed to set SHLVL!\n");
 }

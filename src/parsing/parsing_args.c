@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:00:08 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/11 09:56:13 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 12:00:24 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	fill_args_fds(t_command *cmd, t_token *token)
 				&& token->next->type == REDIRECT_FILE) // >>
 			{
 				current->fdio->outtype = APD;
-				current->fdio->output = ft_strdup(token->next->value); // TODO noticed this leaked
+				current->fdio->output = ft_strdup(token->next->value); // TODO noticed this leaked (a while ago, might have been fixed)
 				if (!current->fdio->output)
 					perror("minishell (fill_args_fds) - ft_strdup");
 				current->fdio->fdout = O_WRONLY | O_CREAT | O_APPEND;

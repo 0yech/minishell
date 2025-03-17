@@ -6,11 +6,27 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/17 14:15:08 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:27:55 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief Frees the given double char pointer.
+ */
+void	free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	if (!array || !array[i])
+		return ;
+	while (array[i])
+		free(array[i++]);
+	free(array[i]);
+	free(array);
+}
 
 /**
  * @brief Joins two strings together with a '=' signe inbetween. Used for env

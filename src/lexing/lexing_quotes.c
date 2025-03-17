@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/17 10:37:15 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:37:42 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
  * @brief A quote or single quote is considered "valid" if it is at the end or
  * at the beginning of a token, as in followed or preceded by whitespace.
  */
-t_bool	is_valid_quote(char *str, int index)
+bool is_valid_quote(char* str, int index)
 {
 	if (!str || !str[index])
-		return (FALSE);
+		return (false);
 	if ((str[index] == '\'' || str[index] == '"')
 		&& ((index == 0
 				|| (!ft_isprint(str[index - 1])
@@ -31,9 +31,9 @@ t_bool	is_valid_quote(char *str, int index)
 		)
 	)
 	{
-		return (TRUE);
+		return (true);
 	}
-	return (FALSE);
+	return (false);
 }
 
 /**

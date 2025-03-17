@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/17 14:11:18 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:37:02 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,6 @@ typedef enum e_token_type
 	OPTION,
 }	t_token_type;
 
-typedef enum e_bool
-{
-	FALSE = 0,
-	TRUE = 1,
-}	t_bool;
-
 typedef enum e_outtype
 {
 	Z,
@@ -62,7 +56,7 @@ typedef enum e_outtype
 typedef struct s_fd
 {
 	char		*hd_delim;	// Heredoc delim
-	t_bool		hd_quotes;	// Heredoc quotes
+	bool		hd_quotes;	// Heredoc quotes
 	char		*input;
 	char		*output;
 	t_outtype	outtype;
@@ -96,6 +90,7 @@ typedef struct s_token
 // variables without export
 typedef struct s_env
 {
+	bool			exported;
 	char			*name;
 	char			*value;
 	struct s_env	*next;
@@ -119,7 +114,7 @@ t_token		**init_token_list(char *input);
 void		assign_types(t_token **token_list);
 
 // Lexing - Quotes, lexing_quotes.c
-t_bool		is_valid_quote(char *str, int index);
+bool		is_valid_quote(char* str, int index);
 int			quotes_handler(char *start);
 char		*quotes_clean(char *raw_token);
 

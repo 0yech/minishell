@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/18 14:59:51 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:34:31 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef enum e_token_type
 	X,
 	COMMAND,
 	ARGUMENT,
-	VAR_ASSIGN,
 	PIPE,
 	REDIRECT_IN,
 	REDIRECT_OUT,

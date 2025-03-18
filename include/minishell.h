@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/17 14:37:02 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:59:51 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef enum e_token_type
 	X,
 	COMMAND,
 	ARGUMENT,
+	VAR_ASSIGN,
 	PIPE,
 	REDIRECT_IN,
 	REDIRECT_OUT,
@@ -71,7 +72,7 @@ typedef struct s_command
 	char				*command;
 	char				*path;
 	t_fd				*fdio;
-	char				**argv; // TODO: add the last argument of the last command to _ env var
+	char				**argv;
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_command;
@@ -84,10 +85,6 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-// TODO: support for non-exported variables : add a "exported" bool to indicate
-// if a variable is part of the environment or just a standard var
-// lexing will need to be updated to add the functionality to just make
-// variables without export
 typedef struct s_env
 {
 	bool			exported;
@@ -164,6 +161,7 @@ void		process_heredoc(t_command *cmd);
 int			valid_pipes(t_token *token);
 void		assign_pipes(t_command *cmd_list);
 int			execute_piped_commands(t_command *cmd);
+int			exec_update_env(t_command *cmd, int exit_status);
 char		*find_executable_path(char *command);
 int			is_builtin(t_command *current);
 

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/17 14:24:22 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:00:00 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	close_parent(t_command *current)
 		close(current->fdio->fdout);
 }
 
-// TODO Need to take into account int return values of builtins (for $?)
 int	exec_builtin(t_command *current)
 {
 	if (ft_strncmp(current->command, "cd", 3) == 0)
@@ -95,6 +94,7 @@ int exec_child(t_command *current)
 			return (-1);
 		execve(find_executable_path(current->command), current->argv, envtab);
 		perror("minishell (exec_child) - execve");
+		exit(126);
 	}
 	return (-1);
 }
@@ -137,52 +137,77 @@ void	setup_redirections(t_command *cmd)
  * @brief Checks if a command is a builtin, and if yes, executes the builtin.
  *
  * @param current The command to execute.
- * @return 0 if the command was indeed a builtin, 1 if not or if an error
- * occurred.
+ * @return The exit value of the builtin if the command was indeed one,
+ * -1 if not or if an error occurred.
  */
 int	exec_pipe_builtin(t_command *current)
 {
+	int	*stat_loc;
+	int	exit_status;
 	int	pid;
 
-	if (is_builtin(current))
+	if (current->next)
 	{
-		if (current->next)
+		pid = fork();
+		if (pid == -1)
+			return (perror("minishell (exec_pipe_builtin) - fork"), 1);
+		if (pid == 0)
 		{
-			pid = fork();
-			if (pid == -1)
-				return (perror("minishell (exec_pipe_builtin) - fork"), 1);
-			if (pid == 0)
-			{
-				close_child(current);
-				exec_builtin(current);
-				close(current->fdio->fdout);
-				exit(0);
-			}
-			return (close(current->fdio->fdout), 0);
+			close_child(current);
+			exec_builtin(current);
+			close(current->fdio->fdout);
+			exit(0);
 		}
-		exec_builtin(current);
-		return (0);
+		stat_loc = ft_calloc(1, sizeof(int));
+		if (!stat_loc)
+			return (perror("minishell (exec_pipe_builtin) - ft_calloc"), -1);
+		wait(stat_loc);
+		exit_status = WEXITSTATUS(*stat_loc);
+		return (close(current->fdio->fdout), free(stat_loc), exit_status);
 	}
-	return (1);
+	return (exec_builtin(current));
+}
+
+int	exec_update_env(t_command *cmd, int exit_status)
+{
+	char	**tmp;
+	int		i;
+	char	*str_exit_status;
+
+	tmp = cmd->argv;
+	i = 0;
+	while (tmp[i] && tmp[i + 1])
+		i++;
+	env_set_key("_", tmp[i]);
+	str_exit_status = ft_itoa(exit_status);
+	if (!str_exit_status)
+		return (perror("minishell (exec_update_env) - ft_itoa"), -1);
+	env_set_key("$", str_exit_status);
+	free(str_exit_status);
+	return (0);
 }
 
 int execute_piped_commands(t_command *cmd)
 {
 	pid_t		pid;
 	t_command	*current;
+	int			exit_status;
+	int			*stat_loc;
 
 	if (!cmd)
 		return (-1);
-	current = cmd;
 	cmd->fdio->stdincpy = dup(STDIN_FILENO);
 	cmd->fdio->stdoutcpy = dup(STDOUT_FILENO);
 	if (cmd->fdio->stdincpy == -1 || cmd->fdio->stdoutcpy == -1)
 		return (perror("minishell (execute_piped_commands) - dup"), -1);
+	current = cmd;
 	while (current)
 	{
 		setup_redirections(current);
-		if (exec_pipe_builtin(current) == 0)
+		if (is_builtin(current))
 		{
+			exit_status = exec_pipe_builtin(current);
+			exec_update_env(current, exit_status);
 			current = current->next;
 			continue ;
 		}
@@ -193,10 +218,14 @@ int execute_piped_commands(t_command *cmd)
 			close_parent(current);
 		if (pid == 0)
 			exec_child(current);
+		stat_loc = ft_calloc(1, sizeof(int));
+		if (!stat_loc)
+			perror("minishell (execute_piped_commands) - ft_calloc");
+		wait(stat_loc);
+		exec_update_env(current, WEXITSTATUS(*stat_loc));
+		free(stat_loc);
 		current = current->next;
 	}
-	while (wait(NULL) > 0)
-		;
 	dup2(cmd->fdio->stdincpy, STDIN_FILENO);
 	dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO);
 	if (cmd->fdio->stdincpy == -1 || cmd->fdio->stdoutcpy == -1)

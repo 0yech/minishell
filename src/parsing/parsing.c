@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/10 19:20:28 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:49:39 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ t_command	*parsing_handler(t_token **token_list)
 	//printf("%s", waos[1]);
 	//free_array(waos);
 	if (exec_checks(command_list) != 0)
-		return(free_command_list(command_list), NULL);
+	{
+		exec_update_env(command_list, 127);
+		return (free_command_list(command_list), NULL);
+	}
 	return (command_list);
 }

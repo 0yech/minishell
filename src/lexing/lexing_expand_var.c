@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/10 11:34:09 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:01:27 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	handle_var(char *token, char *expanded_token, size_t *i, size_t *j)
  * are expanded to their values, while variables that don't exist are expanded
  * to "", an empty string.
  */
+// TODO: expansion of $? and $_ return empty tokens for some reason
 char	*var_expand(char *token)
 {
 	size_t	i;

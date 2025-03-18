@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/18 15:00:00 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:30:58 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int exec_child(t_command *current)
 {
 	char	**envtab;
 
-	close_child(current);
+	close_child(current); // TODO: stdin tty is lost here
 	if (ft_strncmp(current->command, "<<", 3) != 0)
 	{
 		envtab = env_to_char(*env_get());

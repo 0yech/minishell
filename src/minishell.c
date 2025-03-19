@@ -17,6 +17,8 @@
 // TODO : add SHELL env var support
 // TODO : Fix still reachable leaks
 // TODO : recursive minishell
+// TODO : export += concatenates existing value with new input
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	**token_list;

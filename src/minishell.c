@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/18 17:15:52 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:11:45 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 // TODO : add SHELL env var support
 // TODO : Fix still reachable leaks
 // TODO : recursive minishell
-// TODO : export += concatenates existing value with new input
 
 int	main(int argc, char **argv, char **envp)
 {

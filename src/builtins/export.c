@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/17 14:52:58 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:34:54 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
  * @brief Prints all exported variables to stdout formatted as "export <var>".
  * @return 0 if all went well, -1 if an error occurred.
  */
+// TODO: export_print should print exported values in alphabetical order
 int	export_print(void)
 {
 	int		i;
@@ -37,6 +38,7 @@ int	export_print(void)
 	return (free_array(env), 0);
 }
 
+// TODO : export += concatenates existing value with new input
 /**
  * @return 0 if everything went well, -1 if an error occurred.
  */

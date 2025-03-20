@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/20 20:51:22 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/20 21:04:38 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ int	export_concat(char *str)
 	if (!slices)
 		return (perror("minishell (export_concat) - ft_split"), -1);
 	if (slices[0][0] == '=')
-		return (printf("minishell (export_concat): Invalid identifier!\n"),
-			free_array(slices), -1);
+		return (printf("export: Wrong syntax!\n"), free_array(slices), -1);
 	var = env_get_key(slices[0]);
 	concat_str = ft_calloc(export_concat_size(var, slices[1]), sizeof(char));
 	if (!concat_str)
@@ -78,7 +77,6 @@ int	export_concat(char *str)
 	return (free_array(slices), free(concat_str), 0);
 }
 
-// TODO : export += concatenates existing value with new input
 /**
  * @return 0 if everything went well, -1 if an error occurred.
  */

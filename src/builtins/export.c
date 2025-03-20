@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/20 12:34:52 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/20 20:51:22 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,37 @@ int	export_print(void)
 	return (free_array(env), 0);
 }
 
+size_t	export_concat_size(t_env *var, char *new_value)
+{
+	size_t	tot_size;
+
+	tot_size = ft_strlen(new_value);
+	if (var && var->value)
+		tot_size += ft_strlen(var->value);
+	return (tot_size + 1);
+}
+
 int	export_concat(char *str)
 {
-	t_env	*key;
+	t_env	*var;
 	char	*concat_str;
 	char	**slices;
-	size_t	tot_size;
 
 	slices = ft_split(str, '+');
 	if (!slices)
 		return (perror("minishell (export_concat) - ft_split"), -1);
-	if (!slices[1])
-		return (printf("minishell (ft_export): Invalid identifier!\n"),
+	if (slices[0][0] == '=')
+		return (printf("minishell (export_concat): Invalid identifier!\n"),
 			free_array(slices), -1);
-	tot_size = ft_strlen(slices[1]);
-	key = env_get_key(slices[0]);
-	if (key && key->value)
-		tot_size += ft_strlen(key->value);
-	concat_str = ft_calloc(tot_size, sizeof(char));
+	var = env_get_key(slices[0]);
+	concat_str = ft_calloc(export_concat_size(var, slices[1]), sizeof(char));
 	if (!concat_str)
-		return (perror("minishell (export_concat) - ft_calloc"), -1);
-	if (key && key->value)
+		return (perror("minishell (export_concat) - ft_calloc"),
+			free_array(slices), -1);
+	if (var && var->value)
 	{
-		ft_strlcpy(concat_str, key->value, ft_strlen(key->value) + 1);
-		ft_strlcpy(concat_str + ft_strlen(key->value),
+		ft_strlcpy(concat_str, var->value, ft_strlen(var->value) + 1);
+		ft_strlcpy(concat_str + ft_strlen(var->value),
 			slices[1] + 1, ft_strlen(slices[1]) + 1);
 	}
 	else
@@ -84,7 +91,7 @@ int	ft_export(char *str)
 	if (ft_strchr(str, '='))
 	{
 		if (ft_strchr(str, '=') - ft_strchr(str, '+') == 1)
-			return export_concat(str);
+			return (export_concat(str));
 		slices = ft_split(str, '=');
 		if (!slices)
 			return (perror("minishell (ft_export) - ft_split"), -1);

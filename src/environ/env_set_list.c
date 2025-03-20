@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:07 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/17 15:46:29 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/20 20:47:58 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	env_set_key(char *key, char *value)
 	char	*alloc_key;
 	char	*alloc_value;
 
-	if (!key || !*key || !value || !*value)
+	if (!key || !*key || !value)
 		return (-1);
 	alloc_key = ft_strdup(key);
 	if (!alloc_key)

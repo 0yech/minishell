@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/18 17:30:58 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:29:19 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 void	close_child(t_command *current)
 {
-	if (current->fdio->fdout != 1)
+	if (current->fdio->fdout != STDOUT_FILENO)
 	{
 		dup2(current->fdio->fdout, STDOUT_FILENO);
-		close(current->fdio->fdout);
+		// close(current->fdio->fdout);
 	}
-	if (current->fdio->fdin != 0)
+	if (current->fdio->fdin != STDIN_FILENO)
 	{
 		dup2(current->fdio->fdin, STDIN_FILENO);
-		close(current->fdio->fdin);
+		// close(current->fdio->fdin);
 	}
 }
 
 void	close_parent(t_command *current)
 {
-	if (current->fdio->fdin != 0)
+	if (current->fdio->fdin != STDIN_FILENO)
 		close(current->fdio->fdin);
-	if (current->fdio->fdout != 1)
+	if (current->fdio->fdout != STDOUT_FILENO)
 		close(current->fdio->fdout);
 }
 
@@ -86,7 +86,7 @@ int exec_child(t_command *current)
 {
 	char	**envtab;
 
-	close_child(current); // TODO: stdin tty is lost here
+	close_child(current);
 	if (ft_strncmp(current->command, "<<", 3) != 0)
 	{
 		envtab = env_to_char(*env_get());

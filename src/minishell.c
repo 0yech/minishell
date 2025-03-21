@@ -6,17 +6,16 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/20 10:11:45 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:31:31 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // TODO : Add non interactive mode
-// TODO : Use perror everywhere that's applicable ([!] - minishell (<function>) - <failed syscall function>)
 // TODO : add SHELL env var support
 // TODO : Fix still reachable leaks
-// TODO : recursive minishell
+// TODO : try to close all fds at exit
 
 int	main(int argc, char **argv, char **envp)
 {

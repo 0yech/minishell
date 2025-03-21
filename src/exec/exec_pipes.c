@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/21 14:29:19 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:02:12 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	close_parent(t_command *current)
 
 int	exec_builtin(t_command *current)
 {
+	if (!current->next)
+		close_child(current);
 	if (ft_strncmp(current->command, "cd", 3) == 0)
 		return (ft_cd(current));
 	if (ft_strncmp(current->command, "pwd", 4) == 0)

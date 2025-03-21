@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/18 14:49:39 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:39:39 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	print_commands(t_command *cmd)
 		printf("fdout : %d\n", cmd->fdio->fdout);
 		printf("output fdio : %s\n\n", cmd->fdio->output);
 		printf("Command : %s\n", cmd->command);
+		printf("redirecttype : %d\n", cmd->fdio->outtype);
 		i = 0;
 		while (cmd->argv[i])
 		{

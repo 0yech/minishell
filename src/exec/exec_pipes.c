@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/21 15:02:12 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:19:22 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ int	exec_update_env(t_command *cmd, int exit_status)
 	str_exit_status = ft_itoa(exit_status);
 	if (!str_exit_status)
 		return (perror("minishell (exec_update_env) - ft_itoa"), -1);
-	env_set_key("$", str_exit_status);
+	env_set_key("?", str_exit_status);
 	free(str_exit_status);
 	return (0);
 }

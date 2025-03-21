@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/18 15:01:27 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:12:13 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,21 @@
 char	*get_variable(char *str)
 {
 	size_t	i;
-	char	key[9999];
+	char	*key;
 	t_env	*var;
 
 	i = 0;
-	while (ft_isalnum(str[i]))
+	while (ft_isprint(str[i]) && str[i] != '"'
+		&& str[i] != '\'' && str[i] != ' ')
 		i++;
+	key = ft_calloc(i + 1, sizeof(char));
+	if (!key)
+		return (perror("minishell (get_variable) - ft_calloc"), NULL);
 	ft_strlcpy(key, str, i + 1);
 	var = env_get_key(key);
 	if (!var || !(var->value))
-		return (NULL);
+		return (free(key), NULL);
+	free(key);
 	return (var->value);
 }
 
@@ -39,7 +44,7 @@ char	*get_variable(char *str)
  * @brief Takes a raw_token as an input and returns its length with all
  * variables contained within expanded.
  */
-size_t	full_token_size(char *raw_token)
+size_t	full_token_size(char *token)
 {
 	char	*var;
 	size_t	i;
@@ -47,22 +52,22 @@ size_t	full_token_size(char *raw_token)
 
 	i = 0;
 	size = 0;
-	if (!raw_token)
+	if (!token)
 		return (0);
-	while (raw_token[i])
+	while (token[i])
 	{
-		if (raw_token[i] == '$')
+		if (token[i] == '$')
 		{
 			i++;
-			var = get_variable(raw_token + i);
+			var = get_variable(token + i);
 			if (var)
 				size += ft_strlen(var);
-			while (raw_token[i]
-				&& ft_isprint(raw_token[i]) && raw_token[i] != ' ')
+			while (token[i] && ft_isprint(token[i])
+				&& token[i] != '"' && token[i] != '\'' && token[i] != ' ')
 				i++;
 		}
 		size++;
-		if (raw_token[i])
+		if (token[i])
 			i++;
 	}
 	return (size);
@@ -83,7 +88,8 @@ void	handle_var(char *token, char *expanded_token, size_t *i, size_t *j)
 		ft_strlcpy(expanded_token + *j, var, ft_strlen(var) + 1);
 		*j += ft_strlen(var);
 	}
-	while (ft_isprint(token[*i]))
+	while (ft_isprint(token[*i]) && token[*i] != '"'
+		&& token[*i] != '\'' && token[*i] != ' ')
 		(*i)++;
 }
 
@@ -93,7 +99,6 @@ void	handle_var(char *token, char *expanded_token, size_t *i, size_t *j)
  * are expanded to their values, while variables that don't exist are expanded
  * to "", an empty string.
  */
-// TODO: expansion of $? and $_ return empty tokens for some reason
 char	*var_expand(char *token)
 {
 	size_t	i;
@@ -107,14 +112,7 @@ char	*var_expand(char *token)
 	j = 0;
 	while (token[i])
 	{
-		if (token[i] == '\'')
-		{
-			expanded_token[j++] = token[i++];
-			while (token[i] && token[i] != '\'')
-				expanded_token[j++] = token[i++];
-			expanded_token[j++] = token[i++];
-		}
-		else if (token[i] == '$')
+		if (token[i] == '$')
 			handle_var(token, expanded_token, &i, &j);
 		else
 			expanded_token[j++] = token[i++];

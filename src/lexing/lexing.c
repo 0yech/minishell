@@ -6,17 +6,34 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/11 09:38:30 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:09:37 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	history_handler(char *input)
+static bool	has_var(char *str)
 {
-	if (!input || !*input)
-		return ;
-	add_history(input);
+	bool	is_in_double_quote;
+	int		i;
+
+	i = 0;
+	is_in_double_quote = false;
+	while (str[i])
+	{
+		if (str[i] == '"')
+			is_in_double_quote = true;
+		else if (str[i] == '\'' && !is_in_double_quote)
+		{
+			i++;
+			while (str[i] && str[i] != '\'')
+				i++;
+		}
+		else if (str[i] == '$')
+			return (true);
+		i++;
+	}
+	return (false);
 }
 
 static int	isolate_token(char *input)
@@ -53,10 +70,10 @@ static int	get_next_token(t_token **token_list, char *input)
 		return (-1);
 	i = isolate_token(input);
 	substr = ft_substr(input, 0, i);
-	if (ft_strchr(substr, '$'))
-        new->value = quotes_clean(var_expand(substr));
+	if (has_var(substr))
+		new->value = quotes_clean(var_expand(substr));
 	else
-        new->value = quotes_clean(substr);
+		new->value = quotes_clean(substr);
 	if (!new->value)
 		return (free(new), -1);
 	return (token_add_back(token_list, new), i);
@@ -83,7 +100,6 @@ static t_token	**create_tokens(char *input)
 		tot_progress += progress;
 		while (*(input + tot_progress) && (!ft_isprint(*(input + tot_progress))
 				|| *(input + tot_progress) == ' '))
-				// || is_special_char(*(input + tot_progress))))
 			tot_progress++;
 	}
 	return (token_list);
@@ -93,7 +109,7 @@ t_token	**init_token_list(char *input)
 {
 	t_token	**token_list;
 
-	history_handler(input);
+	add_history(input);
 	token_list = create_tokens(input);
 	if (!token_list)
 		return (NULL);

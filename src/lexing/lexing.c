@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/21 16:09:37 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/23 22:03:36 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static bool	has_var(char *str)
 		}
 		else if (str[i] == '$')
 			return (true);
-		i++;
+		if (str[i])
+			i++;
 	}
 	return (false);
 }

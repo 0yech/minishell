@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/21 16:19:17 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/23 21:59:19 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ bool is_valid_quote(char* str, int index)
 				|| str[index + 1] == ' ')
 		)
 	)
-	{
 		return (true);
-	}
 	return (false);
 }
 
@@ -46,27 +44,18 @@ bool is_valid_quote(char* str, int index)
  */
 int	quotes_handler(char *start)
 {
-	int	i;
+	int		i;
+	char	quote_kind;
 
 	i = 0;
 	while (start[i] != '"' && start[i] != '\'')
 		i++;
-	if (start[i] == '"')
-	{
+	quote_kind = start[i];
+	i++;
+	while (start[i] && (start[i] != quote_kind || !is_valid_quote(start, i)))
 		i++;
-		while (start[i] && (start[i] != '"' || !is_valid_quote(start, i)))
-			i++;
-		if (start[i] == '"')
-			i++;
-	}
-	else if (start[i] == '\'')
-	{
+	if (start[i] == quote_kind)
 		i++;
-		while (start[i] && (start[i] != '\'' || !is_valid_quote(start, i)))
-			i++;
-		if (start[i] == '\'')
-			i++;
-	}
 	return (i);
 }
 

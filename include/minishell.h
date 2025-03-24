@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/18 15:34:31 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:14:46 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,7 @@ t_token		**init_token_list(char *input);
 void		assign_types(t_token **token_list);
 
 // Lexing - Quotes, lexing_quotes.c
-bool		is_valid_quote(char* str, int index);
-int			quotes_handler(char *start);
+int			quotes_handler(char *str);
 char		*quotes_clean(char *raw_token);
 
 // Lexing - Var expansion, lexing_expand_var.c

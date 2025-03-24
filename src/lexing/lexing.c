@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/23 22:03:36 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:03:38 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static bool	has_var(char *str)
 	while (str[i])
 	{
 		if (str[i] == '"')
-			is_in_double_quote = true;
+			is_in_double_quote = !is_in_double_quote;
 		else if (str[i] == '\'' && !is_in_double_quote)
 		{
 			i++;

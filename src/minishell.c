@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/21 14:31:31 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:09:48 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 // TODO : add SHELL env var support
 // TODO : Fix still reachable leaks
 // TODO : try to close all fds at exit
+// TODO : shebang support for shell scripts and such
 
 int	main(int argc, char **argv, char **envp)
 {

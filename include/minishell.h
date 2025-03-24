@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/24 10:14:46 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:32:40 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ void		command_handler(t_token **token_list);
 void		signal_handler(void);
 
 t_command	*parsing_handler(t_token **token_list);
+int			no_cmd_checks(t_token *token_list);
 void		free_command_list(t_command *cmd);
 int			exec_checks(t_command *current);
 

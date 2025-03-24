@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 21:50:17 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/10 09:10:38 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:59:41 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	free_fds(t_command *node)
 {
 	if (node)
 	{
-		if (node->fdio->input)
+		if (node->fdio && node->fdio->input)
 			free(node->fdio->input);
-		if (node->fdio->output)
+		if (node->fdio && node->fdio->output)
 			free(node->fdio->output);
-		if (node->fdio->hd_delim)
+		if (node->fdio && node->fdio->hd_delim)
 			free(node->fdio->hd_delim);
 		free(node->fdio);
 	}

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/24 17:28:34 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:30:51 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 // TODO : Add non interactive mode
 // TODO : add SHELL env var support
-// TODO : Fix still reachable leaks
 // TODO : try to close all fds at exit
 // TODO : shebang support for shell scripts and such
 

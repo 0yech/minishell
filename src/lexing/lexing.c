@@ -6,36 +6,11 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/24 10:42:46 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:02:00 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool	has_var(char *str)
-{
-	bool	is_in_double_quote;
-	int		i;
-
-	i = 0;
-	is_in_double_quote = false;
-	while (str[i])
-	{
-		if (str[i] == '"')
-			is_in_double_quote = !is_in_double_quote;
-		else if (str[i] == '\'' && !is_in_double_quote)
-		{
-			i++;
-			while (str[i] && str[i] != '\'')
-				i++;
-		}
-		else if (str[i] == '$')
-			return (true);
-		if (str[i])
-			i++;
-	}
-	return (false);
-}
 
 static int	isolate_token(char *input)
 {
@@ -70,9 +45,7 @@ static int	get_next_token(t_token **token_list, char *input)
 	if (!new)
 		return (-1);
 	i = isolate_token(input);
-	substr = ft_substr(input, 0, i);
-	if (has_var(substr))
-		substr = var_expand(substr);
+	substr = var_expand(ft_substr(input, 0, i));
 	if (!substr)
 		return (free(new), -1);
 	new->value = quotes_clean(substr);

@@ -6,34 +6,11 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/24 10:47:52 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:44:11 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// FIXME: echo '"$PATH '$USER'"' has two spaces between the vars instead of one
-// FIXME: echo "'"$PATH" $USER'" messes up the quotes (starts with ' and ends with ")
-
-/**
- * @brief A quote or single quote is considered "valid" if it is at the end or
- * at the beginning of a token, as in followed or preceded by whitespace.
- */
-// bool is_valid_quote(char* str, int index)
-// {
-	// if (!str || !str[index])
-		// return (false);
-	// if ((str[index] == '\'' || str[index] == '"')
-		// && ((index == 0
-				// || (!ft_isprint(str[index - 1])
-					// || str[index - 1] == ' '))
-			// || (!ft_isprint(str[index + 1])
-				// || str[index + 1] == ' ')
-		// )
-	// )
-		// return (true);
-	// return (false);
-// }
 
 /**
  * @brief Goes through a string given as input and returns the index that

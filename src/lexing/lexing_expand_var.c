@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/21 16:12:13 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:39:09 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,11 @@ char	*var_expand(char *token)
 	size_t	j;
 	char	*expanded_token;
 
+	if (!token)
+		return (NULL);
 	expanded_token = ft_calloc(full_token_size(token) + 1, sizeof(char));
 	if (!expanded_token)
-		return (NULL);
+		return (perror("minishell (var_expand) - malloc"), free(token), NULL);
 	i = 0;
 	j = 0;
 	while (token[i])

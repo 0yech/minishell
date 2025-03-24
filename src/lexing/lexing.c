@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/24 10:03:38 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:42:46 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,11 @@ static int	get_next_token(t_token **token_list, char *input)
 	i = isolate_token(input);
 	substr = ft_substr(input, 0, i);
 	if (has_var(substr))
-		new->value = quotes_clean(var_expand(substr));
-	else
-		new->value = quotes_clean(substr);
+		substr = var_expand(substr);
+	if (!substr)
+		return (free(new), -1);
+	new->value = quotes_clean(substr);
+	free(substr);
 	if (!new->value)
 		return (free(new), -1);
 	return (token_add_back(token_list, new), i);

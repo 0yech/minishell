@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/24 10:27:45 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:47:52 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,26 +75,27 @@ char	*quotes_clean(char *raw_token)
 	char	quotes_kind;
 	char	*clean_token;
 	int		i;
-	int		j;
 
 	if (!raw_token)
 		return (NULL);
-	i = 0;
-	clean_token = ft_calloc(ft_strlen(raw_token), sizeof(char));
+	clean_token = ft_calloc(ft_strlen(raw_token) + 1, sizeof(char));
 	if (!clean_token)
-		return (perror("minishell (quotes_clean) - ft_calloc"),
-			free(raw_token), NULL);
-	while (raw_token[i] && raw_token[i] != '"' && raw_token[i] != '\'')
-		i++;
-	if (raw_token[i] != '"' && raw_token[i] != '\'')
-		return (raw_token);
-	quotes_kind = raw_token[i];
+		return (perror("minishell (quotes_clean) - malloc"), NULL);
 	i = 0;
-	j = -1;
-	while (raw_token[++j])
-		if (raw_token[j] != quotes_kind)
-			clean_token[i++] = raw_token[j];
+	while (*raw_token)
+	{
+		if (*raw_token == '\'' || *raw_token == '"')
+		{
+			quotes_kind = *(raw_token++);
+			while (*raw_token && *raw_token != quotes_kind)
+				clean_token[i++] = *(raw_token++);
+			if (*raw_token)
+				raw_token++;
+			continue ;
+		}
+		if (*raw_token)
+			clean_token[i++] = *(raw_token++);
+	}
 	clean_token[i] = 0;
-	free(raw_token);
 	return (clean_token);
 }

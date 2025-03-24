@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/24 11:48:42 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:14:59 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ size_t	full_token_size(char *token)
  * @brief Is called when a $ is found in the token. Searches for the variable
  * and copies it if it does exist, otherwise copies nothing and moves on.
  */
-void	handle_var(char *token, char *expanded_token, size_t *i, size_t *j)
+static void	handle_var(char *token, char *expanded_token, size_t *i, size_t *j)
 {
 	char	*var;
 
@@ -94,6 +94,28 @@ void	handle_var(char *token, char *expanded_token, size_t *i, size_t *j)
 }
 
 /**
+ * @brief When var_expand() encounters a quote, this function is called to
+ * go through it and, if it's a double-quoted statement, handle variables
+ * accordingly. Single-quoted variables are ignored.
+ */
+static void	handle_quote(char *token, char *new_token, size_t *i, size_t *j)
+{
+	char	quote_kind;
+
+	quote_kind = token[*i];
+	new_token[(*j)++] = token[(*i)++];
+	while (token[*i] && token[*i] != quote_kind)
+	{
+		if (quote_kind != '\'' && token[*i] == '$')
+			handle_var(token, new_token, i, j);
+		else
+			new_token[(*j)++] = token[(*i)++];
+	}
+	if (token[*i])
+		new_token[(*j)++] = token[(*i)++];
+}
+
+/**
  * @brief Takes a token as an argument and returns the same token with all
  * variables contained expanded. Valid variables that exist in the environment
  * are expanded to their values, while variables that don't exist are expanded
@@ -103,37 +125,24 @@ char	*var_expand(char *token)
 {
 	size_t	i;
 	size_t	j;
-	char	quote_kind;
-	char	*expanded_token;
+	char	*new_token;
 
 	if (!token)
 		return (NULL);
-	expanded_token = ft_calloc(full_token_size(token) + 1, sizeof(char));
-	if (!expanded_token)
+	new_token = ft_calloc(full_token_size(token) + 1, sizeof(char));
+	if (!new_token)
 		return (perror("minishell (var_expand) - malloc"), free(token), NULL);
 	i = 0;
 	j = 0;
 	while (token[i])
 	{
 		if (token[i] == '\'' || token[i] == '"')
-		{
-			quote_kind = token[i];
-			expanded_token[j++] = token[i++];
-			while (token[i] && token[i] != quote_kind)
-			{
-				if (quote_kind != '\'' && token[i] == '$')
-					handle_var(token, expanded_token, &i, &j);
-				else
-					expanded_token[j++] = token[i++];
-			}
-			if (token[i])
-				expanded_token[j++] = token[i++];
-		}
+			handle_quote(token, new_token, &i, &j);
 		else if (token[i] == '$')
-			handle_var(token, expanded_token, &i, &j);
+			handle_var(token, new_token, &i, &j);
 		else
-			expanded_token[j++] = token[i++];
+			new_token[j++] = token[i++];
 	}
-	expanded_token[j] = 0;
-	return (free(token), expanded_token);
+	new_token[j] = 0;
+	return (free(token), new_token);
 }

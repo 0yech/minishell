@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/24 11:50:36 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:17:19 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief Goes through a string given as input and returns the index that
- * ends the token contained within, checking for valid quotes along the way.
+ * ends the token contained within, handling quotes accordingly.
  * This is just the delimiting the token part, cleaning the quotes comes after.
  *
  * @see quotes_clean
@@ -43,9 +43,10 @@ int	quotes_handler(char *str)
 
 /**
  * @brief This function cleans a token of any unnecessary quotes (trailing,
- * preceding or even contained inside.
+ * or preceding).
  *
- * @param raw_token The token still wrapped in quotes.
+ * @param raw_token The token still wrapped in quotes. Assumed to be a
+ * pointer to a valid string.
  * @return A cleaned version of the token. NULL if an error occurred.
  */
 char	*quotes_clean(char *raw_token)
@@ -54,8 +55,6 @@ char	*quotes_clean(char *raw_token)
 	char	*clean_token;
 	int		i;
 
-	if (!raw_token)
-		return (NULL);
 	clean_token = ft_calloc(ft_strlen(raw_token) + 1, sizeof(char));
 	if (!clean_token)
 		return (perror("minishell (quotes_clean) - malloc"), NULL);

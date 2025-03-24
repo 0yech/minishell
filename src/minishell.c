@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:04:48 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/24 16:09:48 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:28:34 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ int	main(int argc, char **argv, char **envp)
 			free(token_list);
 			continue ;
 		}
-		print_tokens(*token_list);
 		command_handler(token_list);
-		tokens_clear(token_list);
 	}
 	ft_exit(0);
 }

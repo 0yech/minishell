@@ -6,24 +6,11 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:55:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/11 09:39:28 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:28:22 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_tokens(t_token *list) // Eventually to be replaced with echo builtin
-{
-	t_token	*tmp;
-
-	tmp = list;
-	while (tmp)
-	{
-		printf("%s\n", tmp->value);
-		tmp = tmp->next;
-	}
-	printf("-------------\n");
-}
 
 t_token	*token_new(char *token)
 {

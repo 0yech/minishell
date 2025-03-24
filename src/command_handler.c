@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:34:36 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/23 21:30:36 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/24 17:22:06 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	command_handler(t_token **token_list)
 	//printf("Executable found : %s\n", find_executable_path(cmd->command));
 	//printf("Executable found : %s\n", find_executable_path(cmd->next->command));
 	//printf("Executable found : %s\n\n", find_executable_path(cmd->next->next->command));
+	tokens_clear(token_list);
 	execute_piped_commands(cmd);
 	free_command_list(cmd);
 }

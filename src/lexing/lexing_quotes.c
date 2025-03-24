@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/23 21:59:19 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:27:45 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@
  * @brief A quote or single quote is considered "valid" if it is at the end or
  * at the beginning of a token, as in followed or preceded by whitespace.
  */
-bool is_valid_quote(char* str, int index)
-{
-	if (!str || !str[index])
-		return (false);
-	if ((str[index] == '\'' || str[index] == '"')
-		&& ((index == 0
-				|| (!ft_isprint(str[index - 1])
-					|| str[index - 1] == ' '))
-			|| (!ft_isprint(str[index + 1])
-				|| str[index + 1] == ' ')
-		)
-	)
-		return (true);
-	return (false);
-}
+// bool is_valid_quote(char* str, int index)
+// {
+	// if (!str || !str[index])
+		// return (false);
+	// if ((str[index] == '\'' || str[index] == '"')
+		// && ((index == 0
+				// || (!ft_isprint(str[index - 1])
+					// || str[index - 1] == ' '))
+			// || (!ft_isprint(str[index + 1])
+				// || str[index + 1] == ' ')
+		// )
+	// )
+		// return (true);
+	// return (false);
+// }
 
 /**
  * @brief Goes through a string given as input and returns the index that
@@ -42,20 +42,24 @@ bool is_valid_quote(char* str, int index)
  *
  * @see quotes_clean
  */
-int	quotes_handler(char *start)
+int	quotes_handler(char *str)
 {
 	int		i;
 	char	quote_kind;
 
+	if (!str)
+		return (-1);
 	i = 0;
-	while (start[i] != '"' && start[i] != '\'')
+	while (str[i] && ft_isprint(str[i]) && str[i] != ' ')
+	{
+		if (str[i] == '\'' || str[i] == '"')
+		{
+			quote_kind = str[i++];
+			while (str[i] != quote_kind)
+				i++;
+		}
 		i++;
-	quote_kind = start[i];
-	i++;
-	while (start[i] && (start[i] != quote_kind || !is_valid_quote(start, i)))
-		i++;
-	if (start[i] == quote_kind)
-		i++;
+	}
 	return (i);
 }
 
@@ -76,15 +80,15 @@ char	*quotes_clean(char *raw_token)
 	if (!raw_token)
 		return (NULL);
 	i = 0;
+	clean_token = ft_calloc(ft_strlen(raw_token), sizeof(char));
+	if (!clean_token)
+		return (perror("minishell (quotes_clean) - ft_calloc"),
+			free(raw_token), NULL);
 	while (raw_token[i] && raw_token[i] != '"' && raw_token[i] != '\'')
 		i++;
 	if (raw_token[i] != '"' && raw_token[i] != '\'')
 		return (raw_token);
 	quotes_kind = raw_token[i];
-	clean_token = ft_calloc(ft_strlen(raw_token), sizeof(char));
-	if (!clean_token)
-		return (perror("minishell (quotes_clean) - ft_calloc"),
-			free(raw_token), NULL);
 	i = 0;
 	j = -1;
 	while (raw_token[++j])

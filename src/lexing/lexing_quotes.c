@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/24 11:44:11 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:50:36 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ int	quotes_handler(char *str)
 		if (str[i] == '\'' || str[i] == '"')
 		{
 			quote_kind = str[i++];
-			while (str[i] != quote_kind)
+			while (str[i] && str[i] != quote_kind)
 				i++;
 		}
-		i++;
+		if (str[i])
+			i++;
 	}
 	return (i);
 }

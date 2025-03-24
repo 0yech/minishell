@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/24 11:37:33 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:48:42 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,13 @@ char	*var_expand(char *token)
 			expanded_token[j++] = token[i++];
 			while (token[i] && token[i] != quote_kind)
 			{
-				expanded_token[j++] = token[i++];
 				if (quote_kind != '\'' && token[i] == '$')
 					handle_var(token, expanded_token, &i, &j);
+				else
+					expanded_token[j++] = token[i++];
 			}
-			expanded_token[j++] = token[i++];
+			if (token[i])
+				expanded_token[j++] = token[i++];
 		}
 		else if (token[i] == '$')
 			handle_var(token, expanded_token, &i, &j);

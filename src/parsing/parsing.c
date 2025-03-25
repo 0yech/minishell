@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/21 14:39:39 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:23:01 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ void	print_commands(t_command *cmd)
 	}
 }
 
+/**
+ * @brief Takes a token representing a command as argument and returns a
+ * t_command struct containing the command name.
+ */
 t_command	*fill_parsing(t_token *token)
 {
 	t_command	*cmd;
@@ -46,17 +50,25 @@ t_command	*fill_parsing(t_token *token)
 		return (NULL);
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
-		return (NULL);
+		return (perror("minishell (fill_parsing) - malloc"), NULL);
 	cmd->command = ft_strdup(token->value);
+	if (!cmd->command)
+		return (perror("minishell (fill_parsing) - malloc"), free(cmd), NULL);
 	cmd->argv = extract_args(token);
+	if (!cmd->argv)
+		return (free(cmd->command), free(cmd), NULL);
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	cmd->fdio = ft_calloc(1, sizeof(t_fd));
 	if (!cmd->fdio)
-		return (NULL);
+		return (perror("minishell (fill_parsing) - malloc"), free(cmd->command), free(cmd), NULL);
 	return (cmd);
 }
 
+/**
+ * @brief Loops through the list of lexer tokens given as argument and returns
+ * a new list of parsed commands.
+ */
 t_command	*parse_commands(t_token *token)
 {
 	t_command	*head;
@@ -64,10 +76,9 @@ t_command	*parse_commands(t_token *token)
 	t_command	*new_cmd;
 
 	head = NULL;
-	current = NULL;
 	while (token)
 	{
-		if (token->type == COMMAND || (token->prev && token->prev->type == PIPE))
+		if (token->type == COMMAND)
 		{
 			new_cmd = fill_parsing(token);
 			if (!new_cmd)

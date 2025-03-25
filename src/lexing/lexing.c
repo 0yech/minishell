@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:39:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/24 11:02:00 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:08:35 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 static int	isolate_token(char *input)
 {
-	int	i;
+	int		i;
+	char	special_char;
 
 	i = 0;
 	if (!input)
 		return (i);
 	if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 	{
-		if (input[i + 1] == '|' || input[i + 1] == '>' || input[i + 1] == '<')
+		special_char = input[i];
+		if (input[i + 1] == special_char)
 			return (i + 2);
 		return (i + 1);
 	}

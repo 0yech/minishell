@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:34:36 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/25 00:52:41 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/25 12:10:50 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	command_handler(t_token **token_list)
 	// TODO : Nvm, pipe multiple heredocs are not fine, they do not create a second command node.
 
 	// TODO : Additional error checks and "parser" for invalid redirections that still need fds
-	// TODO, LEXING : |<< without spaces can be detected as "|<"
 
 	// TODO TEST : ls | << EOF > out.txt | cat << EOF > out.txt <- This test fails and minishell needs 2 CTRL+D signals to close.
 	// TODO, BIG TODO, Exec is broken Probably linked with the issue above ^

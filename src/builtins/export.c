@@ -6,7 +6,7 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/25 11:50:00 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/25 11:56:07 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,13 @@
 char	*find_lowest_str(char **array, char *minimum)
 {
 	size_t		i;
-	static char	*maximum;
 	char		*lowest;
 
-	if (!maximum)
-	{
-		i = 0;
-		maximum = array[i++];
-		while (array[i])
-		{
-			if (ft_strncmp(array[i], maximum, ft_strlen(array[i]) + 1) > 0)
-				maximum = array[i];
-			i++;
-		}
-	}
-	lowest = maximum;
 	i = 0;
+	if (minimum)
+		while (ft_strncmp(array[i], minimum, ft_strlen(array[i]) + 1) <= 0)
+			i++;
+	lowest = array[i];
 	while (array[i])
 	{
 		if (minimum)

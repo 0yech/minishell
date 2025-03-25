@@ -6,38 +6,84 @@
 /*   By: cheyo <cheyo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/20 21:04:38 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/25 11:50:00 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
+ * @brief Compares the string given in argument with the array of strings also
+ * passed as argument, and returns the next string in alphabetical order,
+ * starting from the given string.
+ * If NULL is passed as the single string, returns the lowest ranked string.
+ */
+char	*find_lowest_str(char **array, char *minimum)
+{
+	size_t		i;
+	static char	*maximum;
+	char		*lowest;
+
+	if (!maximum)
+	{
+		i = 0;
+		maximum = array[i++];
+		while (array[i])
+		{
+			if (ft_strncmp(array[i], maximum, ft_strlen(array[i]) + 1) > 0)
+				maximum = array[i];
+			i++;
+		}
+	}
+	lowest = maximum;
+	i = 0;
+	while (array[i])
+	{
+		if (minimum)
+		{
+			if (ft_strncmp(array[i], lowest, ft_strlen(array[i]) + 1) < 0
+				&& ft_strncmp(array[i], minimum, ft_strlen(array[i]) + 1) > 0)
+				lowest = array[i];
+		}
+		else if ((ft_strncmp(array[i], lowest, ft_strlen(array[i]) + 1) < 0))
+			lowest = array[i];
+		i++;
+	}
+	return (lowest);
+}
+
+/**
  * @brief Prints all exported variables to stdout formatted as "export <var>".
  * @return 0 if all went well, -1 if an error occurred.
  */
-// TODO: export_print should print exported values in alphabetical order
 int	export_print(void)
 {
 	int		i;
 	char	**env;
+	char	*tmp;
 
 	env = env_to_char(*env_get());
 	if (!env)
 		return (-1);
-	i = 0;
-	while (env[i])
+	tmp = NULL;
+	i = env_size(*env_get());
+	while (i)
 	{
+		tmp = find_lowest_str(env, tmp);
 		if (write(STDOUT_FILENO, "export ", 8) == -1
-			|| write(STDOUT_FILENO, env[i], ft_strlen(env[i])) == -1
+			|| write(STDOUT_FILENO, tmp, ft_strlen(tmp)) == -1
 			|| write(STDOUT_FILENO, "\n", 1) == -1)
 			return (perror("minishell (export_print) - write"),
 				free_array(env), 0);
-		i++;
+		i--;
 	}
 	return (free_array(env), 0);
 }
 
+/**
+ * @brief Returns the size of the variable after the new_value is added to it.
+ * Just returns the length of new_value if the var doesn't exist yet.
+ */
 size_t	export_concat_size(t_env *var, char *new_value)
 {
 	size_t	tot_size;
@@ -48,6 +94,10 @@ size_t	export_concat_size(t_env *var, char *new_value)
 	return (tot_size + 1);
 }
 
+/**
+ * @brief Helper method of the export builtin for concatenation of env variables
+ * with new values. Example : export PATH+=/home
+ */
 int	export_concat(char *str)
 {
 	t_env	*var;

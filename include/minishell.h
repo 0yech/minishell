@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/24 23:32:40 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/24 18:37:02 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ int			env_set_key(char *key, char *value);
 // Env utils, env_utils.c
 char		**env_to_char(t_env *env);
 t_env		*env_get_key(char *key);
+int			env_size(t_env *env);
 
 // Token tools
 void		print_tokens(t_token *list); // This one's temporary

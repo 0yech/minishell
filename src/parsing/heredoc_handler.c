@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:47:58 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/13 15:11:03 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/26 13:52:35 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	heredoc_handler(t_command *cmd)
 		write(pipefd[1], "\n", 1);
 		free(line);
 	}
-	free(line);
+	if (line)
+		free(line);
 	close(pipefd[1]);
 	cmd->fdio->fdin = pipefd[0];
 }

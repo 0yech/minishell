@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/26 10:30:29 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:00:22 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,10 @@ int	setup_redirections(t_command *cmd)
 		if (cmd->fdio->fdout == -1)
 			return (perror("minishell (setup_redirections) - open (output)"), -1);
 		if (cmd->next) // Close pipes when fd redirection is active
-    	{
-        	close(cmd->next->fdio->fdin);
-        	cmd->next->fdio->fdin = open("/dev/null", O_RDONLY);
-    	}
+		{
+			close(cmd->next->fdio->fdin);
+			cmd->next->fdio->fdin = open("/dev/null", O_RDONLY);
+		}
 	}
 	if (cmd->fdio->input) // setup input
 	{
@@ -144,6 +144,8 @@ int	setup_redirections(t_command *cmd)
 		if (cmd->fdio->fdin == -1)
 			return (perror("minishell (setup_redirections) - open (input)"), -1);
 	}
+	if (cmd->fdio->hd_delim)
+		heredoc_handler(cmd);
 	return (0);
 }
 

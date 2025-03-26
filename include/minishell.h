@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/26 11:35:48 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:48:42 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,10 @@ int			no_cmd_checks(t_token *token_list);
 void		free_command_list(t_command *cmd);
 int			exec_checks(t_command *current);
 
+// Heredoc handler - heredoc_handler.c
 void		heredoc_handler(t_command *cmd);
 void		process_heredoc(t_command *cmd);
+
 int			valid_pipes(t_token *token);
 void		assign_pipes(t_command *cmd_list);
 int			execute_piped_commands(t_command *cmd);

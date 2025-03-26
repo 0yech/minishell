@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:53:14 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/21 13:42:26 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:25:06 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,17 @@ char	*ft_strtok(char *str, const char *delim)
 	return (token);
 }
 
+/**
+ * @brief Joins two strings with a '/' character inbetween.
+ *
+ * @param path The first string to join.
+ * @param command The second string to join.
+ * @return The joined string.
+ */
 char	*join_path_command(char *path, char *command)
 {
 	char	*full_path;
-	int		len;
+	size_t	len;
 
 	len = ft_strlen(path) + ft_strlen(command) + 2;
 	full_path = malloc(len);
@@ -48,6 +55,12 @@ char	*join_path_command(char *path, char *command)
 	return (full_path);
 }
 
+/**
+ * @brief Finds the full path of the executable of a command string.
+ *
+ * @param command The command to look up, as a string.
+ * @return The full path of the command, ready to be executed.
+ */
 char	*find_executable_path(char *command)
 {
 	t_env	*path_node;

@@ -6,26 +6,34 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/25 00:50:35 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/26 10:30:29 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Called by the child process.
+ * Resets the command given as argument's fds to point to STDOUT and STDIN.
+ */
 void	close_child(t_command *current)
 {
 	if (current->fdio->fdout != STDOUT_FILENO)
 	{
+		close(STDOUT_FILENO);
 		dup2(current->fdio->fdout, STDOUT_FILENO);
-		// close(current->fdio->fdout);
 	}
 	if (current->fdio->fdin != STDIN_FILENO)
 	{
+		close(STDIN_FILENO);
 		dup2(current->fdio->fdin, STDIN_FILENO);
-		// close(current->fdio->fdin);
 	}
 }
 
+/**
+ * @brief Called by the parent process. Closes the command given as arguemnt's
+ * fds, we don't need them as the parent (?).
+ */
 void	close_parent(t_command *current)
 {
 	if (current->fdio->fdin != STDIN_FILENO)
@@ -34,6 +42,11 @@ void	close_parent(t_command *current)
 		close(current->fdio->fdout);
 }
 
+/**
+ * @brief Calls the appropriate builtin according to the name of the command
+ * given as argument, and returns its exit status.
+ * If the command isn't a builtin, -1 is returned.
+ */
 int	exec_builtin(t_command *current)
 {
 	if (!current->next)
@@ -47,7 +60,7 @@ int	exec_builtin(t_command *current)
 	if (ft_strncmp(current->command, "export", 7) == 0)
 	{
 		if (!current->argv[1])
-			return(ft_export(NULL));
+			return (ft_export(NULL));
 		return (ft_export(current->argv[1]));
 	}
 	if (ft_strncmp(current->command, "unset", 6) == 0)
@@ -84,6 +97,10 @@ int	is_builtin(t_command *current)
 	return (0);
 }
 
+/**
+ * @brief Executes a command as a child process.
+ * In case of error with execve, exits with 126.
+ */
 int exec_child(t_command *current)
 {
 	char	**envtab;
@@ -101,7 +118,7 @@ int exec_child(t_command *current)
 	return (-1);
 }
 
-void	setup_redirections(t_command *cmd)
+int	setup_redirections(t_command *cmd)
 {
 	int	flags;
 
@@ -114,11 +131,8 @@ void	setup_redirections(t_command *cmd)
 			flags |= O_APPEND; // Append, adds it at the end
 		cmd->fdio->fdout = open(cmd->fdio->output, flags, 0644);
 		if (cmd->fdio->fdout == -1)
-		{
-			perror("minishell (setup_redirections) - open (output)");
-			exit(1);
-		}
-		if (cmd->next) // Close pipes when an fd redirection is active
+			return (perror("minishell (setup_redirections) - open (output)"), -1);
+		if (cmd->next) // Close pipes when fd redirection is active
     	{
         	close(cmd->next->fdio->fdin);
         	cmd->next->fdio->fdin = open("/dev/null", O_RDONLY);
@@ -128,11 +142,9 @@ void	setup_redirections(t_command *cmd)
 	{
 		cmd->fdio->fdin = open(cmd->fdio->input, O_RDONLY);
 		if (cmd->fdio->fdin == -1)
-		{
-			perror("minishell (setup_redirections) - open (input)");
-			exit(1);
-		}
+			return (perror("minishell (setup_redirections) - open (input)"), -1);
 	}
+	return (0);
 }
 
 /**
@@ -218,7 +230,7 @@ int execute_piped_commands(t_command *cmd)
             return (perror("minishell (execute_piped_commands) - fork"), -1);
 		if (pid > 0)
 			close_parent(current);
-		if (pid == 0)
+		else if (pid == 0)
 			exec_child(current);
 		stat_loc = ft_calloc(1, sizeof(int));
 		if (!stat_loc)

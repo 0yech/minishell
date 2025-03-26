@@ -6,22 +6,28 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:56:38 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/17 14:04:46 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:12:43 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// stat takes a struct stat element (sys/stat.h) and fills it with information
-// first arg is the input, the second one is the struct (*buf)
-// returns false if it's NOT a directory
 
-bool	is_cmd_dir(char *cmd)
+/**
+ * @brief Takes in a path string and checks if the file is a directory.
+ *
+ * @details
+ * stat takes a struct stat element (sys/stat.h) and fills it with information
+ * first arg is the input, the second one is the struct (*buf)
+ *
+ * @return false if it's NOT a directory, true if it is
+*/
+bool	is_dir(char *path)
 {
 	struct stat	cmdstat;
 
 	ft_memset(&cmdstat, 0, sizeof(cmdstat));
-	stat(cmd, &cmdstat);
+	stat(path, &cmdstat);
 	return (S_ISDIR(cmdstat.st_mode));
 }
 
@@ -30,23 +36,22 @@ bool	is_cmd_dir(char *cmd)
 // 3 means specified command is a directory
 // 4 means command is not executable
 // should be replaced by macros and strerror()
-
 int	exec_types(t_command *current)
 {
 	char	*path;
 
-	if (strncmp(current->command, "<<", 3) == 0)
+	if (ft_strncmp(current->command, "<<", 3) == 0)
 		return (0);
-	if (is_cmd_dir(current->command))
+	if (is_dir(current->command))
 		return (3);
 	path = find_executable_path(current->command);
 	if (!path)
 		return (2);
 	if (access(path, F_OK) != 0)
 		return (free(path), 2);
-	else if (is_cmd_dir(current->command))
+	if (is_dir(current->command))
 		return (free(path), 3);
-	else if (access(path, F_OK | X_OK) != 0)
+	if (access(path, F_OK | X_OK) != 0)
 		return (free(path), 4);
 	free(path);
 	return (0);
@@ -69,11 +74,11 @@ int	exec_checks(t_command *cmd)
 			if (code != 0)
 				valid = -1;
 			if (code == 2)
-				printf("\nCommand not found\n");
+				write(2, "\nCommand not found\n", 20);
 			else if (code == 3)
-				printf("\nIs a directory\n");
+				write(2, "\nIs a directory\n", 17);
 			else if (code == 4)
-				printf("\nCan't execute\n");
+				write(2, "\nCan't execute\n", 16);
 		}
 		current = current->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/25 20:44:07 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:35:48 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_fd
 typedef struct s_command
 {
 	char				*command;
-	char				*path;
+	char				*path; // UNUSED!
 	t_fd				*fdio;
 	char				**argv;
 	struct s_command	*next;
@@ -86,7 +86,6 @@ typedef struct s_token
 
 typedef struct s_env
 {
-	bool			exported;
 	char			*name;
 	char			*value;
 	struct s_env	*next;

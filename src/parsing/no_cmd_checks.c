@@ -6,13 +6,13 @@
 /*   By: nrey <nrey@student.42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/25 00:48:20 by nrey             ###   ########.fr       */
+/*   Updated: 2025/03/26 10:39:32 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_firstnode(t_token *current)
+int	is_firstnode(t_token *current) // UNUSED
 {
 	if (!current->prev)
 		return (1);
@@ -21,7 +21,7 @@ int	is_firstnode(t_token *current)
 
 int	handle_fake_redirection(t_command *cmd)
 {
-	int fd;
+	int	fd;
 
 	if (cmd->fdio->hd_delim)
 		process_heredoc(cmd);
@@ -36,7 +36,7 @@ int	handle_fake_redirection(t_command *cmd)
 
 t_command *fill_fake_command(t_token *current)
 {
-	t_command *cmd;
+	t_command	*cmd;
 
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
@@ -62,10 +62,10 @@ int no_cmd_checks(t_token *token_list)
 	list = token_list;
 	if (list->type != REDIRECT_IN && list->type != REDIRECT_OUT
 		&& list->type != APPEND && list->type != HEREDOC)
-		return (1);
+		return (-1);
 	cmd = fill_fake_command(list);
 	fd = handle_fake_redirection(cmd);
-	if (fd>=0)
+	if (fd >= 0)
 		close(fd);
 	free_command_list(cmd);
 	return (0);

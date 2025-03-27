@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:34:36 by cheyo             #+#    #+#             */
-/*   Updated: 2025/03/25 12:10:50 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:56:28 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	command_handler(t_token **token_list)
 		// even when a command node was printed, cause parser returned NULL node,
 		// but is checked on start. WARNING - multiple invalid commands will enter this,
 		// must yet be taken care of.
-		no_cmd_checks(*token_list);
+		// no_cmd_checks(*token_list);
 	}
 	// TODO : Single invalid Heredoc should still create an fd when there's one. Only Check it when no command exists, pipe stuff should work fine already.
 	// TODO : Empty command list but not empty tokens. Should create fds when needed.

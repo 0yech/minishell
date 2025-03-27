@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:00:08 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/26 13:08:25 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:09:41 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	count_argsopt(t_token *token)
 	int	count;
 
 	count = 0;
-	while (token && token->type != PIPE) // TODO Or redirections? Why stop only at pipes?
+	while (token && token->type != PIPE)
 	{
 		if (token->type == OPTION || token->type == ARGUMENT)
 			count++;
@@ -110,7 +110,7 @@ char	**extract_args(t_token *token)
 	if (!args[i++])
 		return (perror("minishell (extract_args) - ft_strdup"), free(args), NULL);
 	token = token->next;
-	while (token && token->type != PIPE) // TODO Or redirections? Why stop only at pipes?
+	while (token && token->type != PIPE)
 	{
 		if (token->type == OPTION || token->type == ARGUMENT)
 		{

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/26 13:51:10 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/27 10:49:22 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_command	*parse_commands(t_token *token)
 	head = NULL;
 	while (token)
 	{
-		if (token->type == COMMAND)
+		if (token->type == COMMAND) // TODO: to fix ls | << EOF > out.txt, need to create an empty command with a hd_delim even when no command is found
 		{
 			new_cmd = fill_parsing(token);
 			if (!new_cmd)
@@ -108,7 +108,6 @@ t_command	*parsing_handler(t_token **token_list)
 		return (free_command_list(command_list), NULL);
 	fill_args_fds(command_list, *token_list);
 	assign_pipes(command_list);
-	// process_heredoc(command_list); // Moved this call to the setup_redirections function
 	print_commands(command_list);
 	//env = env_get();
 	//waos = env_to_char(*env);

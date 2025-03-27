@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:00:08 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/27 15:09:41 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:16:12 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,12 @@ char	**extract_args(t_token *token)
 	token = token->next;
 	while (token && token->type != PIPE)
 	{
+		// TODO: idea : put everything into the args, heredocs and normal arguments and options.
+		// Then the heredoc handler will take care of taking out the delimiters and processing
+		// This is probably necessary so we can not only have null commands with a heredoc,
+		// but also multiple heredocs in sequence (ls << EOF << EOF << EOF)
+		// It could even help to do the << 'EOF' part directly that way
+		// Parsing V2 time?
 		if (token->type == OPTION || token->type == ARGUMENT)
 		{
 			args[i] = ft_strdup(token->value);

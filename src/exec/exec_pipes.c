@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/26 14:00:22 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/27 10:14:09 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ int	setup_redirections(t_command *cmd)
 {
 	int	flags;
 
+	if (cmd->fdio->hd_delim)
+		heredoc_handler(cmd);
 	flags = O_WRONLY | O_CREAT;
 	if (cmd->fdio->output) // setup output
 	{
@@ -144,8 +146,6 @@ int	setup_redirections(t_command *cmd)
 		if (cmd->fdio->fdin == -1)
 			return (perror("minishell (setup_redirections) - open (input)"), -1);
 	}
-	if (cmd->fdio->hd_delim)
-		heredoc_handler(cmd);
 	return (0);
 }
 

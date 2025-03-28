@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 12:55:19 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/28 09:18:17 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/28 12:09:39 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_command	*fill_parsing(t_token *token)
 	cmd->arguments = extract_args(token);
 	if (!cmd->arguments)
 		return (free(cmd->command), free(cmd), NULL);
-	cmd->argv = tokens_to_argv(cmd);
+	cmd->argv = tokens_to_argv(token);
 	cmd->fdio = ft_calloc(1, sizeof(t_fd));
 	if (!cmd->fdio)
 		return (perror("minishell (fill_parsing) - malloc"),

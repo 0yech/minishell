@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:43:53 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/26 13:48:42 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/28 09:12:36 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,16 @@ typedef enum e_outtype
 // Structs
 typedef struct s_fd
 {
-	char		*hd_delim;	// Heredoc delim
-	bool		hd_quotes;	// Heredoc quotes
-	char		*input;
-	char		*output;
-	t_outtype	outtype;
+	// char		*hd_delim;	// Heredoc delim
+	// bool		hd_quotes;	// Heredoc quotes
+	// char		*input;
+	// char		*output;
+	// t_outtype	outtype;
 	int			fdin;
 	int			fdout;
 	int			stdincpy;
 	int			stdoutcpy;
 }	t_fd;
-
-typedef struct s_command
-{
-	char				*command;
-	char				*path; // UNUSED!
-	t_fd				*fdio;
-	char				**argv;
-	struct s_command	*next;
-	struct s_command	*prev;
-}	t_command;
 
 typedef struct s_token
 {
@@ -83,6 +73,16 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
+
+typedef struct s_command
+{
+	char				*command;
+	t_fd				*fdio;
+	t_token				**arguments;
+	char				**argv;
+	struct s_command	*next;
+	struct s_command	*prev;
+}	t_command;
 
 typedef struct s_env
 {
@@ -167,7 +167,8 @@ char		*find_executable_path(char *command);
 int			is_builtin(t_command *current);
 
 // Parsing arguments - parsing_args.c
-char		**extract_args(t_token *token);
+char		**tokens_to_argv(t_command *cmd);
+t_token		**extract_args(t_token* token);
 void		fill_args_fds(t_command *cmd, t_token *token);
 
 #endif //MINISHELL_H

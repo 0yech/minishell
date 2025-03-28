@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42lausanne.ch>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/26 10:39:32 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/28 08:20:49 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ t_command *fill_fake_command(t_token *current)
 	cmd->argv = NULL;
 	cmd->next = NULL;
 	cmd->prev = NULL;
-	cmd->path = NULL;
 	return (cmd);
 }
 

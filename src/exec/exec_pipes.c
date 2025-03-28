@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:21:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/27 10:14:09 by estettle         ###   ########.fr       */
+/*   Updated: 2025/03/28 12:05:21 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,6 @@ int execute_piped_commands(t_command *cmd)
 	dup2(cmd->fdio->stdincpy, STDIN_FILENO);
 	dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO);
 	if (cmd->fdio->stdincpy == -1 || cmd->fdio->stdoutcpy == -1)
-		perror("minishell (execute_piped_commands) - dup2");
+		return (perror("minishell (execute_piped_commands) - dup2"), -1);
 	return (0);
 }

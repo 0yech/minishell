@@ -66,16 +66,6 @@ typedef struct s_fd
 	int			stdoutcpy;
 }	t_fd;
 
-typedef struct s_command
-{
-	char				*command;
-	char				*path; // UNUSED!
-	t_fd				*fdio;
-	char				**argv;
-	struct s_command	*next;
-	struct s_command	*prev;
-}	t_command;
-
 typedef struct s_token
 {
 	char			*value;
@@ -83,6 +73,16 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
+
+typedef struct s_command
+{
+	char				*command;
+	t_fd				*fdio;
+	t_token				**arguments; // Array of all tokens associated with cmd
+	char				**argv; // Array of argv tokens
+	struct s_command	*next;
+	struct s_command	*prev;
+}	t_command;
 
 typedef struct s_env
 {
@@ -167,7 +167,8 @@ char		*find_executable_path(char *command);
 int			is_builtin(t_command *current);
 
 // Parsing arguments - parsing_args.c
-char		**extract_args(t_token *token);
+t_token		**extract_args(t_token *token);
+char		**args_to_argv(t_token *arg);
 void		fill_args_fds(t_command *cmd, t_token *token);
 
 #endif //MINISHELL_H

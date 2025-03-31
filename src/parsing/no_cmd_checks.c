@@ -38,7 +38,7 @@ t_command *fill_fake_command(t_token *current)
 {
 	t_command	*cmd;
 
-	cmd = malloc(sizeof(t_command));
+	cmd = ft_calloc(1, sizeof(t_command));
 	if (!cmd)
 		return (NULL);
 	cmd->command = ft_strdup(current->value);
@@ -46,10 +46,6 @@ t_command *fill_fake_command(t_token *current)
 	if (!cmd->fdio)
 		return (NULL);
 	fill_args_fds(cmd, current);
-	cmd->argv = NULL;
-	cmd->next = NULL;
-	cmd->prev = NULL;
-	cmd->path = NULL;
 	return (cmd);
 }
 

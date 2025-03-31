@@ -28,6 +28,13 @@ void	print_commands(t_command *cmd)
 		printf("Command : %s\n", cmd->command);
 		printf("redirecttype : %d\n", cmd->fdio->outtype);
 		i = 0;
+		while (cmd->arguments[i])
+		{
+			printf("argument%d : %s\n", i, cmd->arguments[i]->value);
+			i++;
+		}
+		printf("\n");
+		i = 0;
 		while (cmd->argv[i])
 		{
 			printf("argv%d : %s\n", i, cmd->argv[i]);
@@ -48,17 +55,18 @@ t_command	*fill_parsing(t_token *token)
 
 	if (!token)
 		return (NULL);
-	cmd = malloc(sizeof(t_command));
+	cmd = ft_calloc(1, sizeof(t_command));
 	if (!cmd)
 		return (perror("minishell (fill_parsing) - malloc"), NULL);
 	cmd->command = ft_strdup(token->value);
 	if (!cmd->command)
 		return (perror("minishell (fill_parsing) - malloc"), free(cmd), NULL);
-	cmd->argv = extract_args(token);
+	cmd->arguments = extract_args(token);
+	if (!cmd->arguments)
+		return (free(cmd->command), free(cmd), NULL);
+	cmd->argv = args_to_argv(*cmd->arguments);
 	if (!cmd->argv)
 		return (free(cmd->command), free(cmd), NULL);
-	cmd->next = NULL;
-	cmd->prev = NULL;
 	cmd->fdio = ft_calloc(1, sizeof(t_fd));
 	if (!cmd->fdio)
 		return (perror("minishell (fill_parsing) - malloc"), free(cmd->command), free(cmd), NULL);
@@ -108,7 +116,7 @@ t_command	*parsing_handler(t_token **token_list)
 		return (free_command_list(command_list), NULL);
 	fill_args_fds(command_list, *token_list);
 	assign_pipes(command_list);
-	// print_commands(command_list);
+	print_commands(command_list);
 	//env = env_get();
 	//waos = env_to_char(*env);
 	//printf("%s", waos[1]);

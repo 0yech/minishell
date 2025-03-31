@@ -30,7 +30,6 @@ void	command_delone(t_command *node)
 {
 	int	i;
 
-	i = 0;
 	if (node)
 	{
 		if (node->command)
@@ -38,13 +37,13 @@ void	command_delone(t_command *node)
 		free_fds(node);
 		if (node->argv)
 		{
+			i = 0;
 			while (node->argv[i])
-			{
-				free(node->argv[i]);
-				i++;
-			}
+				free(node->argv[i++]);
 			free(node->argv);
 		}
+		if (node->arguments)
+			free(node->arguments);
 		free(node);
 	}
 }

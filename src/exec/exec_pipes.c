@@ -118,32 +118,42 @@ int exec_child(t_command *current)
 	return (-1);
 }
 
-int	setup_redirections(t_command *cmd)
+int	setup_redirections(t_command *cmd, t_token **arg)
 {
 	int	flags;
+	int	i;
 
-	process_heredoc(cmd);
-	flags = O_WRONLY | O_CREAT;
-	if (cmd->fdio->output) // setup output
+	i = 0;
+	while (arg[i])
 	{
-		if (cmd->fdio->outtype == RED_OUT)
-			flags |= O_TRUNC; // Truncate, overwrites the file
-		else if (cmd->fdio->outtype == APD)
-			flags |= O_APPEND; // Append, adds it at the end
-		cmd->fdio->fdout = open(cmd->fdio->output, flags, 0644);
-		if (cmd->fdio->fdout == -1)
-			return (perror("minishell (setup_redirections) - open (output)"), -1);
-		if (cmd->next) // Close pipes when fd redirection is active
-		{
-			close(cmd->next->fdio->fdin);
-			cmd->next->fdio->fdin = open("/dev/null", O_RDONLY);
+		flags = O_WRONLY | O_CREAT;
+		if (arg[i]->type == HEREDOC)
+			heredoc_handler(cmd, arg[i + 1]->value);
+		else if (arg[i]->type == REDIRECT_IN && arg[i + 1]
+			&& arg[i + 1]->type == REDIRECT_FILE)
+		{ 
+			if (cmd->fdio->fdin && close(cmd->fdio->fdin) == -1)
+				return (perror("minishell (setup_redirections) - close"), -1);
+			cmd->fdio->fdin = open(arg[i + 1]->value, O_RDONLY);
+			if (cmd->fdio->fdin == -1)
+				return (perror("minishell (setup_redirections) - open (in)"), -1);
+			i++;
+			continue ;
 		}
-	}
-	if (cmd->fdio->input) // setup input
-	{
-		cmd->fdio->fdin = open(cmd->fdio->input, O_RDONLY);
-		if (cmd->fdio->fdin == -1)
-			return (perror("minishell (setup_redirections) - open (input)"), -1);
+		else if (arg[i]->type == REDIRECT_OUT)
+			flags |= O_TRUNC; // Truncate, overwrites the file
+		else if (arg[i]->type == APPEND)
+			flags |= O_APPEND; // Append, adds it at the end
+		if (cmd->fdio->fdout && close(cmd->fdio->fdout) == -1)
+			return (perror("minishell (setup_redirections) - close"), -1);
+		if (arg[i + 1] && arg[i + 1]->type == REDIRECT_FILE)
+		{
+			cmd->fdio->fdout = open(arg[i + 1]->value, flags, 0644);
+			printf("Opened a file for writing: %s\n", arg[i + 1]->value);
+			if (cmd->fdio->fdout == -1)
+				return (perror("minishell (setup_redirections) - open (out)"), -1);
+		}
+		i++;
 	}
 	return (0);
 }
@@ -218,7 +228,7 @@ int execute_piped_commands(t_command *cmd)
 	current = cmd;
 	while (current)
 	{
-		setup_redirections(current);
+		setup_redirections(current, current->arguments);
 		if (is_builtin(current))
 		{
 			exit_status = exec_pipe_builtin(current);

@@ -46,16 +46,3 @@ void	heredoc_handler(t_command *cmd, char *hd_delim)
 		perror("minishell (heredoc_handler) - close");
 	cmd->fdio->fdin = pipefd[0];
 }
-
-void	process_heredoc(t_command *cmd)
-{
-	t_token	*tmp;
-
-	tmp = *cmd->arguments;
-	while (tmp)
-	{
-		if (tmp->type == HEREDOC)
-			heredoc_handler(cmd, tmp->next->value);
-		tmp = tmp->next;
-	}
-}

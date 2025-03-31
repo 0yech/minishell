@@ -156,7 +156,7 @@ void		free_command_list(t_command *cmd);
 int			exec_checks(t_command *current);
 
 // Heredoc handler - heredoc_handler.c
-void		heredoc_handler(t_command *cmd);
+void		heredoc_handler(t_command *cmd, char *hd_delim);
 void		process_heredoc(t_command *cmd);
 
 int			valid_pipes(t_token *token);

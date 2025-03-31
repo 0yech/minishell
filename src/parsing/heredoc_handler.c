@@ -20,39 +20,42 @@
  *
  * @param cmd The command with the heredoc.
  */
-void	heredoc_handler(t_command *cmd)
+void	heredoc_handler(t_command *cmd, char *hd_delim)
 {
 	int		pipefd[2];
 	char	*line;
 
-	if (!cmd->fdio->hd_delim)
+	if (!cmd || !hd_delim)
 		return ;
 	if (pipe(pipefd) == -1)
 		return (perror("minishell (heredoc_handler) - pipe"));
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strncmp(
-				line, cmd->fdio->hd_delim, ft_strlen(cmd->fdio->hd_delim)
-			) == 0)
+		if (!line || ft_strncmp(line, hd_delim, ft_strlen(line + 1)) == 0)
 			break ;
-		write(pipefd[1], line, ft_strlen(line));
-		write(pipefd[1], "\n", 1);
-		free(line);
+		if (write(pipefd[1], line, ft_strlen(line)) == -1)
+			perror("minishell (heredoc_handler) - write");
+		if (write(pipefd[1], "\n", 1) == -1)
+			perror("minishell (heredoc_handler) - write");
+        free(line);
 	}
 	if (line)
 		free(line);
-	close(pipefd[1]);
+	if (close(pipefd[1]) == -1)
+		perror("minishell (heredoc_handler) - close");
 	cmd->fdio->fdin = pipefd[0];
 }
 
 void	process_heredoc(t_command *cmd)
 {
-	// Basically unused at this point
-	while (cmd)
+	t_token	*tmp;
+
+	tmp = *cmd->arguments;
+	while (tmp)
 	{
-		if (cmd->fdio->hd_delim)
-			heredoc_handler(cmd);
-		cmd = cmd->next;
+		if (tmp->type == HEREDOC)
+			heredoc_handler(cmd, tmp->next->value);
+		tmp = tmp->next;
 	}
 }

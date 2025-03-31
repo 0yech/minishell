@@ -122,8 +122,7 @@ int	setup_redirections(t_command *cmd)
 {
 	int	flags;
 
-	if (cmd->fdio->hd_delim)
-		heredoc_handler(cmd);
+	process_heredoc(cmd);
 	flags = O_WRONLY | O_CREAT;
 	if (cmd->fdio->output) // setup output
 	{

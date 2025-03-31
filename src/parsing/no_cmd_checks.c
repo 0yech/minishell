@@ -23,8 +23,8 @@ int	handle_fake_redirection(t_command *cmd)
 {
 	int	fd;
 
-	if (cmd->fdio->hd_delim)
-		process_heredoc(cmd);
+	// if (cmd->fdio->hd_delim) // just check for HEREDOC tokens
+	// 	process_heredoc(cmd);
 	if (cmd->fdio->outtype == RED_OUT)
 		fd = open(cmd->fdio->output, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (cmd->fdio->outtype == APD)

@@ -20,8 +20,8 @@ void	print_commands(t_command *cmd)
 	{
 		printf("-----------------------------------------\n");
 		printf("Input fdio : %s\n", cmd->fdio->input);
-		printf("Heredoc_quotes : %d\n", cmd->fdio->hd_quotes);
-		printf("hd_delim : %s\n", cmd->fdio->hd_delim);
+		// printf("Heredoc_quotes : %d\n", cmd->fdio->hd_quotes);
+		// printf("hd_delim : %s\n", cmd->fdio->hd_delim);
 		printf("fdin : %d\n", cmd->fdio->fdin);
 		printf("fdout : %d\n", cmd->fdio->fdout);
 		printf("output fdio : %s\n\n", cmd->fdio->output);
@@ -69,7 +69,8 @@ t_command	*fill_parsing(t_token *token)
 		return (free(cmd->command), free(cmd), NULL);
 	cmd->fdio = ft_calloc(1, sizeof(t_fd));
 	if (!cmd->fdio)
-		return (perror("minishell (fill_parsing) - malloc"), free(cmd->command), free(cmd), NULL);
+		return (perror("minishell (fill_parsing) - malloc"),
+			free(cmd->command), free(cmd), NULL);
 	return (cmd);
 }
 
@@ -108,8 +109,6 @@ t_command	*parse_commands(t_token *token)
 t_command	*parsing_handler(t_token **token_list)
 {
 	t_command	*command_list;
-	//t_env		**env;
-	//char		**waos;
 
 	command_list = parse_commands(*token_list);
 	if (valid_pipes(*token_list) == 1)
@@ -117,10 +116,6 @@ t_command	*parsing_handler(t_token **token_list)
 	fill_args_fds(command_list, *token_list);
 	assign_pipes(command_list);
 	print_commands(command_list);
-	//env = env_get();
-	//waos = env_to_char(*env);
-	//printf("%s", waos[1]);
-	//free_array(waos);
 	if (exec_checks(command_list) != 0)
 	{
 		exec_update_env(command_list, 127);

@@ -55,8 +55,6 @@ typedef enum e_outtype
 // Structs
 typedef struct s_fd
 {
-	char		*hd_delim;	// Heredoc delim
-	bool		hd_quotes;	// Heredoc quotes
 	char		*input;
 	char		*output;
 	t_outtype	outtype;

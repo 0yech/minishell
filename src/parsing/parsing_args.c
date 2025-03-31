@@ -59,13 +59,6 @@ void	fill_args_fds(t_command *cmd, t_token *token)
 					perror("minishell (fill_args_fds) - ft_strdup");
 				current->fdio->fdout = O_WRONLY | O_CREAT | O_APPEND;
 			}
-			else if (token->type == HEREDOC && token->next
-				&& token->next->type == DELIM)
-			{
-				current->fdio->hd_delim = ft_strdup(token->next->value);
-				if (!current->fdio->hd_delim)
-					perror("minishell (fill_args_fds) - ft_strdup");
-			}
 		}
 		token = token->next;
 	}

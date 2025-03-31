@@ -20,8 +20,6 @@ void	free_fds(t_command *node)
 			free(node->fdio->input);
 		if (node->fdio && node->fdio->output)
 			free(node->fdio->output);
-		if (node->fdio && node->fdio->hd_delim)
-			free(node->fdio->hd_delim);
 		free(node->fdio);
 	}
 }

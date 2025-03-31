@@ -13,6 +13,7 @@
 #include "minishell.h"
 
 // TODO : make this return an int
+// (probably will be completely gone by the time I'm done with parsing_v2)
 /**
  * @brief Loops over a token list and a freshly created command list and fills
  * the latter with information contained in the token.
@@ -138,12 +139,16 @@ t_token	**extract_args(t_token *token)
 	i = 0;
 	while (token && token->type != PIPE)
 	{
-		// TODO: idea : put the tokens themselves into the args, heredocs and normal arguments and options.
-		// Then the heredoc handler will take care of taking out the delimiters and processing
-		// This is probably necessary so we can not only have null commands with a heredoc,
+		// TODO: idea : put the tokens themselves into the args,
+		// heredocs and normal arguments and options.
+		// Then the heredoc handler will take care of taking out the delimiters
+		// and processing
+		// This is probably necessary so we can not only have null commands
+		// with a heredoc,
 		// but also multiple heredocs in sequence (ls << EOF << EOF << EOF)
 		// It could even help to do the << 'EOF' part directly that way
-		// I'll need a function that parses all tokens from a specific command in a list of arguments for argv
+		// I'll need a function that parses all tokens from a specific command
+		// in a list of arguments for argv
 		args[i] = token;
 		i++;
 		token = token->next;

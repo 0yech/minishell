@@ -56,13 +56,6 @@ t_command	*fill_parsing(t_token *token)
 	cmd = ft_calloc(1, sizeof(t_command));
 	if (!cmd)
 		return (perror("minishell (fill_parsing) - malloc"), NULL);
-	if (token->type == COMMAND)
-	{
-		cmd->command = ft_strdup(token->value);
-		if (!cmd->command)
-			return (perror("minishell (fill_parsing) - malloc"),
-				free(cmd), NULL);
-	}
 	cmd->arguments = extract_args(token);
 	if (!cmd->arguments)
 		return (free(cmd->command), free(cmd), NULL);
@@ -73,6 +66,16 @@ t_command	*fill_parsing(t_token *token)
 	if (!cmd->fdio)
 		return (perror("minishell (fill_parsing) - malloc"),
 			free(cmd->command), free(cmd), NULL);
+	
+	while (token && token->type != COMMAND)
+		token = token->next;
+	if (token)
+	{
+		cmd->command = ft_strdup(token->value);
+		if (!cmd->command)
+			return (perror("minishell (fill_parsing) - malloc"),
+				free(cmd), NULL);
+	}
 	return (cmd);
 }
 

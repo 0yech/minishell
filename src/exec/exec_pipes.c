@@ -83,7 +83,7 @@ int	exec_builtin(t_command *current)
  */
 int	is_builtin(t_command *current)
 {
-	if (!current)
+	if (!current || !current->command)
 		return (0);
 	if (ft_strncmp(current->command, "cd", 3) == 0
 		|| ft_strncmp(current->command, "pwd", 4) == 0

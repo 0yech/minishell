@@ -66,7 +66,7 @@ int	exec_checks(t_command *cmd)
 	current = cmd;
 	code = 0;
 	valid = 0;
-	while (current)
+	while (current && current->command)
 	{
 		if (is_builtin(current) == 0)
 		{

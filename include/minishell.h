@@ -53,16 +53,13 @@ typedef enum e_outtype
 }	t_outtype;
 
 // Structs
-typedef struct s_fd
+typedef struct s_io
 {
-	char		*input;
-	char		*output;
-	t_outtype	outtype;
 	int			fdin;
 	int			fdout;
 	int			stdincpy;
 	int			stdoutcpy;
-}	t_fd;
+}	t_io;
 
 typedef struct s_token
 {
@@ -75,7 +72,7 @@ typedef struct s_token
 typedef struct s_command
 {
 	char				*command;
-	t_fd				*fdio;
+	t_io				*fdio;
 	t_token				**arguments; // Array of all tokens associated with cmd
 	char				**argv; // Array of argv tokens
 	struct s_command	*next;

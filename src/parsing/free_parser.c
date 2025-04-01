@@ -12,18 +12,6 @@
 
 #include "minishell.h"
 
-void	free_fds(t_command *node)
-{
-	if (node)
-	{
-		if (node->fdio && node->fdio->input)
-			free(node->fdio->input);
-		if (node->fdio && node->fdio->output)
-			free(node->fdio->output);
-		free(node->fdio);
-	}
-}
-
 void	command_delone(t_command *node)
 {
 	int	i;
@@ -32,7 +20,7 @@ void	command_delone(t_command *node)
 	{
 		if (node->command)
 			free(node->command);
-		free_fds(node);
+		free(node->fdio);
 		if (node->argv)
 		{
 			i = 0;

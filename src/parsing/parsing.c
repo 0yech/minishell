@@ -19,14 +19,9 @@ void	print_commands(t_command *cmd)
 	while (cmd)
 	{
 		printf("-----------------------------------------\n");
-		printf("Input fdio : %s\n", cmd->fdio->input);
-		// printf("Heredoc_quotes : %d\n", cmd->fdio->hd_quotes);
-		// printf("hd_delim : %s\n", cmd->fdio->hd_delim);
 		printf("fdin : %d\n", cmd->fdio->fdin);
 		printf("fdout : %d\n", cmd->fdio->fdout);
-		printf("output fdio : %s\n\n", cmd->fdio->output);
 		printf("Command : %s\n", cmd->command);
-		printf("redirecttype : %d\n", cmd->fdio->outtype);
 		i = 0;
 		while (cmd->arguments[i])
 		{
@@ -74,7 +69,7 @@ t_command	*fill_parsing(t_token *token)
 	cmd->argv = args_to_argv(*cmd->arguments);
 	if (!cmd->argv)
 		return (free(cmd->command), free(cmd), NULL);
-	cmd->fdio = ft_calloc(1, sizeof(t_fd));
+	cmd->fdio = ft_calloc(1, sizeof(t_io));
 	if (!cmd->fdio)
 		return (perror("minishell (fill_parsing) - malloc"),
 			free(cmd->command), free(cmd), NULL);

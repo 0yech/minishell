@@ -113,7 +113,6 @@ t_command	*parsing_handler(t_token **token_list)
 	command_list = parse_commands(*token_list);
 	if (valid_pipes(*token_list) == 1)
 		return (free_command_list(command_list), NULL);
-	// fill_args_fds(command_list, *token_list);
 	assign_pipes(command_list);
 	print_commands(command_list);
 	if (exec_checks(command_list) != 0)

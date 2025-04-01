@@ -31,9 +31,7 @@ void	command_handler(t_token **token_list)
 
 	// TODO : Additional error checks and "parser" for invalid redirections that still need fds
 
-	// TODO TEST : ls | << EOF > out.txt | cat << EOF > out.txt <- This test fails and minishell needs 2 CTRL+D signals to close.
-	// TODO, BIG TODO, Exec is broken Probably linked with the issue above ^
-	// Once a "custom" fd is set in a command, it will put it in regardless of
+	// TODO : Once a "custom" fd is set in a command, it will put it in regardless of
 	// the commands order. This probably was the reason fds were closed often before.
 
 	//printf("%s\n", (*token_list)->value);

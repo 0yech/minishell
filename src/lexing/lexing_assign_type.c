@@ -35,7 +35,7 @@ int	look_for_operations(char *str)
 	return (0);
 }
 
-int	look_for_command_type(t_token *token)
+int	look_for_command_type(t_token *token, bool current_has_cdm)
 {
 	if (token->prev == NULL)
 		return (COMMAND);
@@ -56,12 +56,15 @@ int	look_for_command_type(t_token *token)
 		return (OPTION);
 	if (token->prev->type == COMMAND)
 		return (ARGUMENT);
-	return (ARGUMENT);
+	if (current_has_cdm)
+		return (ARGUMENT);
+	return (COMMAND);
 }
 
 void	assign_types(t_token **token_list)
 {
 	t_token	*current;
+	bool	current_has_cmd;
 	int		type;
 
 	if (!token_list || !(*token_list))
@@ -69,11 +72,12 @@ void	assign_types(t_token **token_list)
 	current = *token_list;
 	while (current)
 	{
+		current_has_cmd = false;
 		type = look_for_operations(current->value);
 		if (type)
 			current->type = type;
 		else
-			current->type = look_for_command_type(current);
+			current->type = look_for_command_type(current, current_has_cmd);
 		printf("\nNode value : %s\n", current->value);
 		printf("Node type : %d\n", current->type);
 		current = current->next;

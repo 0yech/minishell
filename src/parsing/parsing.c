@@ -46,8 +46,11 @@ void	print_commands(t_command *cmd)
 }
 
 /**
- * @brief Takes a token representing a command as argument and returns a
- * t_command struct containing the command name.
+ * @brief Takes a token as argument and creates a command node with tokens
+ * including and following the token argument.
+ * 
+ * @return A new command node containing all relevant tokens as arguments,
+ * a valid list of argv, a calloced fdio and a command string, if there's one.
  */
 t_command	*fill_parsing(t_token *token)
 {
@@ -62,7 +65,8 @@ t_command	*fill_parsing(t_token *token)
 	{
 		cmd->command = ft_strdup(token->value);
 		if (!cmd->command)
-			return (perror("minishell (fill_parsing) - malloc"), free(cmd), NULL);
+			return (perror("minishell (fill_parsing) - malloc"),
+				free(cmd), NULL);
 	}
 	cmd->arguments = extract_args(token);
 	if (!cmd->arguments)
@@ -80,6 +84,10 @@ t_command	*fill_parsing(t_token *token)
 /**
  * @brief Loops through the list of lexer tokens given as argument and returns
  * a new list of parsed commands.
+ * 
+ * @details Command nodes are created by separating the tokens by the ones
+ * having a type of PIPE. In effect, this means the number of commands output by
+ * this function is the number of pipes contained, plus one.
  */
 t_command	*parse_commands(t_token *token)
 {
@@ -88,7 +96,7 @@ t_command	*parse_commands(t_token *token)
 	t_command	*new_cmd;
 
 	head = NULL;
-	while (token) // TODO: to fix ls | << EOF > out.txt, need to create an empty command with a hd_delim even when no command is found
+	while (token)
 	{
 		new_cmd = fill_parsing(token);
 		if (!new_cmd)

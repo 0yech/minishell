@@ -163,6 +163,6 @@ int			is_builtin(t_command *current);
 
 // Parsing arguments - parsing_args.c
 t_token		**extract_args(t_token *token);
-char		**args_to_argv(t_token *arg);
+char		**args_to_argv(t_token **arg);
 
 #endif //MINISHELL_H

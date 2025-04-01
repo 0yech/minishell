@@ -82,14 +82,18 @@ void	assign_types(t_token **token_list)
 	if (!token_list || !(*token_list))
 		return ;
 	current = *token_list;
+	current_has_cmd = false;
 	while (current)
 	{
-		current_has_cmd = false;
 		type = look_for_operations(current->value);
 		if (type)
 			current->type = type;
 		else
 			current->type = look_for_command_type(current, current_has_cmd);
+		if (current->type == PIPE)
+			current_has_cmd = false;
+		if (current->type == COMMAND)
+			current_has_cmd = true;
 		printf("\nNode value : %s\n", current->value);
 		printf("Node type : %d\n", current->type);
 		current = current->next;

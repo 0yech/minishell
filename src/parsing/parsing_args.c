@@ -18,34 +18,41 @@
 *
 * @details Starts at 1 to include the command name as well.
 */
-int	count_argsopt(t_token *token)
+static int	count_argsopt(t_token **args)
 {
 	int	count;
 
 	count = 1;
-	while (token && token->type != PIPE)
+	while (*args && (*args)->type != PIPE)
 	{
-		if (token->type == OPTION || token->type == ARGUMENT)
+		if ((*args)->type == OPTION || (*args)->type == ARGUMENT)
 			count++;
-		token = token->next;
+		args++;
 	}
 	return (count);
 }
 
-char	**args_to_argv(t_token *arg)
+/**
+ * @brief Converts the arguments of a command in an array argv, ready to be
+ * passed to execve.
+ * 
+ * @param args The array of tokens contained within a command.
+ * @return An array of strings argv.
+ */
+char	**args_to_argv(t_token **args)
 {
 	size_t	i;
 	char	**argv;
 
-	argv = ft_calloc(count_argsopt(arg) + 1, sizeof(char *));
+	argv = ft_calloc(count_argsopt(args) + 1, sizeof(char *));
 	if (!argv)
 		return (perror("minishell (args_to_argv) - malloc"), NULL);
 	i = 0;
-	while (arg && arg->type != PIPE)
+	while (*args && (*args)->type != PIPE)
 	{
-		if (i == 0 || arg->type == OPTION || arg->type == ARGUMENT)
+		if (i == 0 || (*args)->type == OPTION || (*args)->type == ARGUMENT)
 		{
-			argv[i] = ft_strdup(arg->value);
+			argv[i] = ft_strdup((*args)->value);
 			if (!argv[i])
 			{
 				perror("minishell (extract_args) - ft_strdup");
@@ -55,17 +62,18 @@ char	**args_to_argv(t_token *arg)
 			}
 			i++;
 		}
-		arg = arg->next;
+		args++;
 	}
 	argv[i] = NULL;
 	return (argv);
 }
 
 /**
- * @brief Extracts arguments and options from a given token.
+ * @brief Extracts all tokens until a pipe or the end of the list
+ * and returns them as an array.
  *
- * @param token The token to analyze.
- * @return A double char pointer containing a string for each argument / option.
+ * @param token The token to start from in the list.
+ * @return An array of tokens containing all tokens for a single command.
  */
 t_token	**extract_args(t_token *token)
 {

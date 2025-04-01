@@ -59,7 +59,7 @@ t_command	*fill_parsing(t_token *token)
 	cmd->arguments = extract_args(token);
 	if (!cmd->arguments)
 		return (free(cmd->command), free(cmd), NULL);
-	cmd->argv = args_to_argv(*cmd->arguments);
+	cmd->argv = args_to_argv(cmd->arguments);
 	if (!cmd->argv)
 		return (free(cmd->command), free(cmd), NULL);
 	cmd->fdio = ft_calloc(1, sizeof(t_io));

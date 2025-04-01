@@ -208,12 +208,38 @@ int	exec_update_env(t_command *cmd, int exit_status)
 	return (0);
 }
 
-int execute_piped_commands(t_command *cmd)
+int process_command(t_command *current)
 {
 	pid_t		pid;
-	t_command	*current;
 	int			exit_status;
 	int			*stat_loc;
+
+	setup_redirections(current, current->arguments);
+	if (is_builtin(current))
+	{
+		exit_status = exec_pipe_builtin(current);
+		exec_update_env(current, exit_status);
+		current = current->next;
+		return (0);
+	}
+	pid = fork();
+	if (pid == -1)
+		return (perror("minishell (execute_piped_commands) - fork"), -1);
+	if (pid > 0)
+		close_parent(current);
+	else if (pid == 0)
+		exec_child(current);
+	stat_loc = ft_calloc(1, sizeof(int));
+	if (!stat_loc)
+		return (perror("minishell (execute_piped_commands) - ft_calloc"), -1);
+	wait(stat_loc);
+	exec_update_env(current, WEXITSTATUS(*stat_loc));
+	return (free(stat_loc), 0);
+}
+
+int execute_piped_commands(t_command *cmd)
+{
+	t_command	*current;
 
 	if (!cmd)
 		return (-1);
@@ -224,27 +250,8 @@ int execute_piped_commands(t_command *cmd)
 	current = cmd;
 	while (current)
 	{
-		setup_redirections(current, current->arguments);
-		if (is_builtin(current))
-		{
-			exit_status = exec_pipe_builtin(current);
-			exec_update_env(current, exit_status);
-			current = current->next;
-			continue ;
-		}
-		pid = fork();
-		if (pid == -1)
-            return (perror("minishell (execute_piped_commands) - fork"), -1);
-		if (pid > 0)
-			close_parent(current);
-		else if (pid == 0)
-			exec_child(current);
-		stat_loc = ft_calloc(1, sizeof(int));
-		if (!stat_loc)
-			perror("minishell (execute_piped_commands) - ft_calloc");
-		wait(stat_loc);
-		exec_update_env(current, WEXITSTATUS(*stat_loc));
-		free(stat_loc);
+		if (process_command(current) == -1)
+			return (-1);
 		current = current->next;
 	}
 	dup2(cmd->fdio->stdincpy, STDIN_FILENO);

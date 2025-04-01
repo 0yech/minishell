@@ -45,7 +45,8 @@ t_command *fill_fake_command(t_token *current)
 	cmd->fdio = ft_calloc(1, sizeof(t_fd));
 	if (!cmd->fdio)
 		return (NULL);
-	fill_args_fds(cmd, current);
+	// fill_args_fds(cmd, current);
+	// now replaced with new parsing (handle_redirections)
 	return (cmd);
 }
 

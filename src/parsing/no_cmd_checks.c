@@ -46,7 +46,7 @@ t_command *fill_fake_command(t_token *current)
 	if (!cmd->fdio)
 		return (NULL);
 	// fill_args_fds(cmd, current);
-	// now replaced with new parsing (handle_redirections)
+	// now replaced with new parsing (setup_redirections)
 	return (cmd);
 }
 

@@ -58,9 +58,12 @@ t_command	*fill_parsing(t_token *token)
 	cmd = ft_calloc(1, sizeof(t_command));
 	if (!cmd)
 		return (perror("minishell (fill_parsing) - malloc"), NULL);
-	cmd->command = ft_strdup(token->value);
-	if (!cmd->command)
-		return (perror("minishell (fill_parsing) - malloc"), free(cmd), NULL);
+	if (token->type == COMMAND)
+	{
+		cmd->command = ft_strdup(token->value);
+		if (!cmd->command)
+			return (perror("minishell (fill_parsing) - malloc"), free(cmd), NULL);
+	}
 	cmd->arguments = extract_args(token);
 	if (!cmd->arguments)
 		return (free(cmd->command), free(cmd), NULL);
@@ -85,23 +88,23 @@ t_command	*parse_commands(t_token *token)
 	t_command	*new_cmd;
 
 	head = NULL;
-	while (token)
+	while (token) // TODO: to fix ls | << EOF > out.txt, need to create an empty command with a hd_delim even when no command is found
 	{
-		if (token->type == COMMAND) // TODO: to fix ls | << EOF > out.txt, need to create an empty command with a hd_delim even when no command is found
+		new_cmd = fill_parsing(token);
+		if (!new_cmd)
+			return (NULL);
+		if (!head)
+			head = new_cmd;
+		else
 		{
-			new_cmd = fill_parsing(token);
-			if (!new_cmd)
-				return (NULL);
-			if (!head)
-				head = new_cmd;
-			else
-			{
-				current->next = new_cmd;
-				new_cmd->prev = current;
-			}
-			current = new_cmd;
+			current->next = new_cmd;
+			new_cmd->prev = current;
 		}
-		token = token->next;
+		current = new_cmd;
+		while (token && token->type != PIPE)
+			token = token->next;
+		if (token && token->next)
+			token = token->next;
 	}
 	return (head);
 }

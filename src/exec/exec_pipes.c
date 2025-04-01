@@ -167,7 +167,7 @@ int	exec_pipe_builtin(t_command *current)
 	int	exit_status;
 	int	pid;
 
-	if (current->next)
+	if (current && current->command && current->next)
 	{
 		pid = fork();
 		if (pid == -1)
@@ -214,7 +214,6 @@ int process_command(t_command *current)
 	int			exit_status;
 	int			*stat_loc;
 
-	setup_redirections(current, current->arguments);
 	if (is_builtin(current))
 	{
 		exit_status = exec_pipe_builtin(current);
@@ -250,7 +249,8 @@ int execute_piped_commands(t_command *cmd)
 	current = cmd;
 	while (current)
 	{
-		if (process_command(current) == -1)
+		setup_redirections(current, current->arguments);
+		if (current->command && process_command(current) == -1)
 			return (-1);
 		current = current->next;
 	}

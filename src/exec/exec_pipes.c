@@ -157,7 +157,7 @@ int	setup_redirections(t_command *cmd, t_token **arg)
 /**
  * @brief Checks if a command is a builtin, and if yes, executes the builtin.
  *
- * @param current The command to execute.
+ * @param current The command to execute as a builtin.
  * @return The exit value of the builtin if the command was indeed one,
  * -1 if not or if an error occurred.
  */
@@ -189,6 +189,16 @@ int	exec_pipe_builtin(t_command *current)
 	return (exec_builtin(current));
 }
 
+/**
+ * @brief Updates the environment after attemtping to execute a command.
+ * 
+ * @details Updates the _ variable with the last argv of the cmd, and the ?
+ * variable with the exit_status.
+ * 
+ * @param cmd The command that was executed (or was attempted, anyway)
+ * @param exit_status The exit status returned by the command.
+ * @return 0 if all went well, -1 if an error occured with ft_itoa.
+ */
 int	exec_update_env(t_command *cmd, int exit_status)
 {
 	char	**tmp;
@@ -202,7 +212,7 @@ int	exec_update_env(t_command *cmd, int exit_status)
 	env_set_key("_", tmp[i]);
 	str_exit_status = ft_itoa(exit_status);
 	if (!str_exit_status)
-		return (perror("minishell (exec_update_env) - ft_itoa"), -1);
+		return (perror("minishell (exec_update_env) - malloc"), -1);
 	env_set_key("?", str_exit_status);
 	free(str_exit_status);
 	return (0);

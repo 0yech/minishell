@@ -35,7 +35,19 @@ int	look_for_operations(char *str)
 	return (0);
 }
 
-int	look_for_command_type(t_token *token, bool current_has_cdm)
+/**
+ * @brief Returns the type of a given token.
+ * 
+ * @details The end of the function only returns an argument if no command has
+ * been found in that token group yet (a group being separated by pipes).
+ * This prevents cases like < Makefile less giving less a type of ARGUMENT.
+ * 
+ * @param token The token to analyze.
+ * @param current_has_cmd A bool keeping track of if the current command has
+ * been found
+ * @return int The t_token_type of the token.
+ */
+int	look_for_command_type(t_token *token, bool current_has_cmd)
 {
 	if (token->prev == NULL)
 		return (COMMAND);
@@ -56,7 +68,7 @@ int	look_for_command_type(t_token *token, bool current_has_cdm)
 		return (OPTION);
 	if (token->prev->type == COMMAND)
 		return (ARGUMENT);
-	if (current_has_cdm)
+	if (current_has_cmd)
 		return (ARGUMENT);
 	return (COMMAND);
 }

@@ -15,7 +15,6 @@
 // TODO : Add non interactive mode
 // TODO : add SHELL env var support
 // TODO : try to close all fds at exit
-// TODO : shebang support for shell scripts and such
 
 int	main(int argc, char **argv, char **envp)
 {

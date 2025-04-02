@@ -6,7 +6,7 @@
 /*   By: estettle <estettle@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:47:58 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/02 13:06:11 by estettle         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:07:51 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*hd_var_expand(char *line)
  *
  * @param cmd The command with the heredoc.
  */
-void	heredoc_handler(t_command *cmd, char *hd_delim)
+void	heredoc_handler(t_command *cmd, t_token *hd_delim)
 {
 	int		pipefd[2];
 	char	*line;
@@ -56,15 +56,15 @@ void	heredoc_handler(t_command *cmd, char *hd_delim)
 	while (1)
 	{
 		line = readline("> ");
-		if (hd_delim[0] != '"' && hd_delim[0] != '\'')
+		if (hd_delim->quoted == false)
 			line = hd_var_expand(line);
-		if (!line || ft_strncmp(line, hd_delim, ft_strlen(hd_delim) + 1) == 0)
+		if (!line || ft_strncmp(line, hd_delim->value,
+			ft_strlen(hd_delim->value) + 1) == 0)
 			break ;
-		if (write(pipefd[1], line, ft_strlen(line)) == -1)
+		if (write(pipefd[1], line, ft_strlen(line)) == -1
+			|| write(pipefd[1], "\n", 1) == -1)
 			perror("minishell (heredoc_handler) - write");
-		if (write(pipefd[1], "\n", 1) == -1)
-			perror("minishell (heredoc_handler) - write");
-        free(line);
+		free(line);
 	}
 	if (line)
 		free(line);

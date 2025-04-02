@@ -45,11 +45,12 @@ int	quotes_handler(char *str)
  * @brief This function cleans a token of any unnecessary quotes (trailing,
  * or preceding).
  *
+ * @param token Sets token->quoted to true if a quote was found in the token.
  * @param raw_token The token still wrapped in quotes. Assumed to be a
  * pointer to a valid string.
  * @return A cleaned version of the token. NULL if an error occurred.
  */
-char	*quotes_clean(char *raw_token)
+char	*quotes_clean(t_token *token, char *raw_token)
 {
 	char	quotes_kind;
 	char	*clean_token;
@@ -63,6 +64,7 @@ char	*quotes_clean(char *raw_token)
 	{
 		if (*raw_token == '\'' || *raw_token == '"')
 		{
+			token->quoted = true;
 			quotes_kind = *(raw_token++);
 			while (*raw_token && *raw_token != quotes_kind)
 				clean_token[i++] = *(raw_token++);

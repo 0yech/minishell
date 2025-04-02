@@ -128,7 +128,7 @@ int	setup_redirections(t_command *cmd, t_token **arg)
 	{
 		flags = O_WRONLY | O_CREAT;
 		if (arg[i]->type == HEREDOC)
-			heredoc_handler(cmd, arg[i + 1]->value);
+			heredoc_handler(cmd, arg[i + 1]);
 		else if (arg[i]->type == REDIRECT_IN && arg[i + 1]
 			&& arg[i + 1]->type == REDIRECT_FILE)
 		{ 

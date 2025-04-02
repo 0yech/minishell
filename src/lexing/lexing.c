@@ -50,7 +50,7 @@ static int	get_next_token(t_token **token_list, char *input)
 	substr = var_expand(ft_substr(input, 0, i));
 	if (!substr)
 		return (free(new), -1);
-	new->value = quotes_clean(substr);
+	new->value = quotes_clean(new, substr);
 	free(substr);
 	if (!new->value)
 		return (free(new), -1);

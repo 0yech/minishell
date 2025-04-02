@@ -65,6 +65,7 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
+	bool			quoted;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -105,7 +106,7 @@ void		assign_types(t_token **token_list);
 
 // Lexing - Quotes, lexing_quotes.c
 int			quotes_handler(char *str);
-char		*quotes_clean(char *raw_token);
+char		*quotes_clean(t_token *token, char *raw_token);
 
 // Lexing - Var expansion, lexing_expand_var.c
 char		*get_variable(char *str);
@@ -154,7 +155,7 @@ void		free_command_list(t_command *cmd);
 int			exec_checks(t_command *current);
 
 // Heredoc handler - heredoc_handler.c
-void		heredoc_handler(t_command *cmd, char *hd_delim);
+void		heredoc_handler(t_command *cmd, t_token *hd_delim);
 void		process_heredoc(t_command *cmd);
 
 int			valid_pipes(t_token *token);

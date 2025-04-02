@@ -77,7 +77,7 @@ size_t	full_token_size(char *token)
  * @brief Is called when a $ is found in the token. Searches for the variable
  * and copies it if it does exist, otherwise copies nothing and moves on.
  */
-static void	handle_var(char *token, char *expanded_token, size_t *i, size_t *j)
+void	handle_var(char *token, char *expanded_token, size_t *i, size_t *j)
 {
 	char	*var;
 

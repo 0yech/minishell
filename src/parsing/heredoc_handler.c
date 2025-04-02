@@ -6,11 +6,35 @@
 /*   By: estettle <estettle@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:47:58 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/02 11:40:43 by estettle         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:06:11 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*hd_var_expand(char *line)
+{
+	size_t	i;
+	size_t	j;
+	char	*new_line;
+
+	if (!line)
+		return (NULL);
+	new_line = ft_calloc(full_token_size(line) + 1, sizeof(char));
+	if (!new_line)
+		return (perror("minishell (var_expand) - malloc"), free(line), NULL);
+	i = 0;
+	j = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+			handle_var(line, new_line, &i, &j);
+		else
+			new_line[j++] = line[i++];
+	}
+	new_line[j] = 0;
+	return (free(line), new_line);
+}
 
 /**
  * @brief Called in case of a heredoc delimiter in the cmd argument. Sets up a
@@ -32,6 +56,8 @@ void	heredoc_handler(t_command *cmd, char *hd_delim)
 	while (1)
 	{
 		line = readline("> ");
+		if (hd_delim[0] != '"' && hd_delim[0] != '\'')
+			line = hd_var_expand(line);
 		if (!line || ft_strncmp(line, hd_delim, ft_strlen(hd_delim) + 1) == 0)
 			break ;
 		if (write(pipefd[1], line, ft_strlen(line)) == -1)

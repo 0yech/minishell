@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	print_commands(t_command *cmd)
+static void	print_commands(t_command *cmd)
 {
 	int	i;
 
@@ -47,7 +47,7 @@ void	print_commands(t_command *cmd)
  * @return A new command node containing all relevant tokens as arguments,
  * a valid list of argv, a calloced fdio and a command string, if there's one.
  */
-t_command	*fill_parsing(t_token *token)
+static t_command	*fill_parsing(t_token *token)
 {
 	t_command	*cmd;
 
@@ -87,7 +87,7 @@ t_command	*fill_parsing(t_token *token)
  * having a type of PIPE. In effect, this means the number of commands output by
  * this function is the number of pipes contained, plus one.
  */
-t_command	*parse_commands(t_token *token)
+static t_command	*parse_commands(t_token *token)
 {
 	t_command	*head;
 	t_command	*current;

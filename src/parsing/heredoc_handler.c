@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: estettle <estettle@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:47:58 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/26 14:18:26 by estettle         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:40:43 by estettle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	heredoc_handler(t_command *cmd, char *hd_delim)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strncmp(line, hd_delim, ft_strlen(line + 1)) == 0)
+		if (!line || ft_strncmp(line, hd_delim, ft_strlen(hd_delim) + 1) == 0)
 			break ;
 		if (write(pipefd[1], line, ft_strlen(line)) == -1)
 			perror("minishell (heredoc_handler) - write");

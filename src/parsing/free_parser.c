@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@protonmail    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 21:50:17 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/24 23:59:41 by nrey             ###   ########.fr       */
+/*   Created: 2025/04/03 17:26:22 by fireinside        #+#    #+#             */
+/*   Updated: 2025/04/03 17:30:34 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void	command_delone(t_command *node)
 	{
 		if (node->command)
 			free(node->command);
+		// printf("[!] - Gonna close fd N%d\n", node->fdio->fdout);
+		// if (node->fdio->fdout > 2 && close(node->fdio->fdout) == -1)
+		// 	perror("minishell (command_delone) - close");
+		// printf("[!] - Gonna close fd N%d\n", node->fdio->fdin);
+		// if (node->fdio->fdin > 2 && close(node->fdio->fdin) == -1)
+		// 	perror("minishell (command_delone) - close");
 		free(node->fdio);
 		if (node->argv)
 		{

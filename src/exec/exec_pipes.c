@@ -31,7 +31,7 @@ void	close_child(t_command *current)
 }
 
 /**
- * @brief Called by the parent process. Closes the command given as arguemnt's
+ * @brief Called by the parent process. Closes the command given as argument's
  * fds, we don't need them as the parent (?).
  */
 void	close_parent(t_command *current)
@@ -181,7 +181,7 @@ int	exec_pipe_builtin(t_command *current)
 		}
 		stat_loc = ft_calloc(1, sizeof(int));
 		if (!stat_loc)
-			return (perror("minishell (exec_pipe_builtin) - ft_calloc"), -1);
+			return (perror("minishell (exec_pipe_builtin) - malloc"), -1);
 		wait(stat_loc);
 		exit_status = WEXITSTATUS(*stat_loc);
 		return (close(current->fdio->fdout), free(stat_loc), exit_status);
@@ -190,14 +190,14 @@ int	exec_pipe_builtin(t_command *current)
 }
 
 /**
- * @brief Updates the environment after attemtping to execute a command.
+ * @brief Updates the environment after attempting to execute a command.
  * 
  * @details Updates the _ variable with the last argv of the cmd, and the ?
  * variable with the exit_status.
  * 
  * @param cmd The command that was executed (or was attempted, anyway)
  * @param exit_status The exit status returned by the command.
- * @return 0 if all went well, -1 if an error occured with ft_itoa.
+ * @return 0 if all went well, -1 if an error occurred with ft_itoa.
  */
 // TODO : Bash updates the _ value BEFORE executing the command or builtin
 int	exec_update_env(t_command *cmd, int exit_status)

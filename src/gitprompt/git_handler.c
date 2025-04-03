@@ -24,6 +24,7 @@ void	git_str_replace(char branch[128], size_t bytes_read)
 	}
 }
 
+// TODO : Recursive git prompt
 char	*get_git_branch(void)
 {
 	int		fd;

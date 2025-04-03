@@ -106,7 +106,8 @@ static void	handle_quote(char *token, char *new_token, size_t *i, size_t *j)
 	new_token[(*j)++] = token[(*i)++];
 	while (token[*i] && token[*i] != quote_kind)
 	{
-		if (quote_kind != '\'' && token[*i] == '$')
+		if (quote_kind != '\'' && token[*i] == '$'
+			&& ft_isprint(token[*i + 1]) && token[*i + 1] != ' ')
 			handle_var(token, new_token, i, j);
 		else
 			new_token[(*j)++] = token[(*i)++];
@@ -138,7 +139,8 @@ char	*var_expand(char *token)
 	{
 		if (token[i] == '\'' || token[i] == '"')
 			handle_quote(token, new_token, &i, &j);
-		else if (token[i] == '$')
+		else if (token[i] == '$'
+			&& ft_isprint(token[i + 1]) && token[i + 1] != ' ')
 			handle_var(token, new_token, &i, &j);
 		else
 			new_token[j++] = token[i++];

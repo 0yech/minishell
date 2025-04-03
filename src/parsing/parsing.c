@@ -109,7 +109,7 @@ static t_command	*parse_commands(t_token *token)
 		current = new_cmd;
 		while (token && token->type != PIPE)
 			token = token->next;
-		if (token && token->next)
+		if (token)
 			token = token->next;
 	}
 	return (head);

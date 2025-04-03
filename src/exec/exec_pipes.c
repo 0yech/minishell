@@ -260,7 +260,8 @@ int execute_piped_commands(t_command *cmd)
 	while (current)
 	{
 		setup_redirections(current, current->arguments);
-		if (current->command && process_command(current) == -1)
+		if (current->command && current->command[0]
+			&& process_command(current) == -1)
 			return (-1);
 		current = current->next;
 	}

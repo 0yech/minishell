@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 // TODO : Add non interactive mode
-// TODO : add SHELL env var support
+// TODO : add more error codes like "unexpected token near '<', so more checks"
 // TODO : try to close all fds at exit
 
 int	main(int argc, char **argv, char **envp)

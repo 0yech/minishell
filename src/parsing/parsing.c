@@ -66,15 +66,13 @@ static t_command	*fill_parsing(t_token *token)
 	if (!cmd->fdio)
 		return (perror("minishell (fill_parsing) - malloc"),
 			free(cmd->command), free(cmd), NULL);
-	
 	while (token && token->type != COMMAND)
 		token = token->next;
 	if (token)
 	{
 		cmd->command = ft_strdup(token->value);
 		if (!cmd->command)
-			return (perror("minishell (fill_parsing) - malloc"),
-				free(cmd), NULL);
+			return (perror("minishell (fill_parsing) - mllc"), free(cmd), NULL);
 	}
 	return (cmd);
 }

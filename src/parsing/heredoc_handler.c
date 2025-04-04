@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: estettle <estettle@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@protonmail    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:47:58 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/02 14:07:51 by estettle         ###   ########.fr       */
+/*   Updated: 2025/04/04 21:40:19 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	heredoc_handler(t_command *cmd, t_token *hd_delim)
 		if (hd_delim->quoted == false)
 			line = hd_var_expand(line);
 		if (!line || ft_strncmp(line, hd_delim->value,
-			ft_strlen(hd_delim->value) + 1) == 0)
+				ft_strlen(hd_delim->value) + 1) == 0)
 			break ;
 		if (write(pipefd[1], line, ft_strlen(line)) == -1
 			|| write(pipefd[1], "\n", 1) == -1)

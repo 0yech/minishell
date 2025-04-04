@@ -101,7 +101,7 @@ int	is_builtin(t_command *current)
  * @brief Executes a command as a child process.
  * In case of error with execve, exits with 126.
  */
-int exec_child(t_command *current)
+int	exec_child(t_command *current)
 {
 	char	**envtab;
 
@@ -134,7 +134,7 @@ int	setup_redirections(t_command *cmd, t_token **arg)
 		{ 
 			cmd->fdio->fdin = open(arg[i + 1]->value, O_RDONLY);
 			if (cmd->fdio->fdin == -1)
-				return (perror("minishell (setup_redirections) - open (in)"), -1);
+				return (perror("minishell (setup_redirections) - open"), -1);
 			i++;
 			continue ;
 		}
@@ -147,7 +147,7 @@ int	setup_redirections(t_command *cmd, t_token **arg)
 			cmd->fdio->fdout = open(arg[i + 1]->value, flags, 0644);
 			printf("Opened a file for writing: %s\n", arg[i + 1]->value);
 			if (cmd->fdio->fdout == -1)
-				return (perror("minishell (setup_redirections) - open (out)"), -1);
+				return (perror("minishell (setup_redirections) - open"), -1);
 		}
 		i++;
 	}
@@ -219,7 +219,7 @@ int	exec_update_env(t_command *cmd, int exit_status)
 	return (0);
 }
 
-int process_command(t_command *current)
+int	process_command(t_command *current)
 {
 	pid_t		pid;
 	int			exit_status;
@@ -247,7 +247,7 @@ int process_command(t_command *current)
 	return (free(stat_loc), 0);
 }
 
-int execute_piped_commands(t_command *cmd)
+int	execute_piped_commands(t_command *cmd)
 {
 	t_command	*current;
 

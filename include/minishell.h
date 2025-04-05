@@ -150,7 +150,6 @@ void		command_handler(t_token **token_list);
 void		signal_handler(void);
 
 t_command	*parsing_handler(t_token **token_list);
-int			no_cmd_checks(t_token *token_list);
 void		free_command_list(t_command *cmd);
 int			exec_checks(t_command *current);
 

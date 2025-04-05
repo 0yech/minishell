@@ -125,9 +125,6 @@ t_command	*parsing_handler(t_token **token_list)
 	assign_pipes(command_list);
 	print_commands(command_list);
 	if (exec_checks(command_list) != 0)
-	{
-		exec_update_env(command_list, 127);
 		return (free_command_list(command_list), NULL);
-	}
 	return (command_list);
 }

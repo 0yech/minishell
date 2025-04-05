@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:56:38 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/26 12:12:43 by estettle         ###   ########.fr       */
+/*   Updated: 2025/04/05 03:49:23 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,27 @@ int	exec_types(t_command *current)
 	return (0);
 }
 
+void	print_exec_checks(t_command *current, int code)
+{
+	if (code == 2)
+	{
+		exec_update_env(current, 127);
+		write(STDERR_FILENO, current->command, ft_strlen(current->command));
+		write(STDERR_FILENO, ": command not found\n", 21);
+	}
+	else if (code == 3)
+	{
+		exec_update_env(current, 126);
+		write(STDERR_FILENO, current->command, ft_strlen(current->command));
+		write(STDERR_FILENO, ": is a directory\n", 18);
+	}
+	else if (code == 4)
+	{
+		exec_update_env(current, 126);
+		perror(current->command);
+	}
+}
+
 int	exec_checks(t_command *cmd)
 {
 	int			code;
@@ -73,12 +94,7 @@ int	exec_checks(t_command *cmd)
 			code = exec_types(current);
 			if (code != 0)
 				valid = -1;
-			if (code == 2)
-				write(2, "\nCommand not found\n", 20);
-			else if (code == 3)
-				write(2, "\nIs a directory\n", 17);
-			else if (code == 4)
-				write(2, "\nCan't execute\n", 16);
+			print_exec_checks(current, code);
 		}
 		current = current->next;
 	}

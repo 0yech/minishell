@@ -6,11 +6,13 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 07:31:29 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/05 17:10:46 by nrey             ###   ########.fr       */
+/*   Updated: 2025/04/06 13:31:22 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// TODO : "<< > o" OR "<< >" should print new error syntax
 
 int	is_token_after_pipe_invalid(t_token_type type)
 {

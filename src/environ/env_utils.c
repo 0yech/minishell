@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <aisling.fontaine@protonmail    +#+  +:+       +#+        */
+/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by estettle          #+#    #+#             */
-/*   Updated: 2025/04/07 16:48:57 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/07 21:16:40 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,14 @@ static char	*strjoin_equals(char *s1, char *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	len = ft_strlen(s1);
-	len2 = ft_strlen(s2) + 2;
+	len2 = ft_strlen(s2);
 	final_len = len + len2 + 2;
 	out = malloc(final_len);
 	if (!out)
 		return (perror("minishell (strjoin_equals) - malloc"), NULL);
 	ft_strlcpy(out, s1, final_len);
 	out[len] = '=';
-	out[++len] = '"';
 	ft_strlcpy(out + len + 1, s2, final_len - len - 1);
-	out[final_len - 2] = '"';
-	out[final_len - 1] = 0;
 	return (out);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: estettle <estettle@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@protonmail    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:47:58 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/02 14:07:51 by estettle         ###   ########.fr       */
+/*   Updated: 2025/04/07 13:48:22 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

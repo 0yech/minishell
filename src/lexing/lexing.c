@@ -23,7 +23,7 @@ static int	isolate_token(char *input)
 	if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 	{
 		special_char = input[i];
-		if (input[i + 1] == special_char)
+		if (input[i + 1] == special_char && input[i] != '|')
 			return (i + 2);
 		return (i + 1);
 	}

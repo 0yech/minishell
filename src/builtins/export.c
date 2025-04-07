@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <aisling.fontaine@protonmail    +#+  +:+       +#+        */
+/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/07 16:56:11 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/07 21:36:07 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,30 @@
 // TODO : export wa= should export wa="", which should appear on env, unlike vars called without '='
 
 /**
- * @brief Compares the string given in argument with the array of strings also
- * passed as argument, and returns the next string in alphabetical order,
- * starting from the given string.
- * If NULL is passed as the single string, returns the lowest ranked string.
+ * @brief Compares the env token given in argument with the list of tokens also
+ * passed as argument, and returns the next token in alphabetical order,
+ * starting from the minimum token.
+ * If NULL is passed as the minimum, returns the lowest ranked token.
  */
-char	*find_lowest_str(char **array, char *minimum)
+static t_env	*find_lowest_str(t_env *list, t_env *minimum)
 {
-	size_t		i;
-	char		*lowest;
+	t_env	*lowest;
 
-	i = 0;
 	if (minimum)
-		while (ft_strncmp(array[i], minimum, ft_strlen(array[i]) + 1) <= 0)
-			i++;
-	lowest = array[i];
-	while (array[i])
+		while (ft_strncmp(list->name, minimum->name, ft_strlen(list->name) + 1) <= 0)
+			list = list->next;
+	lowest = list;
+	while (list)
 	{
 		if (minimum)
 		{
-			if (ft_strncmp(array[i], lowest, ft_strlen(array[i]) + 1) < 0
-				&& ft_strncmp(array[i], minimum, ft_strlen(array[i]) + 1) > 0)
-				lowest = array[i];
+			if (ft_strncmp(list->name, lowest->name, ft_strlen(list->name) + 1) < 0
+				&& ft_strncmp(list->name, minimum->name, ft_strlen(list->name) + 1) > 0)
+				lowest = list;
 		}
-		else if ((ft_strncmp(array[i], lowest, ft_strlen(array[i]) + 1) < 0))
-			lowest = array[i];
-		i++;
+		else if ((ft_strncmp(list->name, lowest->name, ft_strlen(list->name) + 1) < 0))
+			lowest = list;
+		list = list->next;
 	}
 	return (lowest);
 }
@@ -54,25 +52,26 @@ char	*find_lowest_str(char **array, char *minimum)
 int	export_print(void)
 {
 	int		i;
-	char	**env;
-	char	*tmp;
+	t_env	*env;
+	t_env	*tmp;
 
-	env = env_to_char(*env_get());
+	env = *env_get();
 	if (!env)
 		return (-1);
 	tmp = NULL;
-	i = env_size(*env_get());
+	i = env_size(env);
 	while (i)
 	{
 		tmp = find_lowest_str(env, tmp);
 		if (write(STDOUT_FILENO, "export ", 8) == -1
-			|| write(STDOUT_FILENO, tmp, ft_strlen(tmp)) == -1
-			|| write(STDOUT_FILENO, "\n", 1) == -1)
-			return (perror("minishell (export_print) - write"),
-				free_array(env), 0);
+			|| write(STDOUT_FILENO, tmp->name, ft_strlen(tmp->name)) == -1
+			|| write(STDOUT_FILENO, "=\"", 2) == -1
+			|| write(STDOUT_FILENO, tmp->value, ft_strlen(tmp->value)) == -1
+			|| write(STDOUT_FILENO, "\"\n", 2) == -1)
+			return (perror("minishell (export_print) - write"), 0);
 		i--;
 	}
-	return (free_array(env), 0);
+	return (0);
 }
 
 /**

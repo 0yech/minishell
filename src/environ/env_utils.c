@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@protonmail    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/17 14:27:55 by estettle         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:48:57 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	free_array(char **array)
 }
 
 /**
- * @brief Joins two strings together with a '=' signe inbetween. Used for env
- * to char ** conversion.
+ * @brief Joins two strings together with a '=' inbetween and the second string
+ * wrapped in double quotes, if it exists. Used for env to char ** conversion.
  */
 static char	*strjoin_equals(char *s1, char *s2)
 {
@@ -42,14 +42,17 @@ static char	*strjoin_equals(char *s1, char *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	len = ft_strlen(s1);
-	len2 = ft_strlen(s2);
+	len2 = ft_strlen(s2) + 2;
 	final_len = len + len2 + 2;
 	out = malloc(final_len);
 	if (!out)
 		return (perror("minishell (strjoin_equals) - malloc"), NULL);
 	ft_strlcpy(out, s1, final_len);
 	out[len] = '=';
+	out[++len] = '"';
 	ft_strlcpy(out + len + 1, s2, final_len - len - 1);
+	out[final_len - 2] = '"';
+	out[final_len - 1] = 0;
 	return (out);
 }
 

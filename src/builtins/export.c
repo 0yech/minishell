@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@protonmail    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/05 16:18:14 by nrey             ###   ########.fr       */
+/*   Updated: 2025/04/07 16:56:11 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ char	*find_lowest_str(char **array, char *minimum)
 }
 
 /**
- * @brief Prints all exported variables to stdout formatted as "export <var>".
+ * @brief Prints all exported variables to stdout formatted as
+ * export <key>="<value>".
+ * 
  * @return 0 if all went well, -1 if an error occurred.
  */
 int	export_print(void)

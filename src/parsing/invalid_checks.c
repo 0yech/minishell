@@ -6,7 +6,7 @@
 /*   By: fireinside <aisling.fontaine@protonmail    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 07:31:29 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/07 15:13:05 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/07 15:27:03 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 bool	is_token_after_pipe_invalid(t_token_type type)
 {
 	return (type == PIPE || type == REDIRECT_IN || type == REDIRECT_OUT
-			|| type == APPEND || type == HEREDOC);
+		|| type == APPEND || type == HEREDOC);
 }
 
 int	is_valid_pipe(t_token *token)
@@ -26,7 +26,8 @@ int	is_valid_pipe(t_token *token)
 	{
 		if (!token->next || is_token_after_pipe_invalid(token->next->type))
 		{
-			write(STDERR_FILENO, "syntax error near unexpected token `|'\n", 39);
+			write(STDERR_FILENO,
+				"syntax error near unexpected token `|'\n", 39);
 			return (-1);
 		}
 	}
@@ -40,14 +41,16 @@ int	is_valid_redirection(t_token *token)
 	{
 		if (!token->next)
 		{
-			write(STDERR_FILENO, "syntax error near unexpected token `newline'\n", 45);
+			write(STDERR_FILENO,
+				"syntax error near unexpected token `newline'\n", 45);
 			return (-1);
 		}
 		else if ((token->type != HEREDOC && token->next->type != REDIRECT_FILE)
 			|| (token->type == HEREDOC && token->next->type != DELIM))
 		{
+			token = token->next;
 			write(STDERR_FILENO, "syntax error near unexpected token `", 37);
-			write(STDERR_FILENO, token->next->value, ft_strlen(token->next->value));
+			write(STDERR_FILENO, token->value, ft_strlen(token->value));
 			write(STDERR_FILENO, "'\n", 2);
 			return (-1);
 		}

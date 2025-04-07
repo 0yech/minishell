@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_set_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:07 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/20 20:47:58 by estettle         ###   ########.fr       */
+/*   Updated: 2025/04/07 22:29:16 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	env_fill_node(char *envp, t_env *node)
 /**
  * @param key A malloced string that will represent the name of the node.
  * @param value A malloced string that will represent the value of the node.
+ * If pointer is NULL, set value of new env node to "".
  * @return 0 if an already existing value was updated, 1 if a new value was
  * added, -1 if an error occurred.
  */
@@ -71,15 +72,18 @@ int	env_set_key(char *key, char *value)
 	char	*alloc_key;
 	char	*alloc_value;
 
-	if (!key || !*key || !value)
+	if (!key || !*key) // TODO : need "export: `=value`: not a valid identifier" error message
 		return (-1);
+	node = env_get_key(key);
 	alloc_key = ft_strdup(key);
 	if (!alloc_key)
 		return (perror("minishell (env_set_key) - ft_strdup"), -1);
-	alloc_value = ft_strdup(value);
+	if (value)
+		alloc_value = ft_strdup(value);
+	else
+		alloc_value = ft_strdup("");
 	if (!alloc_value)
 		return (perror("minishell (env_set_key) - ft_strdup"), -1);
-	node = env_get_key(key);
 	if (node)
 	{
 		free(alloc_key);

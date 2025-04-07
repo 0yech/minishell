@@ -19,11 +19,19 @@ int	ft_env(void)
 	tmp = *env_get();
 	while (tmp)
 	{
+		if (!tmp->name || !tmp->value || !tmp->value[0])
+		{
+			tmp = tmp->next;
+			continue ;
+		}
 		if (write(STDOUT_FILENO, tmp->name, ft_strlen(tmp->name)) == -1)
 			return (perror("minishell (ft_env) - write"), -1);
 		if (write(STDOUT_FILENO, "=", 1) == -1)
 			return (perror("minishell (ft_env) - write"), -1);
-		ft_putendl_fd(tmp->value, STDOUT_FILENO);
+		if (write(STDOUT_FILENO, tmp->value, ft_strlen(tmp->value)) == -1)
+			return (perror("minishell (ft_env) - write"), -1);
+		if (write(STDOUT_FILENO, "\n", 1) == -1)
+			return (perror("minishell (ft_env) - write"), -1);
 		tmp = tmp->next;
 	}
 	return (0);

@@ -98,7 +98,6 @@ int	find_git_head(void)
 	return (-1);
 }
 
-// TODO : Recursive git prompt
 char	*get_git_branch(void)
 {
 	int		fd;

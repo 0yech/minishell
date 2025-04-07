@@ -6,13 +6,11 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/07 21:36:07 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/07 22:58:05 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// TODO : export wa= should export wa="", which should appear on env, unlike vars called without '='
 
 /**
  * @brief Compares the env token given in argument with the list of tokens also
@@ -63,11 +61,16 @@ int	export_print(void)
 	while (i)
 	{
 		tmp = find_lowest_str(env, tmp);
-		if (write(STDOUT_FILENO, "export ", 8) == -1
-			|| write(STDOUT_FILENO, tmp->name, ft_strlen(tmp->name)) == -1
-			|| write(STDOUT_FILENO, "=\"", 2) == -1
-			|| write(STDOUT_FILENO, tmp->value, ft_strlen(tmp->value)) == -1
-			|| write(STDOUT_FILENO, "\"\n", 2) == -1)
+		if (tmp->name)
+			if (write(STDOUT_FILENO, "export ", 8) == -1
+				|| write(STDOUT_FILENO, tmp->name, ft_strlen(tmp->name)) == -1)
+				return (perror("minishell (export_print) - write"), 0);
+		if (tmp->value && tmp->value[0])
+			if (write(STDOUT_FILENO, "=\"", 2) == -1
+				|| write(STDOUT_FILENO, tmp->value, ft_strlen(tmp->value)) == -1
+				|| write(STDOUT_FILENO, "\"", 1) == -1)
+				return (perror("minishell (export_print) - write"), 0);
+		if (write(STDOUT_FILENO, "\n", 2) == -1)
 			return (perror("minishell (export_print) - write"), 0);
 		i--;
 	}
@@ -126,25 +129,29 @@ int	export_concat(char *str)
  */
 int	ft_export(char *str)
 {
-	char	**slices;
+	char	*tmp;
+	char	*key;
+	char	*value;
 
 	if (!str)
 		return (export_print());
-	if (ft_strchr(str, '='))
+	tmp = ft_strchr(str, '=');
+	if (!tmp)
 	{
-		if (ft_strchr(str, '=') - ft_strchr(str, '+') == 1)
-			return (export_concat(str));
-		slices = ft_split(str, '=');
-		if (!slices)
-			return (perror("minishell (ft_export) - ft_split"), -1);
-		if (!slices[1])
-			return (printf("minishell (ft_export): Invalid identifier!\n"),
-				free_array(slices), -1);
-		if (env_set_key(slices[0], slices[1]) == -1)
-			return (free_array(slices), -1);
-		free_array(slices);
+		if (env_set_key(str, NULL) == -1)
+			return (-1);
+		return (0);
 	}
-	else if (env_set_key(str, str) == -1)
-		return (-1);
-	return (0);
+	if (tmp - ft_strchr(str, '+') == 1)
+		return (export_concat(str));
+	key = malloc(tmp - str + 1);
+	if (!key)
+		return (perror("minishell (ft_export) - malloc"), -1);
+	ft_strlcpy(key, str, tmp - str + 1);
+	value = ft_strdup(tmp + 1);
+	if (!value)
+		return (perror("minishell (ft_export) - malloc"), free(key), -1);
+	if (env_set_key(key, value) == -1)
+		return (free(key), free(value), -1);
+	return (free(key), free(value), 0);
 }

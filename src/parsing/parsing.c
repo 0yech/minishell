@@ -61,12 +61,11 @@ static t_command	*fill_parsing(t_token *token)
 		return (free(cmd->command), free(cmd), NULL);
 	cmd->argv = args_to_argv(cmd->arguments);
 	if (!cmd->argv)
-		return (free(cmd->command), free(cmd), NULL);
+		return (free(cmd->command), free(cmd->arguments), free(cmd), NULL);
 	cmd->fdio = ft_calloc(1, sizeof(t_io));
 	if (!cmd->fdio)
 		return (perror("minishell (fill_parsing) - malloc"),
 			free(cmd->command), free(cmd), NULL);
-	
 	while (token && token->type != COMMAND)
 		token = token->next;
 	if (token)
@@ -115,11 +114,36 @@ static t_command	*parse_commands(t_token *token)
 	return (head);
 }
 
+/**
+ * @brief Updates the environment after parsing the commands.
+ * 
+ * @details Updates the _ variable with the last argument of the last command.
+ * 
+ * @param cmd The first element of the command list.
+ * @return 0 if all went well, -1 otherwise.
+ */
+static int	parsing_update_env(t_command *cmd)
+{
+	char	**tmp;
+	int		i;
+
+	while (cmd->next)
+		cmd = cmd->next;
+	tmp = cmd->argv;
+	i = 0;
+	while (tmp[i] && tmp[i + 1])
+		i++;
+	if (env_set_key("_", tmp[i]) == -1)
+		return (-1);
+	return (0);
+}
+
 t_command	*parsing_handler(t_token **token_list)
 {
 	t_command	*command_list;
 
 	command_list = parse_commands(*token_list);
+	parsing_update_env(command_list);
 	if (valid_pipes(*token_list) == 1)
 		return (free_command_list(command_list), NULL);
 	assign_pipes(command_list);

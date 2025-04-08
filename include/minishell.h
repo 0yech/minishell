@@ -160,7 +160,7 @@ void		process_heredoc(t_command *cmd);
 int			valid_pipes(t_token *token);
 void		assign_pipes(t_command *cmd_list);
 int			execute_piped_commands(t_command *cmd);
-int			exec_update_env(t_command *cmd, int exit_status);
+int			exec_update_env(int exit_status);
 char		*find_executable_path(char *command);
 int			is_builtin(t_command *current);
 

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   rights_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:56:38 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/05 03:49:23 by nrey             ###   ########.fr       */
+/*   Updated: 2025/04/08 11:47:18 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /**
  * @brief Takes in a path string and checks if the file is a directory.
@@ -61,19 +60,19 @@ void	print_exec_checks(t_command *current, int code)
 {
 	if (code == 2)
 	{
-		exec_update_env(current, 127);
+		exec_update_env(127);
 		write(STDERR_FILENO, current->command, ft_strlen(current->command));
 		write(STDERR_FILENO, ": command not found\n", 21);
 	}
 	else if (code == 3)
 	{
-		exec_update_env(current, 126);
+		exec_update_env(126);
 		write(STDERR_FILENO, current->command, ft_strlen(current->command));
 		write(STDERR_FILENO, ": is a directory\n", 18);
 	}
 	else if (code == 4)
 	{
-		exec_update_env(current, 126);
+		exec_update_env(126);
 		perror(current->command);
 	}
 }

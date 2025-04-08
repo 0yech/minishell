@@ -192,29 +192,21 @@ int	exec_pipe_builtin(t_command *current)
 /**
  * @brief Updates the environment after attempting to execute a command.
  * 
- * @details Updates the _ variable with the last argv of the cmd, and the ?
- * variable with the exit_status.
+ * @details Updates the ? variable with the exit_status.
  * 
- * @param cmd The command that was executed (or was attempted, anyway)
  * @param exit_status The exit status returned by the command.
- * @return 0 if all went well, -1 if an error occurred with ft_itoa.
+ * @return 0 if all went well, -1 otherwise.
  */
 // TODO : Bash updates the _ value BEFORE executing the command or builtin
-int	exec_update_env(t_command *cmd, int exit_status)
+int	exec_update_env(int exit_status)
 {
-	char	**tmp;
-	int		i;
 	char	*str_exit_status;
 
-	tmp = cmd->argv;
-	i = 0;
-	while (tmp[i] && tmp[i + 1])
-		i++;
-	env_set_key("_", tmp[i]);
 	str_exit_status = ft_itoa(exit_status);
 	if (!str_exit_status)
 		return (perror("minishell (exec_update_env) - malloc"), -1);
-	env_set_key("?", str_exit_status);
+	if (env_set_key("?", str_exit_status) == -1)
+		return (free(str_exit_status), -1);
 	free(str_exit_status);
 	return (0);
 }
@@ -228,7 +220,7 @@ int process_command(t_command *current)
 	if (is_builtin(current))
 	{
 		exit_status = exec_pipe_builtin(current);
-		exec_update_env(current, exit_status);
+		exec_update_env(exit_status);
 		current = current->next;
 		return (0);
 	}
@@ -243,7 +235,7 @@ int process_command(t_command *current)
 	if (!stat_loc)
 		return (perror("minishell (execute_piped_commands) - ft_calloc"), -1);
 	wait(stat_loc);
-	exec_update_env(current, WEXITSTATUS(*stat_loc));
+	exec_update_env(WEXITSTATUS(*stat_loc));
 	return (free(stat_loc), 0);
 }
 

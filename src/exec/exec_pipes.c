@@ -16,7 +16,7 @@
  * @brief Executes a command as a child process.
  * In case of error with execve, exits with 126.
  */
-int exec_child(t_command *current)
+int	exec_child(t_command *current)
 {
 	char	**envtab;
 
@@ -54,7 +54,7 @@ int	exec_update_env(int exit_status)
 	return (0);
 }
 
-int process_command(t_command *current)
+int	process_command(t_command *current)
 {
 	pid_t		pid;
 	int			exit_status;
@@ -82,7 +82,7 @@ int process_command(t_command *current)
 	return (free(stat_loc), 0);
 }
 
-int execute_piped_commands(t_command *cmd)
+int	execute_piped_commands(t_command *cmd)
 {
 	t_command	*current;
 

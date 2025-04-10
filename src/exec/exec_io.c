@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:41:17 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/10 14:41:33 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/10 15:06:23 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,36 +42,43 @@ void	close_parent(t_command *current)
 		close(current->fdio->fdout);
 }
 
-int	setup_redirections(t_command *cmd, t_token **arg)
+static int	set_flags(t_token *arg)
 {
 	int	flags;
+
+	flags = O_WRONLY | O_CREAT;
+	if (arg->type == HEREDOC || arg->type == REDIRECT_IN)
+		return (flags);
+	else if (arg->type == REDIRECT_OUT)
+		flags |= O_TRUNC;
+	else if (arg->type == APPEND)
+		flags |= O_APPEND;
+	return (flags);
+}
+
+int	setup_redirections(t_command *cmd, t_token **arg)
+{
 	int	i;
 
 	i = 0;
 	while (arg[i])
 	{
-		flags = O_WRONLY | O_CREAT;
 		if (arg[i]->type == HEREDOC)
 			heredoc_handler(cmd, arg[i + 1]);
 		else if (arg[i]->type == REDIRECT_IN && arg[i + 1]
 			&& arg[i + 1]->type == REDIRECT_FILE)
-		{ 
+		{
 			cmd->fdio->fdin = open(arg[i + 1]->value, O_RDONLY);
 			if (cmd->fdio->fdin == -1)
-				return (perror("minishell (setup_redirections) - open (in)"), -1);
+				return (perror("minishell (setup_redirections) - open I"), -1);
 			i++;
 			continue ;
 		}
-		else if (arg[i]->type == REDIRECT_OUT)
-			flags |= O_TRUNC; // Truncate, overwrites the file
-		else if (arg[i]->type == APPEND)
-			flags |= O_APPEND; // Append, adds it at the end
 		if (arg[i + 1] && arg[i + 1]->type == REDIRECT_FILE)
 		{
-			cmd->fdio->fdout = open(arg[i + 1]->value, flags, 0644);
-			printf("Opened a file for writing: %s\n", arg[i + 1]->value);
+			cmd->fdio->fdout = open(arg[i + 1]->value, set_flags(arg[i]), 0644);
 			if (cmd->fdio->fdout == -1)
-				return (perror("minishell (setup_redirections) - open (out)"), -1);
+				return (perror("minishell (setup_redirections) - open O"), -1);
 		}
 		i++;
 	}

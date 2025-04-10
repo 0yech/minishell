@@ -170,9 +170,19 @@ void		process_heredoc(t_command *cmd);
 // TODO : Execution - to be organised
 int			valid_pipes(t_token *token);
 void		assign_pipes(t_command *cmd_list);
+char		*find_executable_path(char *command);
+
+// Exec Main - exec_pipes.c
 int			execute_piped_commands(t_command *cmd);
 int			exec_update_env(int exit_status);
-char		*find_executable_path(char *command);
+
+// Exec fd/io - exec_io.c
+void		close_child(t_command *current);
+void		close_parent(t_command *current);
+int			setup_redirections(t_command *cmd, t_token **arg);
+
+// Exec builtins - exec_builtin.c
 int			is_builtin(t_command *current);
+int			exec_pipe_builtin(t_command *current);
 
 #endif //MINISHELL_H

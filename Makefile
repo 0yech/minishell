@@ -31,6 +31,8 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/parsing/parsing_args.c \
 				$(SRCDIR)/parsing/rights_checks.c \
 				$(SRCDIR)/exec/exec_pipes.c \
+				$(SRCDIR)/exec/exec_builtin.c \
+				$(SRCDIR)/exec/exec_io.c \
 				$(SRCDIR)/exec/exec_tools.c \
 				$(SRCDIR)/prompt/prompt.c \
 				$(SRCDIR)/prompt/prompt_git.c \

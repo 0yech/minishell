@@ -197,7 +197,6 @@ int	exec_pipe_builtin(t_command *current)
  * @param exit_status The exit status returned by the command.
  * @return 0 if all went well, -1 otherwise.
  */
-// TODO : Bash updates the _ value BEFORE executing the command or builtin
 int	exec_update_env(int exit_status)
 {
 	char	*str_exit_status;

@@ -148,12 +148,16 @@ void		tokens_clear(t_token **list);
 void		command_handler(t_token **token_list);
 
 // Signal handler - signal_handler.c
+void		ignore_sig(int signal_id);
 void		signal_handler(void);
 
 // Parsing - parsing.c
 t_command	*parsing_handler(t_token **token_list);
-void		free_command_list(t_command *cmd);
 int			exec_checks(t_command *current);
+
+// Free parsing - free_parser.c
+void		free_command_list(t_command *cmd);
+void		command_delone(t_command *node);
 
 // Parsing arguments - parsing_args.c
 t_token		**extract_args(t_token *token);

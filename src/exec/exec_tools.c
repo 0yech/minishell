@@ -77,9 +77,7 @@ char	*find_executable_path(char *command)
 	token = ft_strtok(paths, ":");
 	while (token)
 	{
-		//printf("PATH folder test : %s\n", token);
 		full_path = join_path_command(token, command);
-		//printf("Executable test : %s\n", full_path);
 		if (!full_path)
 			return (free(paths), NULL);
 		if (access(full_path, X_OK) == 0)

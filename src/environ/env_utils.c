@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/10 12:56:18 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/10 14:10:48 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,5 @@ t_env	*env_get_key(char *key)
 			return (tmp);
 		tmp = tmp->next;
 	}
-	// printf("minishell (get_key): %s is not set!\n", key);
 	return (NULL);
 }

@@ -27,7 +27,7 @@ static int	cd_update_env(char *old_pwd, char *new_pwd)
 		if (env_set_key("OLDPWD", new_pwd) == -1)
 		{
 			printf("minishell (cd_update_env) - env_set: "
-				"Failed to change environment!\n");
+				"Failed to update $OLDPWD!\n");
 			return (1);
 		}
 	}
@@ -36,14 +36,14 @@ static int	cd_update_env(char *old_pwd, char *new_pwd)
 		if (env_set_key("OLDPWD", old_pwd) == -1)
 		{
 			printf("minishell (cd_update_env) - env_set: "
-				"Failed to change environment!\n");
+				"Failed to update $OLDPWD!\n");
 			return (1);
 		}
 	}
 	if (env_set_key("PWD", new_pwd) == -1)
 	{
 		printf("minishell (cd_update_env) - env_set: "
-			"Failed to change environment!\n");
+			"Failed to update $PWD!\n");
 		return (1);
 	}
 	return (0);
@@ -54,6 +54,7 @@ static int	cd_update_env(char *old_pwd, char *new_pwd)
  *
  * @return 0 if everything went well, -1 if an error occurred.
  */
+// TODO : cd -- prints wrong error message
 static int	cd_dir(char *path)
 {
 	t_env	*pwd;
@@ -66,7 +67,7 @@ static int	cd_dir(char *path)
 		if (!str_pwd)
 			return (perror("minishell (cd_dir) - getcwd"), -1);
 		if (env_set_key("PWD", str_pwd) == -1)
-			return (-1);
+			return (free(str_pwd), -1);
 		free(str_pwd);
 	}
 	pwd = env_get_key("PWD");
@@ -80,8 +81,7 @@ static int	cd_dir(char *path)
 			return (free(old_pwd), free(str_pwd), 0);
 		return (free(old_pwd), free(str_pwd), -1);
 	}
-	perror("minishell (cd_swap_old) - chdir");
-	return (free(old_pwd), -1);
+	return (perror("minishell (cd_dir) - chdir"), free(old_pwd), -1);
 }
 
 /**

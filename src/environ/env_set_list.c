@@ -6,27 +6,16 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:07 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/07 22:29:16 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/10 14:09:01 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @return A pointer to the first '=' character in the string.
- */
-char	*env_value_pos(char *str)
-{
-	// This function could just be replaced with strchr right?
-	while (*str != '=')
-		str++;
-	return (str);
-}
-
-/**
  * @return The size of the key size in the key=value pair given as str.
  */
-int	env_name_size(char *str)
+static int	env_name_size(char *str)
 {
 	int	i;
 
@@ -49,7 +38,7 @@ int	env_fill_node(char *envp, t_env *node)
 	size_t		valuesize;
 
 	namesize = env_name_size(envp);
-	valuesize = ft_strlen(env_value_pos(envp));
+	valuesize = ft_strlen(ft_strchr(envp, '='));
 	node->name = ft_calloc(1, namesize + 1);
 	node->value = ft_calloc(1, valuesize + 1);
 	if (!node->name || !node->value)
@@ -59,42 +48,51 @@ int	env_fill_node(char *envp, t_env *node)
 	return (1);
 }
 
-/**
- * @param key A malloced string that will represent the name of the node.
- * @param value A malloced string that will represent the value of the node.
- * If pointer is NULL, set value of new env node to "".
- * @return 0 if an already existing value was updated, 1 if a new value was
- * added, -1 if an error occurred.
- */
-int	env_set_key(char *key, char *value)
+int	env_update_var(char	*key, char *alloc_key, char *alloc_value)
 {
 	t_env	*node;
-	char	*alloc_key;
-	char	*alloc_value;
 
-	if (!key || !*key) // TODO : need "export: `=value`: not a valid identifier" error message
-		return (-1);
 	node = env_get_key(key);
-	alloc_key = ft_strdup(key);
-	if (!alloc_key)
-		return (perror("minishell (env_set_key) - ft_strdup"), -1);
-	if (value)
-		alloc_value = ft_strdup(value);
-	else
-		alloc_value = ft_strdup("");
-	if (!alloc_value)
-		return (perror("minishell (env_set_key) - ft_strdup"), -1);
 	if (node)
 	{
-		free(alloc_key);
 		if (node->value)
 			free(node->value);
 		node->value = alloc_value;
-		return (0);
+		return (free(alloc_key), 0);
 	}
 	node = env_last();
 	node->next = env_new(alloc_key, alloc_value, node, NULL);
 	if (!node->next)
 		return (free(alloc_key), free(alloc_value), -1);
 	return (1);
+}
+
+/**
+ * @brief Sets a variable in the minishell environment.
+ * 
+ * @param key A malloced string that will represent the name of the node.
+ * @param value A malloced string that will represent the value of the node.
+ * If pointer is NULL, set value of new env node to NULL.
+ * @return 0 if an already existing value was updated, 1 if a new value was
+ * added, -1 if an error occurred.
+ */
+// TODO : need "export: `=value`: not a valid identifier" error message
+int	env_set_key(char *key, char *value)
+{
+	char	*alloc_value;
+	char	*alloc_key;
+
+	if (!key || !*key)
+		return (-1);
+	alloc_value = NULL;
+	if (value)
+	{
+		alloc_value = ft_strdup(value);
+		if (!alloc_value)
+			return (perror("minishell (env_set_key) - malloc"), -1);
+	}
+	alloc_key = ft_strdup(key);
+	if (!alloc_key)
+		return (perror("minishell (env_set_key) - malloc"), -1);
+	return (env_update_var(key, alloc_key, alloc_value));
 }

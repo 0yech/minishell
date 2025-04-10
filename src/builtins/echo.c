@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:49:19 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/14 15:31:24 by estettle         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:46:03 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

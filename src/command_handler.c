@@ -17,11 +17,6 @@ void	command_handler(t_token **token_list)
 	t_command	*cmd;
 
 	cmd = parsing_handler(token_list);
-
-	//printf("%s\n", (*token_list)->value);
-	//printf("Executable found : %s\n", find_executable_path(cmd->command));
-	//printf("Executable found : %s\n", find_executable_path(cmd->next->command));
-	//printf("Executable found : %s\n\n", find_executable_path(cmd->next->next->command));
 	execute_piped_commands(cmd);
 	tokens_clear(token_list);
 	free_command_list(cmd);

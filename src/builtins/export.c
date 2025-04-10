@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/07 22:58:05 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/10 13:44:33 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,31 @@
  * starting from the minimum token.
  * If NULL is passed as the minimum, returns the lowest ranked token.
  */
-static t_env	*find_lowest_str(t_env *list, t_env *minimum)
+static t_env	*find_lowest_str(t_env *lst, t_env *min)
 {
 	t_env	*lowest;
 
-	if (minimum)
-		while (ft_strncmp(list->name, minimum->name, ft_strlen(list->name) + 1) <= 0)
-			list = list->next;
-	lowest = list;
-	while (list)
+	if (min)
+		while (ft_strncmp(lst->name, min->name, ft_strlen(lst->name) + 1)
+			<= 0)
+			lst = lst->next;
+	lowest = lst;
+	while (lst)
 	{
-		if (minimum)
+		if (min)
 		{
-			if (ft_strncmp(list->name, lowest->name, ft_strlen(list->name) + 1) < 0
-				&& ft_strncmp(list->name, minimum->name, ft_strlen(list->name) + 1) > 0)
-				lowest = list;
+			if (ft_strncmp(lst->name, lowest->name, ft_strlen(lst->name) + 1)
+				< 0
+				&& ft_strncmp(lst->name, min->name, ft_strlen(lst->name) + 1)
+				> 0)
+			{
+				lowest = lst;
+			}
 		}
-		else if ((ft_strncmp(list->name, lowest->name, ft_strlen(list->name) + 1) < 0))
-			lowest = list;
-		list = list->next;
+		else if ((ft_strncmp(lst->name, lowest->name, ft_strlen(lst->name) + 1)
+				< 0))
+			lowest = lst;
+		lst = lst->next;
 	}
 	return (lowest);
 }
@@ -58,7 +64,7 @@ int	export_print(void)
 		return (-1);
 	tmp = NULL;
 	i = env_size(env);
-	while (i)
+	while (i--)
 	{
 		tmp = find_lowest_str(env, tmp);
 		if (tmp->name)
@@ -72,7 +78,6 @@ int	export_print(void)
 				return (perror("minishell (export_print) - write"), 0);
 		if (write(STDOUT_FILENO, "\n", 2) == -1)
 			return (perror("minishell (export_print) - write"), 0);
-		i--;
 	}
 	return (0);
 }

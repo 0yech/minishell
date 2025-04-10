@@ -51,21 +51,19 @@ static t_command	*fill_parsing(t_token *token)
 {
 	t_command	*cmd;
 
-	if (!token)
-		return (NULL);
 	cmd = ft_calloc(1, sizeof(t_command));
 	if (!cmd)
 		return (perror("minishell (fill_parsing) - malloc"), NULL);
 	cmd->arguments = extract_args(token);
 	if (!cmd->arguments)
-		return (free(cmd->command), free(cmd), NULL);
+		return (free(cmd), NULL);
 	cmd->argv = args_to_argv(cmd->arguments);
 	if (!cmd->argv)
-		return (free(cmd->command), free(cmd->arguments), free(cmd), NULL);
+		return (free(cmd->arguments), free(cmd), NULL);
 	cmd->fdio = ft_calloc(1, sizeof(t_io));
 	if (!cmd->fdio)
 		return (perror("minishell (fill_parsing) - malloc"),
-			free(cmd->command), free(cmd), NULL);
+			command_delone(cmd), NULL);
 	while (token && token->type != COMMAND)
 		token = token->next;
 	if (token)
@@ -73,7 +71,7 @@ static t_command	*fill_parsing(t_token *token)
 		cmd->command = ft_strdup(token->value);
 		if (!cmd->command)
 			return (perror("minishell (fill_parsing) - malloc"),
-				free(cmd), NULL);
+				command_delone(cmd), NULL);
 	}
 	return (cmd);
 }

@@ -23,13 +23,18 @@ void	refresh_prompt(int sig)
 	rl_redisplay();
 }
 
-void	ignore_sig(void)
+/**
+ * @brief Sets the current process to SIG_IGN the signal given as argument.
+ * 
+ * @param signal_id The signal to ignore.
+ */
+void	ignore_sig(int signal_id)
 {
 	struct sigaction	sig;
 
 	ft_memset(&sig, 0, sizeof(sig));
 	sig.sa_handler = SIG_IGN;
-	if (sigaction(SIGQUIT, &sig, NULL) == -1)
+	if (sigaction(signal_id, &sig, NULL) == -1)
 		perror("minishell (ignores_sig) - sigaction");
 }
 
@@ -37,7 +42,7 @@ void	signal_handler(void)
 {
 	struct sigaction	sig;
 
-	ignore_sig();
+	ignore_sig(SIGQUIT);
 	ft_memset(&sig, 0, sizeof(sig));
 	sig.sa_handler = &refresh_prompt;
 	if (sigaction(SIGINT, &sig, NULL) == -1)

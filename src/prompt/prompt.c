@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Displays the minishell prompt along with git branch information if
+ * the current directory is part of a git repo.
+ */
 void	display_prompt(void)
 {
 	t_env	*cwd;

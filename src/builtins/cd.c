@@ -6,11 +6,13 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:47:25 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/17 12:03:45 by estettle         ###   ########.fr       */
+/*   Updated: 2025/04/10 20:51:53 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// TODO, Too many arguments return
 
 /**
  * @brief Updates the environment variables PWD and OLDPWD with the values

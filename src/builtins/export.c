@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: nrey <nrey@student.42lausanne.ch>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 1970/01/01 01:00:00 by nrey              #+#    #+#             */
+/*   Updated: 2025/04/10 20:44:36 by nrey             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
@@ -11,6 +23,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// TODO, export var cannot start with numbers, but _123 could work for example
 
 /**
  * @brief Compares the env token given in argument with the list of tokens also

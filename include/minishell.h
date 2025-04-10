@@ -88,8 +88,11 @@ typedef struct s_env
 	struct s_env	*prev;
 }	t_env;
 
-// Display prompt + Git - git_handler.c
+// Prompt - prompt.c
 void		display_prompt(void);
+
+// Git prompt - prompt_git.c
+char		*get_git_branch(void);
 
 // Builtins - builtins folder
 int			ft_cd(t_command *cmd);

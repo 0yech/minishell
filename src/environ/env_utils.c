@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 12:08:56 by estettle          #+#    #+#             */
-/*   Updated: 2025/04/07 21:16:40 by fireinside       ###   ########.fr       */
+/*   Created: 2025/02/11 12:08:56 by fireinside        #+#    #+#             */
+/*   Updated: 2025/04/10 12:56:18 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,24 @@ void	free_array(char **array)
 		free(array[i++]);
 	free(array[i]);
 	free(array);
+}
+
+/**
+ * @brief Calculates the number of variables contained in the environment.
+ */
+int	env_size(t_env *env)
+{
+	int		i;
+	t_env	*tmp;
+
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	return (i);
 }
 
 /**
@@ -51,24 +69,6 @@ static char	*strjoin_equals(char *s1, char *s2)
 	out[len] = '=';
 	ft_strlcpy(out + len + 1, s2, final_len - len - 1);
 	return (out);
-}
-
-/**
- * @brief Calculates the number of variables contained in the environment.
- */
-int	env_size(t_env *env)
-{
-	int		i;
-	t_env	*tmp;
-
-	i = 0;
-	tmp = env;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		i++;
-	}
-	return (i);
 }
 
 /**

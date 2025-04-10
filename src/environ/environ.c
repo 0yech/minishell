@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   environ.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/07 15:50:52 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/17 12:05:50 by estettle         ###   ########.fr       */
+/*   Created: 2025/02/07 15:50:52 by fireinside        #+#    #+#             */
+/*   Updated: 2025/04/10 12:47:33 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Gets the environment of minishell.
+ * 
+ * @return A pointer to the first node of the environment.
+ */
 t_env	**env_get(void)
 {
 	static t_env	*env;
@@ -20,10 +25,10 @@ t_env	**env_get(void)
 }
 
 /**
- * @brief Copies envp environment data into a linked list for future reuse and
+ * @brief Copies envp environment data into a linked list for future use and
  * updating in the shell.
  *
- * @param envp The environment as passed to the main() function.
+ * @param envp The environment as passed to the main function.
  * @return A pointer to the head of the linked list just created.
  */
 t_env	*fill_envcpy(char **envp)
@@ -36,9 +41,9 @@ t_env	*fill_envcpy(char **envp)
 	current = NULL;
 	while (*envp)
 	{
-		new_node = ft_calloc(1, sizeof(t_env));
+		new_node = malloc(sizeof(t_env));
 		if (!new_node)
-			return (perror("minishell (fill_envcpy) - ft_calloc"),
+			return (perror("minishell (fill_envcpy) - malloc"),
 				env_clear(&head), NULL);
 		if (!env_fill_node(*envp, new_node))
 			return (env_delone(new_node), env_clear(&head), NULL);
@@ -58,8 +63,11 @@ t_env	*fill_envcpy(char **envp)
 /**
  * @brief Initializes the environment of the shell.
  *
- * @param envp The environment as passed to the main() function.
- * @return A pointer to the head of the linked list just created.
+ * @details Copies envp into the minishell's environment list.
+ * Also makes sure to increment SH_LVL by 1 after copying. If the variable
+ * doesn't exist, then sets it to 1.
+ * @param envp The environment as passed to the main() function as minishell
+ * starts.
  */
 void	env_init(char **envp)
 {
@@ -79,7 +87,6 @@ void	env_init(char **envp)
 			printf("minishell (env_init): failed to set SHLVL!\n");
 		free(new_shlvl);
 	}
-	else
-		if (env_set_key("SHLVL", "1") == -1)
-			printf("minishell (env_init): failed to set SHLVL!\n");
+	else if (env_set_key("SHLVL", "1") == -1)
+		printf("minishell (env_init): failed to set SHLVL!\n");
 }

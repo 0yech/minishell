@@ -56,7 +56,6 @@ static int	cd_update_env(char *old_pwd, char *new_pwd)
  *
  * @return 0 if everything went well, -1 if an error occurred.
  */
-// TODO : cd -- prints wrong error message
 static int	cd_dir(char *path)
 {
 	t_env	*pwd;
@@ -97,7 +96,7 @@ int	ft_cd(t_command *cmd)
 {
 	t_env	*var;
 
-	if (cmd->argv[1] == NULL
+	if (cmd->argv[1] == NULL || cmd->arguments[1]->type != ARGUMENT
 		|| !ft_strncmp(cmd->argv[1], "~", 2))
 	{
 		var = env_get_key("HOME");

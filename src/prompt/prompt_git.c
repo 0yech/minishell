@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:59:55 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/10 12:59:57 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/11 15:12:26 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,13 @@ int	find_git_head(void)
 		if (fd >= 0)
 			return (free(dir), fd);
 		if (ft_strlen(dir) == 1 && ft_strncmp(dir, "/", 1) == 0)
-			break ;
+			return (free(dir), -1);
 		new_dir = cut_pwd(dir);
 		free(dir);
 		if (!new_dir)
 			return (-1);
 		dir = new_dir;
 	}
-	return (-1);
 }
 
 char	*get_git_branch(void)

@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:07 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/11 16:08:23 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/11 23:05:55 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	env_fill_node(char *envp, t_env *node)
 		return (0);
 	ft_strlcpy(node->name, envp, namesize + 1);
 	ft_strlcpy(node->value, ft_strchr(envp, '=') + 1, valuesize + 1);
-	return (1);
+	return (0);
 }
 
 int	env_update_var(char	*key, char *alloc_key, char *alloc_value)
@@ -61,10 +61,19 @@ int	env_update_var(char	*key, char *alloc_key, char *alloc_value)
 		return (free(alloc_key), 0);
 	}
 	node = env_last();
-	node->next = env_new(alloc_key, alloc_value, node, NULL);
-	if (!node->next)
-		return (free(alloc_key), free(alloc_value), -1);
-	return (1);
+	if (node)
+	{
+		node->next = env_new(alloc_key, alloc_value, node, NULL);
+		if (!node->next)
+			return (free(alloc_key), free(alloc_value), 1);
+	}
+	else
+	{
+		node = env_new(alloc_key, alloc_value, node, NULL);
+		if (!node)
+			return (free(alloc_key), free(alloc_value), 1);
+	}
+	return (0);
 }
 
 /**
@@ -73,26 +82,24 @@ int	env_update_var(char	*key, char *alloc_key, char *alloc_value)
  * @param key A malloced string that will represent the name of the node.
  * @param value A malloced string that will represent the value of the node.
  * If pointer is NULL, set value of new env node to NULL.
- * @return 0 if an already existing value was updated, 1 if a new value was
- * added, -1 if an error occurred.
+ * @return 0 if everything went well, 1 if an error occurred.
  */
-// TODO : need "export: `=value`: not a valid identifier" error message
 int	env_set_key(char *key, char *value)
 {
 	char	*alloc_value;
 	char	*alloc_key;
 
 	if (!key || !*key)
-		return (-1);
+		return (1);
 	alloc_value = NULL;
 	if (value)
 	{
 		alloc_value = ft_strdup(value);
 		if (!alloc_value)
-			return (perror("minishell (env_set_key) - malloc"), -1);
+			return (perror("minishell (env_set_key) - malloc"), 1);
 	}
 	alloc_key = ft_strdup(key);
 	if (!alloc_key)
-		return (perror("minishell (env_set_key) - malloc"), -1);
+		return (perror("minishell (env_set_key) - malloc"), 1);
 	return (env_update_var(key, alloc_key, alloc_value));
 }

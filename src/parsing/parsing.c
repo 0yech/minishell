@@ -131,7 +131,7 @@ static int	parsing_update_env(t_command *cmd)
 	i = 0;
 	while (tmp[i] && tmp[i + 1])
 		i++;
-	if (env_set_key("_", tmp[i]) == -1)
+	if (env_set_key("_", tmp[i]) == 1)
 		return (-1);
 	return (0);
 }

@@ -48,7 +48,7 @@ int	exec_update_env(int exit_status)
 	str_exit_status = ft_itoa(exit_status);
 	if (!str_exit_status)
 		return (perror("minishell (exec_update_env) - malloc"), -1);
-	if (env_set_key("?", str_exit_status) == -1)
+	if (env_set_key("?", str_exit_status) == 1)
 		return (free(str_exit_status), -1);
 	free(str_exit_status);
 	return (0);

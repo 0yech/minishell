@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:50:52 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/10 12:47:33 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/11 23:01:28 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_env	*fill_envcpy(char **envp)
 		if (!new_node)
 			return (perror("minishell (fill_envcpy) - malloc"),
 				env_clear(&head), NULL);
-		if (!env_fill_node(*envp, new_node))
+		if (env_fill_node(*envp, new_node) == 1)
 			return (env_delone(new_node), env_clear(&head), NULL);
 		if (!head)
 			head = new_node;
@@ -83,10 +83,10 @@ void	env_init(char **envp)
 		new_shlvl = ft_itoa(ft_atoi(shlvl->value) + 1);
 		if (!new_shlvl)
 			perror("minishell (env_init) - ft_itoa");
-		if (env_set_key("SHLVL", new_shlvl) == -1)
+		if (env_set_key("SHLVL", new_shlvl) == 1)
 			printf("minishell (env_init): failed to set SHLVL!\n");
 		free(new_shlvl);
 	}
-	else if (env_set_key("SHLVL", "1") == -1)
+	else if (env_set_key("SHLVL", "1") == 1)
 		printf("minishell (env_init): failed to set SHLVL!\n");
 }

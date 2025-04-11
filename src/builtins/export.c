@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/11 16:47:18 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/11 17:18:36 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,14 @@ int	export_concat(char *str)
 
 	slices = ft_split(str, '+');
 	if (!slices)
-		return (perror("minishell (export_concat) - ft_split"), -1);
+		return (perror("minishell (export_concat) - ft_split"), 1);
 	if (slices[0][0] == '=')
-		return (printf("export: Wrong syntax!\n"), free_array(slices), -1);
+		return (printf("export: Wrong syntax!\n"), free_array(slices), 1);
 	var = env_get_key(slices[0]);
 	concat_str = ft_calloc(export_concat_size(var, slices[1]), sizeof(char));
 	if (!concat_str)
 		return (perror("minishell (export_concat) - ft_calloc"),
-			free_array(slices), -1);
+			free_array(slices), 1);
 	if (var && var->value)
 	{
 		ft_strlcpy(concat_str, var->value, ft_strlen(var->value) + 1);
@@ -124,14 +124,14 @@ int	export_concat(char *str)
 	}
 	else
 		ft_strlcpy(concat_str, slices[1] + 1, ft_strlen(slices[1]));
-	if (env_set_key(slices[0], concat_str) == -1)
-		return (free_array(slices), free(concat_str), -1);
+	if (env_set_key(slices[0], concat_str) == 1)
+		return (free_array(slices), free(concat_str), 1);
 	return (free_array(slices), free(concat_str), 0);
 }
 
 /**
  * @return 0 if an already existing value was updated, 1 if a new value was
- * added, -1 if an error occurred.
+ * added, 1 if an error occurred.
  */
 int	ft_export(char *str)
 {
@@ -146,18 +146,18 @@ int	ft_export(char *str)
 	if (ft_isdigit(*str) || *str == '=')
 		return (write(2, "minishell: export: `", 21),
 			write(2, str, ft_strlen(str)),
-			write(2, "' not a valid identifier\n", 26), -1);
+			write(2, "' not a valid identifier\n", 26), 1);
 	if (!tmp)
 		return (env_set_key(str, NULL));
 	if (tmp - ft_strchr(str, '+') == 1)
 		return (export_concat(str));
 	key = malloc(tmp - str + 1);
 	if (!key)
-		return (perror("minishell (ft_export) - malloc"), -1);
+		return (perror("minishell (ft_export) - malloc"), 1);
 	ft_strlcpy(key, str, tmp - str + 1);
 	value = ft_strdup(tmp + 1);
 	if (!value)
-		return (perror("minishell (ft_export) - malloc"), free(key), -1);
+		return (perror("minishell (ft_export) - malloc"), free(key), 1);
 	return_value = env_set_key(key, value);
 	return (free(key), free(value), return_value);
 }

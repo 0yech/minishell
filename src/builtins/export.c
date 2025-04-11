@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrey <nrey@student.42lausanne.ch>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 1970/01/01 01:00:00 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/10 20:44:36 by nrey             ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/10 13:44:33 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/11 16:47:18 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// TODO, export var cannot start with numbers, but _123 could work for example
 
 /**
  * @brief Compares the env token given in argument with the list of tokens also
@@ -144,23 +130,25 @@ int	export_concat(char *str)
 }
 
 /**
- * @return 0 if everything went well, -1 if an error occurred.
+ * @return 0 if an already existing value was updated, 1 if a new value was
+ * added, -1 if an error occurred.
  */
 int	ft_export(char *str)
 {
 	char	*tmp;
 	char	*key;
 	char	*value;
+	int		return_value;
 
 	if (!str)
 		return (export_print());
 	tmp = ft_strchr(str, '=');
+	if (ft_isdigit(*str) || *str == '=')
+		return (write(2, "minishell: export: `", 21),
+			write(2, str, ft_strlen(str)),
+			write(2, "' not a valid identifier\n", 26), -1);
 	if (!tmp)
-	{
-		if (env_set_key(str, NULL) == -1)
-			return (-1);
-		return (0);
-	}
+		return (env_set_key(str, NULL));
 	if (tmp - ft_strchr(str, '+') == 1)
 		return (export_concat(str));
 	key = malloc(tmp - str + 1);
@@ -170,7 +158,6 @@ int	ft_export(char *str)
 	value = ft_strdup(tmp + 1);
 	if (!value)
 		return (perror("minishell (ft_export) - malloc"), free(key), -1);
-	if (env_set_key(key, value) == -1)
-		return (free(key), free(value), -1);
-	return (free(key), free(value), 0);
+	return_value = env_set_key(key, value);
+	return (free(key), free(value), return_value);
 }

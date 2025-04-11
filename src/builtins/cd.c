@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+// TODO : return values of builtins
+
 /**
  * @brief Updates the environment variables PWD and OLDPWD with the values
  * contained withing new_pwd and old_pwd respectively. Called by the cd builtin.

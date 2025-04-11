@@ -13,6 +13,7 @@
 #include "minishell.h"
 
 // TODO : try to close all fds at exit
+// FIXME : reads of unitialized values around environment
 
 int	main(int argc, char **argv, char **envp)
 {

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*ft_strtok(char *str, const char *delim)
+static char	*ft_strtok(char *str, const char *delim)
 {
 	static char	*save;
 	char		*token;
@@ -39,7 +39,7 @@ char	*ft_strtok(char *str, const char *delim)
  * @param command The second string to join.
  * @return The joined string.
  */
-char	*join_path_command(char *path, char *command)
+static char	*join_path_command(char *path, char *command)
 {
 	char	*full_path;
 	size_t	len;

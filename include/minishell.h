@@ -167,9 +167,13 @@ char		**args_to_argv(t_token **arg);
 void		heredoc_handler(t_command *cmd, t_token *hd_delim);
 void		process_heredoc(t_command *cmd);
 
-// TODO : Execution - to be organised
+// Invalid checks - invalid_checks.c
 int			valid_pipes(t_token *token);
+
+// Pipe assignation - pipe_assign.c
 void		assign_pipes(t_command *cmd_list);
+
+// Exec Tools - exec_tools.c
 char		*find_executable_path(char *command);
 
 // Exec Main - exec_pipes.c

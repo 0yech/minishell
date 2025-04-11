@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-// TODO, Too many arguments return
-
 /**
  * @brief Updates the environment variables PWD and OLDPWD with the values
  * contained withing new_pwd and old_pwd respectively. Called by the cd builtin.
@@ -96,19 +94,22 @@ int	ft_cd(t_command *cmd)
 {
 	t_env	*var;
 
+	if (cmd->argv[2])
+		return (write(2, "minishell: cd: too many arguments\n", 35), -1);
 	if (cmd->argv[1] == NULL || cmd->arguments[1]->type != ARGUMENT
 		|| !ft_strncmp(cmd->argv[1], "~", 2))
 	{
 		var = env_get_key("HOME");
 		if (!var || !var->value)
-			return (printf("minishell (ft_cd): $HOME is not set!\n"), -1);
+			return (write(2, "minishell (ft_cd): $HOME is not set!\n", 38), -1);
 		return (cd_dir(var->value));
 	}
 	if (!ft_strncmp(cmd->argv[1], "-", 2))
 	{
 		var = env_get_key("OLDPWD");
 		if (!var || !var->value)
-			return (printf("minishell (ft_cd): $OLDPWD is not set!\n"), -1);
+			return (write(2, "minishell (ft_cd): $OLDPWD is not set!\n", 40),
+				-1);
 		return (cd_dir(var->value));
 	}
 	return (cd_dir(cmd->argv[1]));

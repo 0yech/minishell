@@ -6,19 +6,19 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 07:31:29 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/07 22:58:31 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/11 15:36:07 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_token_after_pipe_invalid(t_token_type type)
+static bool	is_token_after_pipe_invalid(t_token_type type)
 {
 	return (type == PIPE || type == REDIRECT_IN || type == REDIRECT_OUT
 		|| type == APPEND || type == HEREDOC);
 }
 
-int	is_valid_pipe(t_token *token)
+static int	is_valid_pipe(t_token *token)
 {
 	if (token->type == PIPE)
 	{
@@ -32,7 +32,7 @@ int	is_valid_pipe(t_token *token)
 	return (0);
 }
 
-int	is_valid_redirection(t_token *token)
+static int	is_valid_redirection(t_token *token)
 {
 	if (token->type == REDIRECT_IN || token->type == REDIRECT_OUT
 		|| token->type == APPEND || token->type == HEREDOC)

@@ -36,7 +36,8 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/exec/exec_tools.c \
 				$(SRCDIR)/prompt/prompt.c \
 				$(SRCDIR)/prompt/prompt_git.c \
-				$(SRCDIR)/token_tools.c
+				$(SRCDIR)/token_tools.c \
+				$(SRCDIR)/help/help.c
 OBJS		=	$(CFILES:.c=.o)
 
 INCLDIR		=	include/

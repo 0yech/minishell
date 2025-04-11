@@ -19,7 +19,7 @@ int	main(int argc, char **argv, char **envp)
 	t_token	**token_list;
 	char	*input;
 
-	(void)argc, (void)argv;
+	help_menu(argc, argv);
 	signal_handler();
 	env_init(envp);
 	while (true)

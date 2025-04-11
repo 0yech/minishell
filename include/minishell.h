@@ -29,6 +29,17 @@
 // Libft
 # include "libft.h"
 
+# define RED	"\033[31m"
+# define GREEN	"\033[32m"
+# define YELLOW	"\033[33m"
+# define BLUE	"\033[34m"
+# define LIME	"\033[38;2;160;240;130m"
+# define ORG	"\033[38;2;255;190;100m"
+# define UNDER	"\033[4m"
+# define BOLD	"\033[1m"
+# define CYAN	"\033[36m"
+# define RESET	"\033[0m"
+
 // Enums
 typedef enum e_token_type
 {
@@ -188,5 +199,8 @@ int			setup_redirections(t_command *cmd, t_token **arg);
 // Exec builtins - exec_builtin.c
 int			is_builtin(t_command *current);
 int			exec_pipe_builtin(t_command *current);
+
+// Help - help.c
+void		help_menu(int argc, char **argv);
 
 #endif //MINISHELL_H

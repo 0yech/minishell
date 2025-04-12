@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/11 17:18:36 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/12 15:31:35 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int	export_concat(char *str)
 	return (free_array(slices), free(concat_str), 0);
 }
 
+// TODO : Multiple arguments should work
 /**
  * @return 0 if an already existing value was updated, 1 if a new value was
  * added, 1 if an error occurred.

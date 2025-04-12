@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:50:52 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/11 23:01:28 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/12 15:38:23 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_env	*fill_envcpy(char **envp)
 	current = NULL;
 	while (*envp)
 	{
-		new_node = malloc(sizeof(t_env));
+		new_node = ft_calloc(1, sizeof(t_env));
 		if (!new_node)
 			return (perror("minishell (fill_envcpy) - malloc"),
 				env_clear(&head), NULL);

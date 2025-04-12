@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:27:02 by nrey              #+#    #+#             */
-/*   Updated: 2025/03/17 12:03:18 by estettle         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:23:37 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_env	*env_new(char *key, char *value, t_env *prev, t_env *next)
 {
 	t_env	*new;
 
-	new = malloc(sizeof(t_env));
+	new = ft_calloc(1, sizeof(t_env));
 	if (!new)
 		return (perror("minishell (env_new) - malloc"), NULL);
 	new->name = key;

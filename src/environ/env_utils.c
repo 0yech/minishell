@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:08:56 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/10 14:10:48 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/12 15:20:42 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	env_size(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
+		printf("[!] - Accessing var : %s\n", tmp->name);
 		tmp = tmp->next;
 		i++;
 	}

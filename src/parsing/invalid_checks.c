@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   invalid_checks.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 07:31:29 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/11 15:36:07 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/12 23:13:20 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// TODO - "|ls" shouldn't be valid. First token can't be a pipe. (syntax err)
 
 static bool	is_token_after_pipe_invalid(t_token_type type)
 {

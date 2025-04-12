@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 // TODO : try to close all fds at exit
-// FIXME : reads of unitialized values around environment
+// TODO : echo $val1$val2 should expand both
 
 int	main(int argc, char **argv, char **envp)
 {

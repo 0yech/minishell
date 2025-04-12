@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:39:04 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/10 14:46:36 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/12 15:59:23 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,7 @@ static int	exec_builtin(t_command *current)
 	if (ft_strncmp(current->command, "env", 4) == 0)
 		return (ft_env());
 	if (ft_strncmp(current->command, "export", 7) == 0)
-	{
-		if (!current->argv[1])
-			return (ft_export(NULL));
-		return (ft_export(current->argv[1]));
-	}
+		return (ft_export(current));
 	if (ft_strncmp(current->command, "unset", 6) == 0)
 	{
 		if (!current->argv[1])

@@ -6,46 +6,11 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/12 15:31:35 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/12 16:38:35 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/**
- * @brief Compares the env token given in argument with the list of tokens also
- * passed as argument, and returns the next token in alphabetical order,
- * starting from the minimum token.
- * If NULL is passed as the minimum, returns the lowest ranked token.
- */
-static t_env	*find_lowest_str(t_env *lst, t_env *min)
-{
-	t_env	*lowest;
-
-	if (min)
-		while (ft_strncmp(lst->name, min->name, ft_strlen(lst->name) + 1)
-			<= 0)
-			lst = lst->next;
-	lowest = lst;
-	while (lst)
-	{
-		if (min)
-		{
-			if (ft_strncmp(lst->name, lowest->name, ft_strlen(lst->name) + 1)
-				< 0
-				&& ft_strncmp(lst->name, min->name, ft_strlen(lst->name) + 1)
-				> 0)
-			{
-				lowest = lst;
-			}
-		}
-		else if ((ft_strncmp(lst->name, lowest->name, ft_strlen(lst->name) + 1)
-				< 0))
-			lowest = lst;
-		lst = lst->next;
-	}
-	return (lowest);
-}
 
 /**
  * @brief Prints all exported variables to stdout formatted as
@@ -83,20 +48,6 @@ int	export_print(void)
 }
 
 /**
- * @brief Returns the size of the variable after the new_value is added to it.
- * Just returns the length of new_value if the var doesn't exist yet.
- */
-size_t	export_concat_size(t_env *var, char *new_value)
-{
-	size_t	tot_size;
-
-	tot_size = ft_strlen(new_value);
-	if (var && var->value)
-		tot_size += ft_strlen(var->value);
-	return (tot_size + 1);
-}
-
-/**
  * @brief Helper method of the export builtin for concatenation of env variables
  * with new values. Example : export PATH+=/home
  */
@@ -129,36 +80,36 @@ int	export_concat(char *str)
 	return (free_array(slices), free(concat_str), 0);
 }
 
-// TODO : Multiple arguments should work
 /**
  * @return 0 if an already existing value was updated, 1 if a new value was
  * added, 1 if an error occurred.
  */
-int	ft_export(char *str)
+// TODO : Doing export wow when wow=wow shouldn't reset wow's value to NULL
+int	ft_export(t_command *cmd)
 {
+	int		i;
 	char	*tmp;
-	char	*key;
-	char	*value;
 	int		return_value;
 
-	if (!str)
+	i = 1;
+	if (!cmd->argv[i])
 		return (export_print());
-	tmp = ft_strchr(str, '=');
-	if (ft_isdigit(*str) || *str == '=')
-		return (write(2, "minishell: export: `", 21),
-			write(2, str, ft_strlen(str)),
-			write(2, "' not a valid identifier\n", 26), 1);
-	if (!tmp)
-		return (env_set_key(str, NULL));
-	if (tmp - ft_strchr(str, '+') == 1)
-		return (export_concat(str));
-	key = malloc(tmp - str + 1);
-	if (!key)
-		return (perror("minishell (ft_export) - malloc"), 1);
-	ft_strlcpy(key, str, tmp - str + 1);
-	value = ft_strdup(tmp + 1);
-	if (!value)
-		return (perror("minishell (ft_export) - malloc"), free(key), 1);
-	return_value = env_set_key(key, value);
-	return (free(key), free(value), return_value);
+	while (cmd->argv[i])
+	{
+		tmp = ft_strchr(cmd->argv[i], '=');
+		if (ft_isdigit(*cmd->argv[i]) || *cmd->argv[i] == '=')
+			return (write(2, "minishell: export: `", 21),
+				write(2, cmd->argv[i], ft_strlen(cmd->argv[i])),
+				write(2, "' not a valid identifier\n", 26), 1);
+		else if (!tmp)
+			return_value = env_set_key(cmd->argv[i], NULL);
+		else if (tmp - ft_strchr(cmd->argv[i], '+') == 1)
+			return_value = export_concat(cmd->argv[i]);
+		else
+			return_value = export_value(cmd, tmp, i);
+		if (return_value == 1)
+			break ;
+		i++;
+	}
+	return (return_value);
 }

@@ -109,7 +109,7 @@ int	ft_cd(t_command *cmd)
 		var = env_get_key("OLDPWD");
 		if (!var || !var->value)
 			return (write(2, "minishell (ft_cd): $OLDPWD is not set!\n", 40),
-			1);
+				1);
 		return (cd_dir(var->value));
 	}
 	return (cd_dir(cmd->argv[1]));

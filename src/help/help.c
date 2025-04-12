@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:44:15 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/12 14:59:32 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/12 15:51:55 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	print_man(void)
 	printf("\t- '_' In env returns latest argument like bash.\n");
 	printf("\t- Error messages and syntax errors to mimic bash.\n");
 	printf("\t- Git support in prompt.\n\n");
-	ft_exit(0);
 }
 
 void	print_help_header(void)
@@ -57,9 +56,9 @@ void	print_help_header(void)
 	printf("   __  ___ _        _       __        __ __\n");
 	printf("  /  |/  /(_)___   (_)___  / /  ___  / // /\t\t"LIME"nrey\t\t \
 (0yech)"RESET"\n");
-	printf(" / /|_/ // // _ \\ / /(_-< / _ \\/ -_)/ // / \t\t"BOLD ORG"estettle\t \
-(Aisling Fontaine)"RESET"\n");
-	printf("/_/  /_//_//_//_//_//___//_//_/\\__//_//_/  \t\t"BLUE \
+	printf(" / /|_/ // // _ \\ / /(_-< / _ \\/ -_)/ // / \t\t"BOLD ORG
+		"estettle\t (Aisling Fontaine)"RESET"\n");
+	printf("/_/  /_//_//_//_//_//___//_//_/\\__//_//_/  \t\t"BLUE
 		"42 Lausanne"RESET"\n");
 	printf("____________________________________________\n\n"RESET);
 	printf(YELLOW"https://github.com/0yech/minishell"RESET);
@@ -71,7 +70,6 @@ static void	help_man(void)
 	print_void_lines(50);
 	print_help_header();
 	print_man();
-	ft_exit(0);
 }
 
 void	help_menu(int argc, char **argv)

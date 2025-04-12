@@ -117,7 +117,6 @@ int			ft_unset(char *key);
 // Export builtin helper functions - export_utils.c
 t_env		*find_lowest_str(t_env *lst, t_env *min);
 size_t		export_concat_size(t_env *var, char *new_value);
-int			export_value(t_command *cmd, char *tmp, int i);
 
 // Lexing Main - lexing.c
 t_token		**init_token_list(char *input);

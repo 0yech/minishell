@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 16:35:32 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/12 16:36:56 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/12 16:49:58 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,23 +59,4 @@ size_t	export_concat_size(t_env *var, char *new_value)
 	if (var && var->value)
 		tot_size += ft_strlen(var->value);
 	return (tot_size + 1);
-}
-
-int	export_value(t_command *cmd, char *tmp, int i)
-{
-	char	*key;
-	char	*value;
-	int		return_value;
-
-	key = malloc(tmp - cmd->argv[i] + 1);
-	if (!key)
-		return (perror("minishell (ft_export) - malloc"), 1);
-	ft_strlcpy(key, cmd->argv[i], tmp - cmd->argv[i] + 1);
-	value = ft_strdup(tmp + 1);
-	if (!value)
-		return (perror("minishell (ft_export) - malloc"), free(key), 1);
-	return_value = env_set_key(key, value);
-	free(key);
-	free(value);
-	return (return_value);
 }

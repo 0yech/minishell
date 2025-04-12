@@ -6,7 +6,7 @@
 /*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/12 16:38:35 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/12 16:57:20 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,39 @@ int	export_concat(char *str)
 	return (free_array(slices), free(concat_str), 0);
 }
 
+static int	export_no_value(char *str)
+{
+	t_env	*var;
+
+	var = env_get_key(str);
+	if (!var)
+		return (env_set_key(str, NULL));
+	return (0);
+}
+
+static int	export_value(t_command *cmd, char *tmp, int i)
+{
+	char	*key;
+	char	*value;
+	int		return_value;
+
+	key = malloc(tmp - cmd->argv[i] + 1);
+	if (!key)
+		return (perror("minishell (ft_export) - malloc"), 1);
+	ft_strlcpy(key, cmd->argv[i], tmp - cmd->argv[i] + 1);
+	value = ft_strdup(tmp + 1);
+	if (!value)
+		return (perror("minishell (ft_export) - malloc"), free(key), 1);
+	return_value = env_set_key(key, value);
+	free(key);
+	free(value);
+	return (return_value);
+}
+
 /**
  * @return 0 if an already existing value was updated, 1 if a new value was
  * added, 1 if an error occurred.
  */
-// TODO : Doing export wow when wow=wow shouldn't reset wow's value to NULL
 int	ft_export(t_command *cmd)
 {
 	int		i;
@@ -102,7 +130,7 @@ int	ft_export(t_command *cmd)
 				write(2, cmd->argv[i], ft_strlen(cmd->argv[i])),
 				write(2, "' not a valid identifier\n", 26), 1);
 		else if (!tmp)
-			return_value = env_set_key(cmd->argv[i], NULL);
+			return_value = export_no_value(cmd->argv[i]);
 		else if (tmp - ft_strchr(cmd->argv[i], '+') == 1)
 			return_value = export_concat(cmd->argv[i]);
 		else

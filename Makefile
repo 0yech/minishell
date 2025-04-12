@@ -37,7 +37,15 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/prompt/prompt.c \
 				$(SRCDIR)/prompt/prompt_git.c \
 				$(SRCDIR)/token_tools.c \
-				$(SRCDIR)/help/help.c
+				$(SRCDIR)/help/help.c \
+				$(SRCDIR)/help/help_echo.c \
+				$(SRCDIR)/help/help_cd.c \
+				$(SRCDIR)/help/help_export.c \
+				$(SRCDIR)/help/help_env.c \
+				$(SRCDIR)/help/help_exit.c \
+				$(SRCDIR)/help/help_unset.c \
+				$(SRCDIR)/help/help_pwd.c
+
 OBJS		=	$(CFILES:.c=.o)
 
 INCLDIR		=	include/

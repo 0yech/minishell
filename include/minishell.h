@@ -202,5 +202,14 @@ int			exec_pipe_builtin(t_command *current);
 
 // Help - help.c
 void		help_menu(int argc, char **argv);
+void		print_help_header(void);
+void		print_void_lines(int amount);
+void		help_echo(void);
+void		help_cd(void);
+void		help_export(void);
+void		help_env(void);
+void		help_exit(void);
+void		help_unset(void);
+void		help_pwd(void);
 
 #endif //MINISHELL_H

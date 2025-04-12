@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 04:59:42 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/12 05:58:08 by nrey             ###   ########.fr       */
+/*   Updated: 2025/04/12 15:03:03 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@ return value.\n");
 	printf(BOLD"FEATURES\n"RESET);
 	printf("\t- exit's status updates $?, a variable corresponding to the \
 most recent return value.\n\n");
-	printf(BOLD"RETURN STATUSES EXAMPLES\n"RESET);
-	printf("\t127 : command not found\n");
-	printf("\t126 : is a directory\n\t126 : Permission denied\n");
-	printf("\t  2 : syntax error\n");
 	printf("\n");
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:44:15 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/12 06:02:25 by nrey             ###   ########.fr       */
+/*   Updated: 2025/04/12 14:59:32 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ static void	print_man(void)
 	printf("\t- Variable expansion ($VAR).\n");
 	printf("\t- Proper signal handling (ctrl-C, ctrl-D, ctrl-\\).\n");
 	printf("\t- Proper return values.\n\n");
+	printf(BOLD"RETURN STATUSES EXAMPLES\n"RESET);
+	printf("\t127 : command not found\n");
+	printf("\t126 : is a directory\n\t126 : Permission denied\n");
+	printf("\t  2 : syntax error\n");
 	printf(BOLD"EXTRAS\n"RESET);
 	printf("\t- '_' In env returns latest argument like bash.\n");
 	printf("\t- Error messages and syntax errors to mimic bash.\n");

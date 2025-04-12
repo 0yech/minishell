@@ -27,7 +27,7 @@ char	*get_variable(char *str)
 
 	i = 0;
 	while (ft_isprint(str[i]) && str[i] != '"'
-		&& str[i] != '\'' && str[i] != ' ')
+		&& str[i] != '\'' && str[i] != ' ' && str[i] != '$')
 		i++;
 	key = ft_calloc(i + 1, sizeof(char));
 	if (!key)
@@ -62,8 +62,8 @@ size_t	full_token_size(char *token)
 			var = get_variable(token + i);
 			if (var)
 				size += ft_strlen(var);
-			while (token[i] && ft_isprint(token[i])
-				&& token[i] != '"' && token[i] != '\'' && token[i] != ' ')
+			while (token[i] && ft_isprint(token[i]) && token[i] != '"'
+				&& token[i] != '\'' && token[i] != ' ' && token[i] != '$')
 				i++;
 		}
 		size++;
@@ -89,7 +89,7 @@ void	handle_var(char *token, char *expanded_token, size_t *i, size_t *j)
 		*j += ft_strlen(var);
 	}
 	while (ft_isprint(token[*i]) && token[*i] != '"'
-		&& token[*i] != '\'' && token[*i] != ' ')
+		&& token[*i] != '\'' && token[*i] != ' ' && token[*i] != '$')
 		(*i)++;
 }
 

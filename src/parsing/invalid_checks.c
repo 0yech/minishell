@@ -6,13 +6,11 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 07:31:29 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/12 23:13:20 by nrey             ###   ########.fr       */
+/*   Updated: 2025/04/14 17:32:15 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// TODO - "|ls" shouldn't be valid. First token can't be a pipe. (syntax err)
 
 static bool	is_token_after_pipe_invalid(t_token_type type)
 {
@@ -60,6 +58,13 @@ static int	is_valid_redirection(t_token *token)
 
 int	valid_pipes(t_token *token)
 {
+	if (token->prev == NULL && token->type == PIPE)
+	{
+		write(STDERR_FILENO,
+			"syntax error near unexpected token `|'\n", 39);
+		env_set_key("?", "2");
+		return (1);
+	}
 	while (token)
 	{
 		if (is_valid_pipe(token) != 0 || is_valid_redirection(token) != 0)

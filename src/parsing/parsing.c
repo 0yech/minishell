@@ -139,7 +139,7 @@ static int	parsing_update_env(t_command *cmd)
 // TODO -	Handle heredocs before handling any error message.
 // TODO	-	This handler returns a NULL command list, but it sometimes 
 //			lets command try to execute. Check with the following test.
-//			"cat <./include/minishell.h << HERE < missing |ls"
+//			"cat <./include/minishell.h <<HERE <missing <<DOC |ls"
 
 t_command	*parsing_handler(t_token **token_list)
 {

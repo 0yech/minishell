@@ -6,13 +6,11 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:47:58 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/12 23:23:44 by nrey             ###   ########.fr       */
+/*   Updated: 2025/04/14 17:31:55 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// TODO - Check if the delimiter is "$"
 
 static char	*hd_var_expand(char *line)
 {
@@ -29,7 +27,8 @@ static char	*hd_var_expand(char *line)
 	j = 0;
 	while (line[i])
 	{
-		if (line[i] == '$')
+		if (line[i] == '$'
+			&& ft_isprint(line[i + 1]) && line[i + 1] != ' ')
 			handle_var(line, new_line, &i, &j);
 		else
 			new_line[j++] = line[i++];
@@ -58,11 +57,11 @@ void	heredoc_handler(t_command *cmd, t_token *hd_delim)
 	while (1)
 	{
 		line = readline("> ");
+		if (!line || ft_strncmp(line, hd_delim->value,
+			ft_strlen(hd_delim->value) + 1) == 0)
+			break ;
 		if (hd_delim->quoted == false)
 			line = hd_var_expand(line);
-		if (!line || ft_strncmp(line, hd_delim->value,
-				ft_strlen(hd_delim->value) + 1) == 0)
-			break ;
 		if (write(pipefd[1], line, ft_strlen(line)) == -1
 			|| write(pipefd[1], "\n", 1) == -1)
 			perror("minishell (heredoc_handler) - write");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 17:19:09 by estettle          #+#    #+#             */
-/*   Updated: 2025/02/18 15:03:41 by estettle         ###   ########.fr       */
+/*   Created: 2025/02/11 17:19:09 by fireinside        #+#    #+#             */
+/*   Updated: 2025/04/14 14:35:42 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing_expand_var.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/27 17:31:57 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/24 12:14:59 by estettle         ###   ########.fr       */
+/*   Created: 2025/02/27 17:31:57 by fireinside        #+#    #+#             */
+/*   Updated: 2025/03/24 12:14:59 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

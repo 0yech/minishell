@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/18 15:24:01 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/24 12:17:19 by estettle         ###   ########.fr       */
+/*   Created: 2025/02/18 15:24:01 by fireinside        #+#    #+#             */
+/*   Updated: 2025/03/24 12:17:19 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

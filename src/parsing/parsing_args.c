@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: estettle <estettle@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 09:00:08 by estettle          #+#    #+#             */
-/*   Updated: 2025/03/27 19:32:01 by estettle         ###   ########.fr       */
+/*   Created: 2025/03/10 09:00:08 by fireinside        #+#    #+#             */
+/*   Updated: 2025/04/14 14:36:31 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

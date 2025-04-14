@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:49:19 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/11 17:00:35 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/14 19:11:07 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_echo(t_command *cmd)
 
 	nl = 1;
 	tmp = cmd->argv + 1;
-	if (cmd->arguments[1]->type == OPTION
+	if (cmd->arguments[1] && cmd->arguments[1]->type == OPTION
 		&& ft_strncmp(*tmp, "-n", ft_strlen(*tmp) + 1) == 0)
 		nl = 0;
 	if (*tmp && *tmp + 1 && nl == 0)

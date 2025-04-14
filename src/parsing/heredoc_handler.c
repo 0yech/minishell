@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 20:47:58 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/14 17:31:55 by nrey             ###   ########.fr       */
+/*   Updated: 2025/04/14 17:37:32 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	heredoc_handler(t_command *cmd, t_token *hd_delim)
 	{
 		line = readline("> ");
 		if (!line || ft_strncmp(line, hd_delim->value,
-			ft_strlen(hd_delim->value) + 1) == 0)
+				ft_strlen(hd_delim->value) + 1) == 0)
 			break ;
 		if (hd_delim->quoted == false)
 			line = hd_var_expand(line);

@@ -95,7 +95,8 @@ int	execute_piped_commands(t_command *cmd)
 	current = cmd;
 	while (current)
 	{
-		setup_redirections(current, current->arguments);
+		if (setup_redirections(current, current->arguments))
+			return (-1);
 		if (current->command && current->command[0]
 			&& process_command(current) == -1)
 			return (-1);

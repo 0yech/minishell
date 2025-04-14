@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_io.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:41:17 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/10 15:06:23 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/14 17:49:50 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	set_flags(t_token *arg)
 	return (flags);
 }
 
-int	setup_redirections(t_command *cmd, t_token **arg)
+static void	setup_hd(t_command *cmd, t_token **arg)
 {
 	int	i;
 
@@ -65,7 +65,19 @@ int	setup_redirections(t_command *cmd, t_token **arg)
 	{
 		if (arg[i]->type == HEREDOC)
 			heredoc_handler(cmd, arg[i + 1]);
-		else if (arg[i]->type == REDIRECT_IN && arg[i + 1]
+		i++;
+	}
+}
+
+int	setup_redirections(t_command *cmd, t_token **arg)
+{
+	int	i;
+
+	i = 0;
+	setup_hd(cmd, arg);
+	while (arg[i])
+	{
+		if (arg[i]->type == REDIRECT_IN && arg[i + 1]
 			&& arg[i + 1]->type == REDIRECT_FILE)
 		{
 			cmd->fdio->fdin = open(arg[i + 1]->value, O_RDONLY);

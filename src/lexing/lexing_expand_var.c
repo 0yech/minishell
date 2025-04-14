@@ -56,7 +56,9 @@ size_t	full_token_size(char *token)
 		return (0);
 	while (token[i])
 	{
-		if (token[i] == '$')
+		if (token[i] == '$' && token[i + 1] && ft_isprint(token[i + 1])
+			&& token[i + 1] != '"' && token[i + 1] != '\''
+			&& token[i + 1] != ' ' && token[i + 1] != '$')
 		{
 			i++;
 			var = get_variable(token + i);
@@ -66,9 +68,11 @@ size_t	full_token_size(char *token)
 				&& token[i] != '\'' && token[i] != ' ' && token[i] != '$')
 				i++;
 		}
-		size++;
-		if (token[i])
+		else
+		{
+			size++;
 			i++;
+		}
 	}
 	return (size);
 }

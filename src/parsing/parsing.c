@@ -136,10 +136,11 @@ static int	parsing_update_env(t_command *cmd)
 	return (0);
 }
 
-// TODO -	Handle heredocs before handling any error message.
 // TODO	-	This handler returns a NULL command list, but it sometimes 
 //			lets command try to execute. Check with the following test.
 //			"cat <./include/minishell.h <<HERE <missing <<DOC |ls"
+// 			15.04 update : okay so this technically works better but ls is still
+//			not executed (bash does the ls command still after the pipe)
 
 t_command	*parsing_handler(t_token **token_list)
 {

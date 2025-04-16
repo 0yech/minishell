@@ -12,33 +12,33 @@
 
 #include "minishell.h"
 
-static void	print_commands(t_command *cmd)
-{
-	int	i;
+// static void	print_commands(t_command *cmd)
+// {
+// 	int	i;
 
-	while (cmd)
-	{
-		printf("-----------------------------------------\n");
-		printf("fdin : %d\n", cmd->fdio->fdin);
-		printf("fdout : %d\n", cmd->fdio->fdout);
-		printf("Command : %s\n", cmd->command);
-		i = 0;
-		while (cmd->arguments[i])
-		{
-			printf("argument%d : %s\n", i, cmd->arguments[i]->value);
-			i++;
-		}
-		printf("\n");
-		i = 0;
-		while (cmd->argv[i])
-		{
-			printf("argv%d : %s\n", i, cmd->argv[i]);
-			i++;
-		}
-		printf("\n");
-		cmd = cmd->next;
-	}
-}
+// 	while (cmd)
+// 	{
+// 		printf("-----------------------------------------\n");
+// 		printf("fdin : %d\n", cmd->fdio->fdin);
+// 		printf("fdout : %d\n", cmd->fdio->fdout);
+// 		printf("Command : %s\n", cmd->command);
+// 		i = 0;
+// 		while (cmd->arguments[i])
+// 		{
+// 			printf("argument%d : %s\n", i, cmd->arguments[i]->value);
+// 			i++;
+// 		}
+// 		printf("\n");
+// 		i = 0;
+// 		while (cmd->argv[i])
+// 		{
+// 			printf("argv%d : %s\n", i, cmd->argv[i]);
+// 			i++;
+// 		}
+// 		printf("\n");
+// 		cmd = cmd->next;
+// 	}
+// }
 
 /**
  * @brief Takes a token as argument and creates a command node with tokens
@@ -145,7 +145,6 @@ t_command	*parsing_handler(t_token **token_list)
 	if (valid_pipes(*token_list) == 1)
 		return (free_command_list(command_list), NULL);
 	assign_pipes(command_list);
-	print_commands(command_list);
 	if (exec_checks(command_list) != 0)
 		return (free_command_list(command_list), NULL);
 	return (command_list);

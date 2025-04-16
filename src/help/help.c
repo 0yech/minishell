@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:44:15 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/12 15:51:55 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 13:52:12 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ static void	print_man(void)
 	printf(BOLD"MINISHELL\n"RESET);
 	printf(BOLD"\ta minimal Unix shell made at 42 School.\n\n"RESET);
 	printf(BOLD"BUILTINS\n"RESET);
-	printf(UNDER"\techo"RESET"\t\tDisplay a line of text\n");
-	printf(UNDER"\tcd"RESET"\t\tChange the current directory\n");
-	printf(UNDER"\tpwd"RESET"\t\tPrint current working directory\n");
-	printf(UNDER"\texport"RESET"\t\tSet environment variables\n");
-	printf(UNDER"\tunset"RESET"\t\tRemove environment variables\n");
-	printf(UNDER"\tenv"RESET"\t\tDisplay the environment\n");
-	printf(UNDER"\texit"RESET"\t\tExit the shell\n\n");
+	printf("\t"UNDER"echo"RESET"\t\tDisplay a line of text\n");
+	printf("\t"UNDER"cd"RESET"\t\tChange the current directory\n");
+	printf("\t"UNDER"pwd"RESET"\t\tPrint current working directory\n");
+	printf("\t"UNDER"export"RESET"\t\tSet environment variables\n");
+	printf("\t"UNDER"unset"RESET"\t\tRemove environment variables\n");
+	printf("\t"UNDER"env"RESET"\t\tDisplay the environment\n");
+	printf("\t"UNDER"exit"RESET"\t\tExit the shell\n\n");
 	printf(BOLD"FEATURES\n"RESET);
 	printf("\t- Relative and aboslute path command execution.\n");
 	printf("\t- Quote handling (' and \").\n");
@@ -78,7 +78,7 @@ void	help_menu(int argc, char **argv)
 			|| ft_strncmp(argv[1], "--H", 4) == 0))
 	{
 		if (argc == 2)
-			help_man();
+			return (help_man(), ft_exit(0));
 		else if (argc > 2)
 		{
 			if (ft_strncmp(argv[2], "echo", 5) == 0)
@@ -97,6 +97,6 @@ void	help_menu(int argc, char **argv)
 				help_pwd();
 		}
 		printf("minishell help usage : ./minishell --h [BUILTIN]\n");
-		ft_exit(0);
+		return (ft_exit(0));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 01:15:21 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/14 14:36:42 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 13:54:02 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ void	assign_types(t_token **token_list)
 			current_has_cmd = false;
 		if (current->type == COMMAND)
 			current_has_cmd = true;
-		printf("\nNode value : %s\n", current->value);
-		printf("Node type : %d\n", current->type);
 		current = current->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_git.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:59:55 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/11 15:12:26 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 20:54:46 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ char	*get_git_branch(void)
 	if (fd < 0)
 		return (NULL);
 	bytes_read = read(fd, branch, sizeof(branch) - 1);
-	close(fd);
+	if (close(fd) == -1)
+		perror("minishell (get_git_branch) - close");
 	if (bytes_read <= 0)
 		return (NULL);
 	branch[bytes_read] = '\0';

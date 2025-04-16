@@ -6,7 +6,7 @@
 /*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:41:17 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/16 14:32:07 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 20:43:34 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ void	close_child(t_command *current)
 {
 	if (current->fdio->fdout != STDOUT_FILENO)
 	{
-		close(STDOUT_FILENO);
+		if (close(STDOUT_FILENO) == -1)
+			perror("minishell (close_child - stdout) - close");
 		dup2(current->fdio->fdout, STDOUT_FILENO);
 	}
 	if (current->fdio->fdin != STDIN_FILENO)
 	{
-		close(STDIN_FILENO);
+		if (close(STDIN_FILENO) == -1)
+			perror("minishell (close_child - stdin) - close stdin");
 		dup2(current->fdio->fdin, STDIN_FILENO);
 	}
 }
@@ -36,10 +38,12 @@ void	close_child(t_command *current)
  */
 void	close_parent(t_command *current)
 {
-	if (current->fdio->fdin != STDIN_FILENO)
-		close(current->fdio->fdin);
-	if (current->fdio->fdout != STDOUT_FILENO)
-		close(current->fdio->fdout);
+	if (current->fdio->fdin != STDIN_FILENO
+		&& close(current->fdio->fdin) == -1)
+		perror("minishell (close_parent - fdin) - close");
+	if (current->fdio->fdout != STDOUT_FILENO
+		&& close(current->fdio->fdout) == -1)
+		perror("minishell (close_parent - fdin) - close");
 }
 
 static int	set_flags(t_token *arg)

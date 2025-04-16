@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:39:04 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/12 15:59:23 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 20:52:02 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,20 @@ int	exec_pipe_builtin(t_command *current)
 		if (pid == 0)
 		{
 			close_child(current);
-			exec_builtin(current);
-			close(current->fdio->fdout);
-			exit(0);
+			exit_status = exec_builtin(current);
+			if (close(current->fdio->fdout) == -1)
+				perror("minishell (exec_pipe_builtin) - close");
+			exit(exit_status);
 		}
+		if (close(current->fdio->fdout) == -1)
+			perror("minishell (exec_pipe_builtin) - close");
 		stat_loc = ft_calloc(1, sizeof(int));
 		if (!stat_loc)
 			return (perror("minishell (exec_pipe_builtin) - malloc"), -1);
-		wait(stat_loc);
+		if (wait(stat_loc) == -1)
+			perror("minishell (exec_pipe_builtin) - wait");
 		exit_status = WEXITSTATUS(*stat_loc);
-		return (close(current->fdio->fdout), free(stat_loc), exit_status);
+		return (free(stat_loc), exit_status);
 	}
 	return (exec_builtin(current));
 }

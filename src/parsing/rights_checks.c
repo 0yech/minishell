@@ -6,7 +6,7 @@
 /*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:56:38 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/16 21:12:21 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 22:28:01 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	is_dir(char *path)
 
 	ft_memset(&cmdstat, 0, sizeof(cmdstat));
 	if (stat(path, &cmdstat) == -1)
-		perror("minishell (is_dir) - stat");
+		return (false);
 	return (S_ISDIR(cmdstat.st_mode));
 }
 

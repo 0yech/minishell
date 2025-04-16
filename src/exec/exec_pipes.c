@@ -99,11 +99,13 @@ int	execute_piped_commands(t_command *cmd)
 	current = cmd;
 	while (current)
 	{
-		if (setup_redirections(current, current->arguments) != 0
-			&& (current->command && current->command[0]
-			&& process_command(current) == -1))
+		if (setup_redirections(current, current->arguments))
+			current = current->next;
+		else if (current->command && current->command[0]
+			&& process_command(current) == -1)
 			return (-1);
-		current = current->next;
+		else
+			current = current->next;
 	}
 	if (dup2(cmd->fdio->stdincpy, STDIN_FILENO) == -1)
 		perror("minishell (execute_piped_commands) - dup2");

@@ -6,11 +6,14 @@
 /*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/16 13:44:06 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 15:08:25 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// TODO : can't set a variable containing ? in its name AND
+// printing echo $?hello should print <exitstatus>hello
 
 /**
  * @brief Prints all exported variables to stdout formatted as

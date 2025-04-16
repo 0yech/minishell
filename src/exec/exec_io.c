@@ -73,6 +73,12 @@ static void	setup_hd(t_command *cmd, t_token **arg)
 	}
 }
 
+/**
+ * @brief Sets up the fds of the command given as argument.
+ * @param cmd The command to set up.
+ * @param arg The arguments of the command.
+ * @return 0 if everything went well, -1 otherwise.
+ */
 int	setup_redirections(t_command *cmd, t_token **arg)
 {
 	int	i;

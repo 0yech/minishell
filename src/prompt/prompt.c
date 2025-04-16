@@ -24,7 +24,8 @@ void	display_prompt(void)
 	cwd = env_get_key("PWD");
 	if (cwd == NULL)
 	{
-		write(2, "minishell (display_prompt) - get_key: $PWD not set", 50);
+		if (write(2, "minishell: $PWD not set", 24) == -1)
+			perror("minishell (display_prompt) - write");
 		return ;
 	}
 	branch = get_git_branch();

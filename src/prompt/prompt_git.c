@@ -117,7 +117,7 @@ char	*get_git_branch(void)
 		branch_name = ft_strdup(branch + 16);
 	else
 		branch_name = ft_strdup("(detached)");
-	if (!branch)
+	if (!branch_name)
 		return (perror("minishell (get_git_branch) - malloc"), NULL);
 	return (branch_name);
 }

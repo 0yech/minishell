@@ -83,7 +83,7 @@ int	env_update_var(char	*key, char *alloc_key, char *alloc_value)
  * 
  * @param key A malloced string that will represent the name of the node.
  * @param value A malloced string that will represent the value of the node.
- * If pointer is NULL, set value of new env node to NULL.
+ * If the value pointer is NULL, sets the value of the new env node to NULL.
  * @return 0 if everything went well, 1 if an error occurred.
  */
 int	env_set_key(char *key, char *value)

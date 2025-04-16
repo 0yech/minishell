@@ -14,23 +14,19 @@
 
 /**
  * @brief Executes a command as a child process.
- * In case of error with execve, exits with 126.
+ * In case of error with execve, exits the child with 126.
  */
-int	exec_child(t_command *current)
+static void	exec_child(t_command *current)
 {
 	char	**envtab;
 
 	close_child(current);
-	if (ft_strncmp(current->command, "<<", 3) != 0)
-	{
-		envtab = env_to_char(*env_get());
-		if (!envtab)
-			return (-1);
-		execve(find_executable_path(current->command), current->argv, envtab);
-		perror("minishell (exec_child) - execve");
-		exit(126);
-	}
-	return (-1);
+	envtab = env_to_char(*env_get());
+	if (!envtab)
+		return ;
+	execve(find_executable_path(current->command), current->argv, envtab);
+	perror("minishell (exec_child) - execve");
+	exit(126);
 }
 
 /**
@@ -83,6 +79,13 @@ int	process_command(t_command *current)
 	return (free(stat_loc), 0);
 }
 
+/**
+ * @brief Executes a command as a child process and redirects its output to
+ * the appropriate file descriptor.
+ *
+ * @param cmd The command to execute.
+ * @return 0 if all went well, -1 otherwise.
+ */
 int	execute_piped_commands(t_command *cmd)
 {
 	t_command	*current;
@@ -96,17 +99,15 @@ int	execute_piped_commands(t_command *cmd)
 	current = cmd;
 	while (current)
 	{
-		if (setup_redirections(current, current->arguments))
-			current = current->next;
-		else if (current->command && current->command[0]
-			&& process_command(current) == -1)
+		if (setup_redirections(current, current->arguments) != 0
+			&& (current->command && current->command[0]
+			&& process_command(current) == -1))
 			return (-1);
-		else
-			current = current->next;
+		current = current->next;
 	}
-	dup2(cmd->fdio->stdincpy, STDIN_FILENO);
-	dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO);
-	if (cmd->fdio->stdincpy == -1 || cmd->fdio->stdoutcpy == -1)
+	if (dup2(cmd->fdio->stdincpy, STDIN_FILENO) == -1)
+		perror("minishell (execute_piped_commands) - dup2");
+	if (dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO) == -1)
 		perror("minishell (execute_piped_commands) - dup2");
 	return (0);
 }

@@ -77,7 +77,8 @@ int	process_command(t_command *current)
 	stat_loc = ft_calloc(1, sizeof(int));
 	if (!stat_loc)
 		return (perror("minishell (execute_piped_commands) - ft_calloc"), -1);
-	wait(stat_loc);
+	if (wait(stat_loc) == -1)
+		perror("minishell (process_command) - wait");
 	exec_update_env(WEXITSTATUS(*stat_loc));
 	return (free(stat_loc), 0);
 }

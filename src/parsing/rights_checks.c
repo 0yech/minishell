@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rights_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:56:38 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/08 11:47:18 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 21:12:21 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ bool	is_dir(char *path)
 	struct stat	cmdstat;
 
 	ft_memset(&cmdstat, 0, sizeof(cmdstat));
-	stat(path, &cmdstat);
+	if (stat(path, &cmdstat) == -1)
+		perror("minishell (is_dir) - stat");
 	return (S_ISDIR(cmdstat.st_mode));
 }
 

@@ -6,7 +6,7 @@
 /*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:59:55 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/16 20:54:46 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 21:07:46 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*cut_pwd(char *path)
 		{
 			p = malloc(i + 1);
 			if (!p)
-				return (NULL);
+				return (perror("minishell (cut_pwd) - malloc"), NULL);
 			ft_strlcpy(p, path, i + 1);
 			return (p);
 		}
@@ -58,8 +58,10 @@ static int	try_open_head(char *dir)
 
 	head_path = ft_strjoin(dir, "/.git/HEAD");
 	if (!head_path)
-		return (-1);
+		return (perror("minishell (try_open_head) - malloc"), -1);
 	fd = open(head_path, O_RDONLY);
+	if (fd == -1)
+		return (perror("minishell (try_open_head) - open"), -1);
 	free(head_path);
 	return (fd);
 }
@@ -76,7 +78,7 @@ int	find_git_head(void)
 		return (-1);
 	dir = ft_strdup(pwd->value);
 	if (!dir)
-		return (-1);
+		return (perror("minishell (find_git_head) - malloc"), -1);
 	while (1)
 	{
 		fd = try_open_head(dir);
@@ -103,15 +105,19 @@ char	*get_git_branch(void)
 	if (fd < 0)
 		return (NULL);
 	bytes_read = read(fd, branch, sizeof(branch) - 1);
+	if (bytes_read == -1)
+		return (perror("minishell (get_git_branch) - read"), NULL);
+	if (bytes_read == 0)
+		return (NULL);
 	if (close(fd) == -1)
 		perror("minishell (get_git_branch) - close");
-	if (bytes_read <= 0)
-		return (NULL);
 	branch[bytes_read] = '\0';
 	git_str_replace(branch, bytes_read);
 	if (ft_strncmp(branch, "ref: refs/heads/", 16) == 0)
 		branch_name = ft_strdup(branch + 16);
 	else
 		branch_name = ft_strdup("(detached)");
+	if (!branch)
+		return (perror("minishell (get_git_branch) - malloc"), NULL);
 	return (branch_name);
 }

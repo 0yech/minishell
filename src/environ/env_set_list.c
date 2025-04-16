@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_set_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:49:07 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/11 23:05:55 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 20:16:30 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	env_name_size(char *str)
  *
  * @param envp A string of the environment as passed to the main() function.
  * @param node The current node we want to fill.
- * @return 0 if there was an error, 1 if all went well.
+ * @return 0 if all went well, -1 otherwise.
  */
 int	env_fill_node(char *envp, t_env *node)
 {
@@ -40,9 +40,11 @@ int	env_fill_node(char *envp, t_env *node)
 	namesize = env_name_size(envp);
 	valuesize = ft_strlen(ft_strchr(envp, '='));
 	node->name = ft_calloc(1, namesize + 1);
+	if (!node->name)
+		return (perror("minishell (env_fill_node) - malloc"), -1);
 	node->value = ft_calloc(1, valuesize + 1);
-	if (!node->name || !node->value)
-		return (0);
+	if (!node->value)
+		return (perror("minishell (env_fill_node) - malloc"), -1);
 	ft_strlcpy(node->name, envp, namesize + 1);
 	ft_strlcpy(node->value, ft_strchr(envp, '=') + 1, valuesize + 1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/16 15:08:25 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 20:12:20 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 // TODO : can't set a variable containing ? in its name AND
 // printing echo $?hello should print <exitstatus>hello
+// TODO : Hide _ and ? variables from export output
 
 /**
  * @brief Prints all exported variables to stdout formatted as
@@ -35,14 +36,12 @@ int	export_print(void)
 	while (i--)
 	{
 		tmp = find_lowest_str(env, tmp);
-		if (tmp->name)
-			if (write(STDOUT_FILENO, "export ", 7) == -1
-				|| write(STDOUT_FILENO, tmp->name, ft_strlen(tmp->name)) == -1)
+		if (tmp->name && (write(STDOUT_FILENO, "export ", 7) == -1
+				|| write(STDOUT_FILENO, tmp->name, ft_strlen(tmp->name)) == -1))
 				return (perror("minishell (export_print) - write"), 0);
-		if (tmp->value && tmp->value[0])
-			if (write(STDOUT_FILENO, "=\"", 2) == -1
+		if (tmp->value && tmp->value[0] && (write(STDOUT_FILENO, "=\"", 2) == -1
 				|| write(STDOUT_FILENO, tmp->value, ft_strlen(tmp->value)) == -1
-				|| write(STDOUT_FILENO, "\"", 1) == -1)
+				|| write(STDOUT_FILENO, "\"", 1) == -1))
 				return (perror("minishell (export_print) - write"), 0);
 		if (write(STDOUT_FILENO, "\n", 1) == -1)
 			return (perror("minishell (export_print) - write"), 0);
@@ -127,12 +126,12 @@ int	ft_export(t_command *cmd)
 		return (export_print());
 	while (cmd->argv[i])
 	{
-		tmp = ft_strchr(cmd->argv[i], '=');
 		if (ft_isdigit(*cmd->argv[i]) || *cmd->argv[i] == '=')
 			return (write(2, "minishell: export: `", 21),
 				write(2, cmd->argv[i], ft_strlen(cmd->argv[i])),
 				write(2, "' not a valid identifier\n", 26), 1);
-		else if (!tmp)
+		tmp = ft_strchr(cmd->argv[i], '=');
+		if (!tmp)
 			return_value = export_no_value(cmd->argv[i]);
 		else if (tmp - ft_strchr(cmd->argv[i], '+') == 1)
 			return_value = export_concat(cmd->argv[i]);

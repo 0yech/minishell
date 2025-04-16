@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:27:02 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/12 15:23:37 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 20:10:32 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environ.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:50:52 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/12 15:38:23 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 17:35:44 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_env	*fill_envcpy(char **envp)
 		if (!new_node)
 			return (perror("minishell (fill_envcpy) - malloc"),
 				env_clear(&head), NULL);
-		if (env_fill_node(*envp, new_node) == 1)
+		if (env_fill_node(*envp, new_node) == -1)
 			return (env_delone(new_node), env_clear(&head), NULL);
 		if (!head)
 			head = new_node;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
+/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:28:50 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/12 16:57:20 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/16 13:44:06 by fireinside       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	export_print(void)
 	{
 		tmp = find_lowest_str(env, tmp);
 		if (tmp->name)
-			if (write(STDOUT_FILENO, "export ", 8) == -1
+			if (write(STDOUT_FILENO, "export ", 7) == -1
 				|| write(STDOUT_FILENO, tmp->name, ft_strlen(tmp->name)) == -1)
 				return (perror("minishell (export_print) - write"), 0);
 		if (tmp->value && tmp->value[0])
@@ -41,7 +41,7 @@ int	export_print(void)
 				|| write(STDOUT_FILENO, tmp->value, ft_strlen(tmp->value)) == -1
 				|| write(STDOUT_FILENO, "\"", 1) == -1)
 				return (perror("minishell (export_print) - write"), 0);
-		if (write(STDOUT_FILENO, "\n", 2) == -1)
+		if (write(STDOUT_FILENO, "\n", 1) == -1)
 			return (perror("minishell (export_print) - write"), 0);
 	}
 	return (0);

@@ -96,11 +96,12 @@ int	execute_piped_commands(t_command *cmd)
 	while (current)
 	{
 		if (setup_redirections(current, current->arguments))
-			return (-1);
-		if (current->command && current->command[0]
+			current = current->next;
+		else if (current->command && current->command[0]
 			&& process_command(current) == -1)
 			return (-1);
-		current = current->next;
+		else
+			current = current->next;
 	}
 	dup2(cmd->fdio->stdincpy, STDIN_FILENO);
 	dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <firefoxSpinnie@protonmail.c    +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 17:26:22 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/10 14:12:20 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/17 17:43:41 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,15 @@ static void	destroy_arguments(t_token **arguments)
 	int	i;
 
 	i = 0;
+	if (!arguments)
+		return ;
 	while (arguments[i])
-		free(arguments[i++]);
-	free(arguments[i]);
+	{
+		if (arguments[i]->value)
+			free(arguments[i]->value);
+		free(arguments[i]);
+		i++;
+	}
 	free(arguments);
 }
 

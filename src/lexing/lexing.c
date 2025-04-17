@@ -54,7 +54,8 @@ static int	get_next_token(t_token **token_list, char *input)
 	free(substr);
 	if (!new->value)
 		return (free(new), -1);
-	return (token_add_back(token_list, new), i);
+	token_add_back(token_list, new);
+	return (i);
 }
 
 static t_token	**create_tokens(char *input)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_git.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:59:55 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/16 21:07:46 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/17 18:12:08 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ static int	try_open_head(char *dir)
 	if (!head_path)
 		return (perror("minishell (try_open_head) - malloc"), -1);
 	fd = open(head_path, O_RDONLY);
-	if (fd == -1)
-		return (perror("minishell (try_open_head) - open"), -1);
 	free(head_path);
 	return (fd);
 }

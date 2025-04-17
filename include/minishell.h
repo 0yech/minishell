@@ -89,6 +89,7 @@ typedef struct s_command
 	char				**argv; // Array of argv tokens
 	struct s_command	*next;
 	struct s_command	*prev;
+	bool				isvalid;
 }	t_command;
 
 typedef struct s_env
@@ -161,6 +162,8 @@ void		tokens_clear(t_token **list);
 
 // Command handler - command_handler.c
 void		command_handler(t_token **token_list);
+t_command	*fetch_commands(t_command *command_list);
+t_token		**fetch_tokens(t_token **token_list);
 
 // Signal handler - signal_handler.c
 void		ignore_sig(int signal_id);

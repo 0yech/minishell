@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 09:00:08 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/14 14:36:31 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/17 19:46:29 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ static int	count_argsopt(t_token **args)
 		args++;
 	}
 	return (count);
+}
+
+static int	count_args(t_token *token)
+{
+	int	i;
+
+	i = 0;
+	while (token && token->type != PIPE)
+	{
+		i++;
+		token = token->next;
+	}
+	return (i);
 }
 
 /**
@@ -68,36 +81,49 @@ char	**args_to_argv(t_token **args)
 	return (argv);
 }
 
-/**
- * @brief Extracts all tokens until a pipe or the end of the list
- * and returns them as an array.
- *
- * @param token The token to start from in the list.
- * @return An array of tokens containing all tokens for a single command.
- */
-t_token	**extract_args(t_token *token)
+static	t_token	**duplicate_args(t_token *token, int arg_count)
 {
-	int		i;
-	t_token	*tmp;
 	t_token	**args;
+	int		i;
 
-	i = 0;
-	tmp = token;
-	while (tmp && tmp->type != PIPE)
-	{
-		tmp = tmp->next;
-		i++;
-	}
-	args = ft_calloc(i + 1, sizeof(t_token *));
+	args = ft_calloc(arg_count + 1, sizeof(t_token *));
 	if (!args)
-		return (perror("minishell (extract_args) - malloc"), NULL);
+		return (perror("minishell (duplicate_args) - malloc"), NULL);
 	i = 0;
-	while (token && token->type != PIPE)
+	while (i < arg_count && token)
 	{
-		args[i] = token;
-		i++;
+		args[i] = token_new(ft_strdup(token->value));
+		if (!args[i] || !args[i]->value)
+		{
+			perror("minishell (duplicate_args) - malloc/token_new");
+			while (--i >= 0)
+			{
+				free(args[i]->value);
+				free(args[i]);
+			}
+			free(args);
+			return (NULL);
+		}
+		args[i]->type = token->type;
+		args[i++]->quoted = token->quoted;
 		token = token->next;
 	}
 	args[i] = NULL;
 	return (args);
+}
+
+/**
+* @brief Extracts all tokens until a pipe or the end of the list
+* and returns them as an array.
+*
+* @param token The token to start from in the list.
+* @return An array of tokens containing all tokens for a single command.
+*/
+
+t_token	**extract_args(t_token *token)
+{
+	int	arg_count;
+
+	arg_count = count_args(token);
+	return (duplicate_args(token, arg_count));
 }

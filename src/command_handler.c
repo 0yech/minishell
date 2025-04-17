@@ -12,13 +12,33 @@
 
 #include "minishell.h"
 
+t_token	**fetch_tokens(t_token **token_list)
+{
+	static t_token	**staticlist;
+
+	if (token_list != NULL)
+		staticlist = token_list;
+	return (staticlist);
+}
+
+t_command	*fetch_commands(t_command *command_list)
+{
+	static t_command	*staticlist;
+
+	if (command_list != NULL)
+		staticlist = command_list;
+	return (staticlist);
+}
+
 void	command_handler(t_token **token_list)
 {
 	t_command	*cmd;
 
 	cmd = parsing_handler(token_list);
+	fetch_tokens(token_list);
+	fetch_commands(cmd);
 	execute_piped_commands(cmd);
-	free(token_list);
-	// tokens_clear(token_list);
 	free_command_list(cmd);
+	tokens_clear(token_list);
+	free(token_list);
 }

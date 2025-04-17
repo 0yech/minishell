@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:55:44 by cheyo             #+#    #+#             */
-/*   Updated: 2025/04/14 14:39:51 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/17 19:30:20 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,18 @@ void	token_add_front(t_token **list, t_token *new)
 void	tokens_clear(t_token **list)
 {
 	t_token	*next_token;
+	t_token	*tmp;
 
-	if (!list)
+	if (!list || !*list)
 		return ;
-	while (*list)
+	tmp = *list;
+	while (tmp)
 	{
-		next_token = (*list)->next;
-		free((*list)->value);
-		free(*list);
-		*list = next_token;
+		next_token = tmp->next;
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
+		tmp = next_token;
 	}
-	free(list);
+	*list = NULL;
 }

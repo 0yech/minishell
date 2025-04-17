@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rights_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:56:38 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/16 22:28:01 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/17 18:52:05 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +81,22 @@ void	print_exec_checks(t_command *current, int code)
 int	exec_checks(t_command *cmd)
 {
 	int			code;
-	int			valid;
 	t_command	*current;
 
 	current = cmd;
 	code = 0;
-	valid = 0;
 	while (current && current->command)
 	{
 		if (is_builtin(current) == 0)
 		{
 			code = exec_types(current);
 			if (code != 0)
-				valid = -1;
+				current->isvalid = false;
+			else
+				current->isvalid = true;
 			print_exec_checks(current, code);
 		}
 		current = current->next;
 	}
-	return (valid);
+	return (0);
 }

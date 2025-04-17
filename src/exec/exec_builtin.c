@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:39:04 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/16 20:52:02 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/17 19:38:14 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	begone_child(void)
+{
+	t_token		**tokenlist;
+	t_command	*cmdlist;
+
+	tokenlist = fetch_tokens(NULL);
+	cmdlist = fetch_commands(NULL);
+	if (tokenlist)
+	{
+		tokens_clear(tokenlist);
+		free(tokenlist);
+	}
+	if (cmdlist)
+		free_command_list(cmdlist);
+}
 
 /**
  * @brief Checks if the current command is a minishell builtin.
@@ -29,7 +45,10 @@ int	is_builtin(t_command *current)
 		|| ft_strncmp(current->command, "pwd", 4) == 0
 		|| ft_strncmp(current->command, "echo", 5) == 0
 		|| ft_strncmp(current->command, "exit", 5) == 0)
+	{
+		current->isvalid = true;
 		return (1);
+	}
 	return (0);
 }
 
@@ -89,7 +108,10 @@ int	exec_pipe_builtin(t_command *current)
 		if (close(current->fdio->fdout) == -1)
 			perror("minishell (exec_pipe_builtin) - close");
 		if (pid == 0)
+		{
+			begone_child();
 			ft_exit(NULL, exit_status);
+		}
 		if (wait(&stat_loc) == -1)
 			perror("minishell (exec_pipe_builtin) - wait");
 		return (WEXITSTATUS(stat_loc));

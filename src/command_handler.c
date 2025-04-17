@@ -17,7 +17,7 @@ void	command_handler(t_token **token_list)
 	t_command	*cmd;
 
 	cmd = parsing_handler(token_list);
-	tokens_clear(token_list);
 	execute_piped_commands(cmd);
+	tokens_clear(token_list);
 	free_command_list(cmd);
 }

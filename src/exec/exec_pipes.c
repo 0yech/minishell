@@ -50,7 +50,14 @@ int	exec_update_env(int exit_status)
 	return (0);
 }
 
-int	process_command(t_command *current)
+/**
+ * @brief Executes a command as a child process and redirects its output to
+ * the appropriate file descriptor.
+ *
+ * @param current The command to execute.
+ * @return 0 if all went well, -1 otherwise.
+ */
+static int	process_command(t_command *current)
 {
 	pid_t		pid;
 	int			exit_status;
@@ -60,7 +67,6 @@ int	process_command(t_command *current)
 	{
 		exit_status = exec_pipe_builtin(current);
 		exec_update_env(exit_status);
-		current = current->next;
 		return (0);
 	}
 	pid = fork();

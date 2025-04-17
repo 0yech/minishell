@@ -35,7 +35,7 @@ int	is_builtin(t_command *current)
 
 /**
  * @brief Calls the appropriate builtin according to the name of the command
- * given as argument, and returns its exit status.
+ * given as an argument and returns its exit status.
  * If the command isn't a builtin, -1 is returned.
  */
 static int	exec_builtin(t_command *current)
@@ -85,12 +85,11 @@ int	exec_pipe_builtin(t_command *current)
 		{
 			close_child(current);
 			exit_status = exec_builtin(current);
-			if (close(current->fdio->fdout) == -1)
-				perror("minishell (exec_pipe_builtin) - close");
-			exit(exit_status);
 		}
 		if (close(current->fdio->fdout) == -1)
 			perror("minishell (exec_pipe_builtin) - close");
+		if (pid == 0)
+			exit(exit_status);
 		stat_loc = ft_calloc(1, sizeof(int));
 		if (!stat_loc)
 			return (perror("minishell (exec_pipe_builtin) - malloc"), -1);

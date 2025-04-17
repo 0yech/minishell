@@ -51,7 +51,7 @@ int	export_print(void)
 
 /**
  * @brief Helper method of the export builtin for concatenation of env variables
- * with new values. Example : export PATH+=/home
+ * with new values. Example: export PATH+=/home
  */
 int	export_concat(char *str)
 {

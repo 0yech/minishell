@@ -16,34 +16,36 @@
  * @brief Called by the child process.
  * Resets the command given as argument's fds to point to STDOUT and STDIN.
  */
-void	close_child(t_command *current)
+int close_child(t_command* current)
 {
 	if (current->fdio->fdout != STDOUT_FILENO)
 	{
 		if (close(STDOUT_FILENO) == -1)
-			perror("minishell (close_child - stdout) - close");
+			return (perror("minishell (close_child - stdout) - close"), -1);
 		dup2(current->fdio->fdout, STDOUT_FILENO);
 	}
 	if (current->fdio->fdin != STDIN_FILENO)
 	{
 		if (close(STDIN_FILENO) == -1)
-			perror("minishell (close_child - stdin) - close stdin");
+			return (perror("minishell (close_child - stdin) - close stdin"), -1);
 		dup2(current->fdio->fdin, STDIN_FILENO);
 	}
+	return (0);
 }
 
 /**
  * @brief Called by the parent process. Closes the command given as argument's
  * fds, we don't need them as the parent (?).
  */
-void	close_parent(t_command *current)
+int close_parent(t_command* current)
 {
 	if (current->fdio->fdin != STDIN_FILENO
 		&& close(current->fdio->fdin) == -1)
-		perror("minishell (close_parent - fdin) - close");
+		return (perror("minishell (close_parent - fdin) - close"), -1);
 	if (current->fdio->fdout != STDOUT_FILENO
 		&& close(current->fdio->fdout) == -1)
-		perror("minishell (close_parent - fdin) - close");
+		return (perror("minishell (close_parent - fdin) - close"), -1);
+	return (0);
 }
 
 static int	set_flags(t_token *arg)
@@ -53,7 +55,7 @@ static int	set_flags(t_token *arg)
 	flags = O_WRONLY | O_CREAT;
 	if (arg->type == HEREDOC || arg->type == REDIRECT_IN)
 		return (flags);
-	else if (arg->type == REDIRECT_OUT)
+	if (arg->type == REDIRECT_OUT)
 		flags |= O_TRUNC;
 	else if (arg->type == APPEND)
 		flags |= O_APPEND;

@@ -196,8 +196,8 @@ int			execute_piped_commands(t_command *cmd);
 int			exec_update_env(int exit_status);
 
 // Exec fd/io - exec_io.c
-int close_child(t_command* current);
-int close_parent(t_command* current);
+int			close_child(t_command *current);
+int			close_parent(t_command *current);
 int			setup_redirections(t_command *cmd, t_token **arg);
 
 // Exec builtins - exec_builtin.c

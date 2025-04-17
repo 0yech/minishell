@@ -35,7 +35,7 @@ static void	print_man(void)
 	printf("\t"UNDER"env"RESET"\t\tDisplay the environment\n");
 	printf("\t"UNDER"exit"RESET"\t\tExit the shell\n\n");
 	printf(BOLD"FEATURES\n"RESET);
-	printf("\t- Relative and aboslute path command execution.\n");
+	printf("\t- Relative and absolute path command execution.\n");
 	printf("\t- Quote handling (' and \").\n");
 	printf("\t- Pipes, redirections and heredoc support.\n");
 	printf("\t- Variable expansion ($VAR).\n");

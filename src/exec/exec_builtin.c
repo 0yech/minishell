@@ -67,12 +67,12 @@ static int	exec_builtin(t_command *current)
  * @brief Checks if a command is a builtin, and if yes, executes the builtin.
  *
  * @param current The command to execute as a builtin.
- * @return The exit value of the builtin if the command was indeed one,
- * -1 if not or if an error occurred.
+ * @return The exit status of the builtin if the command was indeed one,
+ * -1 if an error occurred.
  */
 int	exec_pipe_builtin(t_command *current)
 {
-	int	*stat_loc;
+	int	stat_loc;
 	int	exit_status;
 	int	pid;
 
@@ -80,7 +80,7 @@ int	exec_pipe_builtin(t_command *current)
 	{
 		pid = fork();
 		if (pid == -1)
-			return (perror("minishell (exec_pipe_builtin) - fork"), 1);
+			return (perror("minishell (exec_pipe_builtin) - fork"), -1);
 		if (pid == 0)
 		{
 			close_child(current);
@@ -90,13 +90,9 @@ int	exec_pipe_builtin(t_command *current)
 			perror("minishell (exec_pipe_builtin) - close");
 		if (pid == 0)
 			exit(exit_status);
-		stat_loc = ft_calloc(1, sizeof(int));
-		if (!stat_loc)
-			return (perror("minishell (exec_pipe_builtin) - malloc"), -1);
-		if (wait(stat_loc) == -1)
+		if (wait(&stat_loc) == -1)
 			perror("minishell (exec_pipe_builtin) - wait");
-		exit_status = WEXITSTATUS(*stat_loc);
-		return (free(stat_loc), exit_status);
+		return (WEXITSTATUS(stat_loc));
 	}
 	return (exec_builtin(current));
 }

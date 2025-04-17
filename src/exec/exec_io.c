@@ -16,7 +16,7 @@
  * @brief Called by the child process.
  * Resets the command given as argument's fds to point to STDOUT and STDIN.
  */
-int close_child(t_command* current)
+int	close_child(t_command *current)
 {
 	if (current->fdio->fdout != STDOUT_FILENO)
 	{
@@ -27,7 +27,7 @@ int close_child(t_command* current)
 	if (current->fdio->fdin != STDIN_FILENO)
 	{
 		if (close(STDIN_FILENO) == -1)
-			return (perror("minishell (close_child - stdin) - close stdin"), -1);
+			return (perror("minishell (close_child - stdin) - close"), -1);
 		dup2(current->fdio->fdin, STDIN_FILENO);
 	}
 	return (0);
@@ -37,7 +37,7 @@ int close_child(t_command* current)
  * @brief Called by the parent process. Closes the command given as argument's
  * fds, we don't need them as the parent (?).
  */
-int close_parent(t_command* current)
+int	close_parent(t_command *current)
 {
 	if (current->fdio->fdin != STDIN_FILENO
 		&& close(current->fdio->fdin) == -1)

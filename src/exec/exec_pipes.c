@@ -60,13 +60,11 @@ int	exec_update_env(int exit_status)
 static int	process_command(t_command *current)
 {
 	pid_t		pid;
-	int			exit_status;
 	int			*stat_loc;
 
 	if (is_builtin(current))
 	{
-		exit_status = exec_pipe_builtin(current);
-		exec_update_env(exit_status);
+		exec_update_env(exec_pipe_builtin(current));
 		return (0);
 	}
 	pid = fork();

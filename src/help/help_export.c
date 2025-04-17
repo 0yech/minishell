@@ -35,5 +35,5 @@ void	help_export(void)
 	print_void_lines(50);
 	print_help_header();
 	print_man_export();
-	ft_exit(0);
+	ft_exit(NULL, 0);
 }

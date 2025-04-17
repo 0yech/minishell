@@ -107,7 +107,7 @@ char		*get_git_branch(void);
 
 // Builtins - builtins folder
 int			ft_cd(t_command *cmd);
-void		ft_exit(t_command *cmd);
+void		ft_exit(t_command *cmd, int exit_code);
 int			ft_pwd(void);
 int			ft_env(void);
 int			ft_export(t_command *cmd);

@@ -31,5 +31,5 @@ void	help_unset(void)
 	print_void_lines(50);
 	print_help_header();
 	print_man_unset();
-	ft_exit(0);
+	ft_exit(NULL, 0);
 }

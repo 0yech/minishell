@@ -32,5 +32,5 @@ void	help_cd(void)
 	print_void_lines(50);
 	print_help_header();
 	print_man_cd();
-	ft_exit(0);
+	ft_exit(NULL, 0);
 }

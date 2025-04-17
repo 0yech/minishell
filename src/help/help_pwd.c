@@ -29,5 +29,5 @@ void	help_pwd(void)
 	print_void_lines(50);
 	print_help_header();
 	print_man_pwd();
-	ft_exit(0);
+	ft_exit(NULL, 0);
 }

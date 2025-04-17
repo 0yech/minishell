@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_exit(t_command *cmd)
+void	ft_exit(t_command *cmd, int exit_code)
 {
 	int	exit_status;
 
@@ -23,7 +23,7 @@ void	ft_exit(t_command *cmd)
 			exit_status = exit_status % 256;
 	}
 	else
-		exit_status = 0;
+		exit_status = exit_code;
 	free_command_list(cmd);
 	rl_clear_history();
 	env_clear(env_get());

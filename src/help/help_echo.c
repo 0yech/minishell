@@ -36,5 +36,5 @@ void	help_echo(void)
 	print_void_lines(50);
 	print_help_header();
 	print_man_echo();
-	ft_exit(0);
+	ft_exit(NULL, 0);
 }

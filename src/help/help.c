@@ -78,8 +78,8 @@ void	help_menu(int argc, char **argv)
 			|| ft_strncmp(argv[1], "--H", 4) == 0))
 	{
 		if (argc == 2)
-			return (help_man(), ft_exit(0));
-		else if (argc > 2)
+			return (help_man(), ft_exit(NULL, 0));
+		if (argc > 2)
 		{
 			if (ft_strncmp(argv[2], "echo", 5) == 0)
 				help_echo();
@@ -97,6 +97,6 @@ void	help_menu(int argc, char **argv)
 				help_pwd();
 		}
 		printf("minishell help usage : ./minishell --h [BUILTIN]\n");
-		return (ft_exit(0));
+		return (ft_exit(NULL, 0));
 	}
 }

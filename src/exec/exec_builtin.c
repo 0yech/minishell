@@ -59,7 +59,7 @@ static int	exec_builtin(t_command *current)
 	if (ft_strncmp(current->command, "echo", 5) == 0)
 		return (ft_echo(current));
 	if (ft_strncmp(current->command, "exit", 5) == 0)
-		ft_exit(current);
+		ft_exit(current, 0);
 	return (-1);
 }
 
@@ -89,7 +89,7 @@ int	exec_pipe_builtin(t_command *current)
 		if (close(current->fdio->fdout) == -1)
 			perror("minishell (exec_pipe_builtin) - close");
 		if (pid == 0)
-			exit(exit_status);
+			ft_exit(NULL, exit_status);
 		if (wait(&stat_loc) == -1)
 			perror("minishell (exec_pipe_builtin) - wait");
 		return (WEXITSTATUS(stat_loc));

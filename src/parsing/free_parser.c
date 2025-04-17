@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Frees the argument of the given command.
+ */
+static void	destroy_arguments(t_token **arguments)
+{
+	int	i;
+
+	i = 0;
+	while (arguments[i])
+		free(arguments[i++]);
+	free(arguments[i]);
+	free(arguments);
+}
+
 void	command_delone(t_command *node)
 {
 	int	i;
@@ -29,7 +43,7 @@ void	command_delone(t_command *node)
 			free(node->argv);
 		}
 		if (node->arguments)
-			free(node->arguments);
+			destroy_arguments(node->arguments);
 		free(node);
 	}
 }

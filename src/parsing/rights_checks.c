@@ -75,13 +75,13 @@ void	print_exec_checks(t_command *current, int code)
 	{
 		exec_update_env(127);
 		write(STDERR_FILENO, current->command, ft_strlen(current->command));
-		write(STDERR_FILENO, ": command not found\n", 21);
+		write(STDERR_FILENO, ": command not found\n", 20);
 	}
 	else if (code == 3)
 	{
 		exec_update_env(126);
 		write(STDERR_FILENO, current->command, ft_strlen(current->command));
-		write(STDERR_FILENO, ": is a directory\n", 18);
+		write(STDERR_FILENO, ": is a directory\n", 17);
 	}
 	else if (code == 4)
 	{

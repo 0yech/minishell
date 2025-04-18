@@ -112,7 +112,7 @@ int	exec_pipe_builtin(t_command *current)
 			begone_child();
 			ft_exit(NULL, exit_status);
 		}
-		if (wait(&stat_loc) == -1)
+		if (wait(&stat_loc) == -1 && errno != EINTR)
 			perror("minishell (exec_pipe_builtin) - wait");
 		return (WEXITSTATUS(stat_loc));
 	}

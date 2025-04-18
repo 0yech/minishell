@@ -32,6 +32,10 @@ static int	count_argsopt(t_token **args)
 	return (count);
 }
 
+/**
+ * @brief Counts the number of tokens starting from the `token` argument until
+ * the end of the list or when a pipe is found.
+ */
 static int	count_args(t_token *token)
 {
 	int	i;
@@ -48,6 +52,10 @@ static int	count_args(t_token *token)
 /**
  * @brief Converts the arguments of a command in an array argv, ready to be
  * passed to execve.
+ *
+ * @details Only the options and arguments are put into the argv array, as this
+ * is what execve and executables are expecting (think of
+ * ls src/ -lArth > out.txt, the argv in this case would be src/ and -lArth).
  * 
  * @param args The array of tokens contained within a command.
  * @return An array of strings argv.
@@ -81,29 +89,35 @@ char	**args_to_argv(t_token **args)
 	return (argv);
 }
 
+/**
+ * @brief Duplicates the given list of tokens up to a specified number
+ * of arguments.
+ *
+ * @details Allocates memory for an array of lexing token pointers and
+ * duplicates each token up to `arg_count` elements.
+ * Each duplicated token includes its value, type, and quoted status.
+ *
+ * @return A NULL-terminated array of pointers to duplicated tokens,
+ * or NULL if memory allocation fails.
+ */
 static	t_token	**duplicate_args(t_token *token, int arg_count)
 {
 	t_token	**args;
+	char	*value;
 	int		i;
 
 	args = ft_calloc(arg_count + 1, sizeof(t_token *));
 	if (!args)
-		return (perror("minishell (duplicate_args) - malloc"), NULL);
+		return (perror("minishell (duplicate_args) - ft_calloc"), NULL);
 	i = 0;
 	while (i < arg_count && token)
 	{
-		args[i] = token_new(ft_strdup(token->value));
+		value = ft_strdup(token->value);
+		if (!value)
+			perror("minishell (duplicate_args) - ft_strdup");
+		args[i] = token_new(value);
 		if (!args[i] || !args[i]->value)
-		{
-			perror("minishell (duplicate_args) - malloc/token_new");
-			while (--i >= 0)
-			{
-				free(args[i]->value);
-				free(args[i]);
-			}
-			free(args);
-			return (NULL);
-		}
+			return (destroy_arguments(args), NULL);
 		args[i]->type = token->type;
 		args[i++]->quoted = token->quoted;
 		token = token->next;

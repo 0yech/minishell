@@ -60,19 +60,15 @@ size_t	full_token_size(char *token)
 			&& token[i + 1] != '"' && token[i + 1] != '\''
 			&& token[i + 1] != ' ' && token[i + 1] != '$')
 		{
-			i++;
-			var = get_variable(token + i);
+			var = get_variable(token + ++i);
 			if (var)
 				size += ft_strlen(var);
 			while (token[i] && ft_isprint(token[i]) && token[i] != '"'
 				&& token[i] != '\'' && token[i] != ' ' && token[i] != '$')
 				i++;
 		}
-		else
-		{
-			size++;
+		else if (++size)
 			i++;
-		}
 	}
 	return (size);
 }

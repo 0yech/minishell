@@ -60,7 +60,7 @@ int	exec_update_env(int exit_status)
 static int	process_command(t_command *current)
 {
 	pid_t		pid;
-	int			*stat_loc;
+	int			stat_loc;
 
 	if (is_builtin(current))
 	{
@@ -74,13 +74,10 @@ static int	process_command(t_command *current)
 		close_parent(current);
 	else if (pid == 0)
 		exec_child(current);
-	stat_loc = ft_calloc(1, sizeof(int));
-	if (!stat_loc)
-		return (perror("minishell (execute_piped_commands) - ft_calloc"), -1);
-	if (wait(stat_loc) == -1)
-		perror("minishell (process_command) - wait");
-	exec_update_env(WEXITSTATUS(*stat_loc));
-	return (free(stat_loc), 0);
+	if (wait(&stat_loc) == -1 && errno != EINTR)
+		perror("minishell (execute_piped_commands) - wait");
+	exec_update_env(WEXITSTATUS(stat_loc));
+	return (0);
 }
 
 /**
@@ -97,26 +94,24 @@ int	execute_piped_commands(t_command *cmd)
 	if (!cmd)
 		return (-1);
 	cmd->fdio->stdincpy = dup(STDIN_FILENO);
+	if (cmd->fdio->stdincpy == -1)
+		return (perror("minishell (execute_piped_commands) - dup (in)"), -1);
 	cmd->fdio->stdoutcpy = dup(STDOUT_FILENO);
-	if (cmd->fdio->stdincpy == -1 || cmd->fdio->stdoutcpy == -1)
-		return (perror("minishell (execute_piped_commands) - dup"), -1);
+	if (cmd->fdio->stdoutcpy == -1)
+		return (perror("minishell (execute_piped_commands) - dup (out)"), -1);
 	current = cmd;
 	while (current)
 	{
-		if (current->isvalid == false)
-			current = current->next;
-		else
-		{
-			if (setup_redirections(current, current->arguments) == 0
-				&& current->command && current->command[0]
-				&& process_command(current) == -1)
-				return (-1);
-			current = current->next;
-		}
+		if (current->isvalid == true
+			&& setup_redirections(current, current->arguments) == 0
+			&& current->command && current->command[0]
+			&& process_command(current) == -1)
+			return (-1);
+		current = current->next;
 	}
 	if (dup2(cmd->fdio->stdincpy, STDIN_FILENO) == -1)
-		perror("minishell (execute_piped_commands) - dup2");
+		perror("minishell (execute_piped_commands) - dup2 (in)");
 	if (dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO) == -1)
-		perror("minishell (execute_piped_commands) - dup2");
+		perror("minishell (execute_piped_commands) - dup2 (out)");
 	return (0);
 }

@@ -25,6 +25,7 @@
 # include <unistd.h>
 # include <sys/stat.h>
 # include <stdbool.h>
+# include <errno.h>
 
 // Libft
 # include "libft.h"
@@ -174,6 +175,7 @@ t_command	*parsing_handler(t_token **token_list);
 int			exec_checks(t_command *current);
 
 // Free parsing - free_parser.c
+void		destroy_arguments(t_token **arguments);
 void		free_command_list(t_command *cmd);
 void		command_delone(t_command *node);
 

@@ -15,7 +15,7 @@
 /**
  * @brief Frees the argument of the given command.
  */
-static void	destroy_arguments(t_token **arguments)
+void	destroy_arguments(t_token **arguments)
 {
 	int	i;
 

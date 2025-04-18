@@ -88,7 +88,8 @@ t_token	**init_token_list(char *input)
 {
 	t_token	**token_list;
 
-	add_history(input);
+	if (input && *input)
+		add_history(input);
 	token_list = create_tokens(input);
 	if (!token_list)
 		return (NULL);

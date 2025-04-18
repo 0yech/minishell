@@ -24,7 +24,7 @@ void	ft_exit(t_command *cmd, int exit_code)
 	}
 	else
 		exit_status = exit_code;
-	free_command_list(cmd);
+	begone_child();
 	rl_clear_history();
 	env_clear(env_get());
 	exit(exit_status);

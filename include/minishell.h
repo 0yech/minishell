@@ -206,6 +206,7 @@ int			close_parent(t_command *current);
 int			setup_redirections(t_command *cmd, t_token **arg);
 
 // Exec builtins - exec_builtin.c
+void		begone_child(void);
 int			is_builtin(t_command *current);
 int			exec_builtin(t_command *current);
 int			exec_pipe_builtin(t_command *current);

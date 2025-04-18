@@ -76,7 +76,10 @@ static int	process_command(t_command *current)
 	if (pid > 0)
 		close_parent(current);
 	else if (pid == 0)
+	{
 		exec_child(current);
+		begone_child();
+	}
 	if (wait(&stat_loc) == -1 && errno != EINTR)
 		perror("minishell (execute_piped_commands) - wait");
 	exec_update_env(WEXITSTATUS(stat_loc));

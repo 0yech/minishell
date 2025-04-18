@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Static getter for the current token list.
+ */
 t_token	**fetch_tokens(t_token **token_list)
 {
 	static t_token	**staticlist;
@@ -21,6 +24,9 @@ t_token	**fetch_tokens(t_token **token_list)
 	return (staticlist);
 }
 
+/**
+ * @brief Static getter for the current command list.
+ */
 t_command	*fetch_commands(t_command *command_list)
 {
 	static t_command	*staticlist;

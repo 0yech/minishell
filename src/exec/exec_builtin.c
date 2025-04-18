@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Frees tokens and commands in the child process.
+ */
 void	begone_child(void)
 {
 	t_token		**tokenlist;
@@ -57,7 +60,7 @@ int	is_builtin(t_command *current)
  * given as an argument and returns its exit status.
  * If the command isn't a builtin, -1 is returned.
  */
-static int	exec_builtin(t_command *current)
+int	exec_builtin(t_command *current)
 {
 	if (!current->next)
 		close_child(current);
@@ -95,26 +98,22 @@ int	exec_pipe_builtin(t_command *current)
 	int	exit_status;
 	int	pid;
 
-	if (current && current->command && current->next)
+	pid = fork();
+	if (pid == -1)
+		return (perror("minishell (exec_pipe_builtin) - fork"), -1);
+	if (pid == 0)
 	{
-		pid = fork();
-		if (pid == -1)
-			return (perror("minishell (exec_pipe_builtin) - fork"), -1);
-		if (pid == 0)
-		{
-			close_child(current);
-			exit_status = exec_builtin(current);
-		}
-		if (close(current->fdio->fdout) == -1)
-			perror("minishell (exec_pipe_builtin) - close");
-		if (pid == 0)
-		{
-			begone_child();
-			ft_exit(NULL, exit_status);
-		}
-		if (wait(&stat_loc) == -1 && errno != EINTR)
-			perror("minishell (exec_pipe_builtin) - wait");
-		return (WEXITSTATUS(stat_loc));
+		close_child(current);
+		exit_status = exec_builtin(current);
 	}
-	return (exec_builtin(current));
+	if (close(current->fdio->fdout) == -1)
+		perror("minishell (exec_pipe_builtin) - close");
+	if (pid == 0)
+	{
+		begone_child();
+		ft_exit(NULL, exit_status);
+	}
+	if (wait(&stat_loc) == -1 && errno != EINTR)
+		perror("minishell (exec_pipe_builtin) - wait");
+	return (WEXITSTATUS(stat_loc));
 }

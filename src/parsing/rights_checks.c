@@ -31,11 +31,16 @@ bool	is_dir(char *path)
 	return (S_ISDIR(cmdstat.st_mode));
 }
 
-// returns an int depending on the error.
-// 2 means command does not exist/not found
-// 3 means specified command is a directory
-// 4 means command is not executable
-// should be replaced by macros and strerror()
+/**
+ * @brief Determines the type of a given command and returns
+ * an appropriate code.
+ *
+ * @return An integer that corresponds to the result of the checks:
+ * - 0: Command is valid and executable.
+ * - 2: Command not found or inaccessible.
+ * - 3: Command is a directory.
+ * - 4: Command exists but is not executable.
+ */
 int	exec_types(t_command *current)
 {
 	char	*path;
@@ -47,16 +52,23 @@ int	exec_types(t_command *current)
 	path = find_executable_path(current->command);
 	if (!path)
 		return (2);
-	if (access(path, F_OK) != 0)
+	if (access(path, F_OK) == -1)
 		return (free(path), 2);
-	if (is_dir(current->command))
+	if (is_dir(current->command) == true)
 		return (free(path), 3);
-	if (access(path, F_OK | X_OK) != 0)
+	if (access(path, F_OK | X_OK) == -1)
 		return (free(path), 4);
 	free(path);
 	return (0);
 }
 
+/**
+ * @brief Prints an appropriate error message depending on the code.
+ *
+ * @param current The command related to the error code.
+ * @param code 2: Command not found or inaccessible. 3: Command is a directory.
+ * 4: Command exists but is not executable.
+ */
 void	print_exec_checks(t_command *current, int code)
 {
 	if (code == 2)
@@ -78,7 +90,13 @@ void	print_exec_checks(t_command *current, int code)
 	}
 }
 
-int	exec_checks(t_command *cmd)
+/**
+ * @brief Executes validation checks on a list of commands
+ * and sets their validity.
+ *
+ * @param cmd A pointer to the head of the t_command list.
+ */
+void	exec_checks(t_command *cmd)
 {
 	int			code;
 	t_command	*current;
@@ -98,5 +116,4 @@ int	exec_checks(t_command *cmd)
 		}
 		current = current->next;
 	}
-	return (0);
 }

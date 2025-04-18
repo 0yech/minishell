@@ -172,7 +172,7 @@ void		signal_handler(void);
 
 // Parsing - parsing.c
 t_command	*parsing_handler(t_token **token_list);
-int			exec_checks(t_command *current);
+void		exec_checks(t_command *cmd);
 
 // Free parsing - free_parser.c
 void		destroy_arguments(t_token **arguments);
@@ -207,6 +207,7 @@ int			setup_redirections(t_command *cmd, t_token **arg);
 
 // Exec builtins - exec_builtin.c
 int			is_builtin(t_command *current);
+int			exec_builtin(t_command *current);
 int			exec_pipe_builtin(t_command *current);
 
 // Help - help.c

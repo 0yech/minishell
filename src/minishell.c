@@ -38,5 +38,5 @@ int	main(int argc, char **argv, char **envp)
 		command_handler(token_list);
 	}
 	free(input);
-	ft_exit(NULL, 0);
+	return (env_clear(env_get()), exit(0), 0);
 }

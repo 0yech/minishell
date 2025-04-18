@@ -44,7 +44,5 @@ void	command_handler(t_token **token_list)
 	fetch_tokens(token_list);
 	fetch_commands(cmd);
 	execute_piped_commands(cmd);
-	free_command_list(cmd);
-	tokens_clear(token_list);
-	free(token_list);
+	begone_child();
 }

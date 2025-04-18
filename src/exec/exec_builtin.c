@@ -109,10 +109,7 @@ int	exec_pipe_builtin(t_command *current)
 	if (close(current->fdio->fdout) == -1)
 		perror("minishell (exec_pipe_builtin) - close");
 	if (pid == 0)
-	{
-		begone_child();
 		ft_exit(NULL, exit_status);
-	}
 	if (wait(&stat_loc) == -1 && errno != EINTR)
 		perror("minishell (exec_pipe_builtin) - wait");
 	return (WEXITSTATUS(stat_loc));

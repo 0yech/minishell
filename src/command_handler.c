@@ -41,6 +41,8 @@ void	command_handler(t_token **token_list)
 	t_command	*cmd;
 
 	cmd = parsing_handler(token_list);
+	if (!cmd)
+		return (tokens_clear(token_list), free(token_list));
 	fetch_tokens(token_list);
 	fetch_commands(cmd);
 	execute_piped_commands(cmd);

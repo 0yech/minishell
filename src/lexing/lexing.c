@@ -47,7 +47,11 @@ static int	get_next_token(t_token **token_list, char *input)
 	if (!new)
 		return (-1);
 	i = isolate_token(input);
-	substr = var_expand(ft_substr(input, 0, i));
+	if (token_list && *token_list
+		&& ft_strncmp("<<", token_last(*token_list)->value, 3) == 0)
+		substr = ft_substr(input, 0, i);
+	else
+		substr = var_expand(ft_substr(input, 0, i));
 	if (!substr)
 		return (free(new), -1);
 	new->value = quotes_clean(new, substr);

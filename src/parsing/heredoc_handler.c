@@ -45,8 +45,6 @@ static char	*hd_var_expand(char *line)
  *
  * @param cmd The command with the heredoc.
  */
-// TODO : having a variable as a heredoc delim shouldn't expand the variable (ex: less << $USER)
-// help I was persuaded I did this
 void	heredoc_handler(t_command *cmd, t_token *hd_delim)
 {
 	int		pipefd[2];

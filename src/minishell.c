@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+// TODO : heredocs should still be executed even if the command is invalid and/or a syntax error is found
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	**token_list;

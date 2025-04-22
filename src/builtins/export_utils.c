@@ -13,6 +13,28 @@
 #include "minishell.h"
 
 /**
+ * @brief Checks if an environment variable name is valid.
+ *
+ * @details Checks for any special character aside from underscore. If any
+ * is found, returns false. Also returns false if the first character is a
+ * digit.
+ *
+ * @param name The variable name to check.
+ */
+bool	check_name(char *name)
+{
+	if (ft_isdigit(name[0]) || name[0] == '=')
+		return (false);
+	while (*name && *name != '=')
+	{
+		if (!ft_isalnum(*name) && *name != '_')
+			return (false);
+		name++;
+	}
+	return (true);
+}
+
+/**
  * @brief Compares the env token given in argument with the list of tokens also
  * passed as argument, and returns the next token in alphabetical order,
  * starting from the minimum token.

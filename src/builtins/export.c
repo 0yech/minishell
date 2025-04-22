@@ -125,7 +125,7 @@ int	ft_export(t_command *cmd)
 		return (export_print());
 	while (cmd->argv[i])
 	{
-		if (ft_isdigit(*cmd->argv[i]) || *cmd->argv[i] == '=')
+		if (check_name(cmd->argv[i]) == false)
 			return (write(2, "minishell: export: `", 21),
 				write(2, cmd->argv[i], ft_strlen(cmd->argv[i])),
 				write(2, "' not a valid identifier\n", 26), 1);

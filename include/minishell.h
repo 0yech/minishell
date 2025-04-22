@@ -117,6 +117,7 @@ int			ft_echo(t_command *cmd);
 int			ft_unset(char *key);
 
 // Export builtin helper functions - export_utils.c
+bool		check_name(char *name);
 t_env		*find_lowest_str(t_env *lst, t_env *min);
 size_t		export_concat_size(t_env *var, char *new_value);
 

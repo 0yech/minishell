@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-// TODO : Hide _ and ? variables from export output
-
 /**
  * @brief Prints all exported variables to stdout formatted as
  * export <key>="<value>".
@@ -23,17 +21,18 @@
 int	export_print(void)
 {
 	int		i;
-	t_env	*env;
 	t_env	*tmp;
 
-	env = *env_get();
-	if (!env)
+	if (!(*env_get()))
 		return (-1);
 	tmp = NULL;
-	i = env_size(env);
+	i = env_size(*env_get());
 	while (i--)
 	{
-		tmp = find_lowest_str(env, tmp);
+		tmp = find_lowest_str(*env_get(), tmp);
+		if (ft_strncmp(tmp->name, "_", 2) == 0
+			|| ft_strncmp(tmp->name, "?", 2) == 0)
+			continue ;
 		if (tmp->name && (write(STDOUT_FILENO, "export ", 7) == -1
 				|| write(STDOUT_FILENO, tmp->name, ft_strlen(tmp->name)) == -1))
 			return (perror("minishell (export_print) - write"), 0);

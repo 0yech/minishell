@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /**
- * @brief Frees the given double char pointer.
+ * @brief Frees the given string array.
  */
 void	free_array(char **array)
 {
@@ -30,6 +30,8 @@ void	free_array(char **array)
 
 /**
  * @brief Calculates the number of variables contained in the environment.
+ *
+ * @param env The head of the environment list (see `env_get`);
  */
 int	env_size(t_env *env)
 {
@@ -72,7 +74,7 @@ static char	*strjoin_equals(char *s1, char *s2)
 }
 
 /**
- * @brief Formats the environment linked list as a malloced double char pointer,
+ * @brief Formats the environment linked list as a malloced double char pointer
  * and returns it.
  *
  * @param env A pointer to the first environment node of the linked list.
@@ -97,7 +99,7 @@ char	**env_to_char(t_env *env)
 		{
 			envtab[i] = strjoin_equals(tmp->name, tmp->value);
 			if (!envtab[i])
-				free_array(envtab);
+				return (free_array(envtab), NULL);
 		}
 		i++;
 		tmp = tmp->next;

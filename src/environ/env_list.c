@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+/**
+ * @return The last node of the minishell environment.
+ */
 t_env	*env_last(void)
 {
 	t_env	*node;
@@ -22,6 +25,13 @@ t_env	*env_last(void)
 	return (node);
 }
 
+/**
+ * @brief Creates a new environment node with the specified key, value,
+ * and linked nodes.
+ *
+ * @return A pointer to the newly created environment node,
+ * or NULL on allocation failure.
+ */
 t_env	*env_new(char *key, char *value, t_env *prev, t_env *next)
 {
 	t_env	*new;

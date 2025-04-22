@@ -79,27 +79,44 @@ int	export_concat(char *str)
 	return (free_array(slices), free(concat_str), 0);
 }
 
-static int	export_no_value(char *str)
+/**
+ * @brief Sets a variable with a value of NULL or does nothing if the variable
+ * already existed.
+ * @param key The variable name to set to NULL.
+ * @return The return value of env_set_key. 0 if the variable already existed.
+ */
+static int	export_no_value(char *key)
 {
 	t_env	*var;
 
-	var = env_get_key(str);
+	var = env_get_key(key);
 	if (!var)
-		return (env_set_key(str, NULL));
+		return (env_set_key(key, NULL));
 	return (0);
 }
 
-static int	export_value(t_command *cmd, char *tmp, int i)
+/**
+ * @brief Extracts key and value from the command argv array and calls
+ * env_set_key with them.
+ *
+ * @details The cmd argument should be an export command followed by a key/value pair
+ * in the format key=value.
+ *
+ * @param str The key/value pair to extract from.
+ * @param equal A pointer to the equal character in the key/value pair.
+ * @return Return value of env_set_key. 1 if an error occurred.
+ */
+static int	export_value(char *str, char *equal)
 {
 	char	*key;
 	char	*value;
 	int		return_value;
 
-	key = malloc(tmp - cmd->argv[i] + 1);
+	key = malloc(equal - str + 1);
 	if (!key)
 		return (perror("minishell (ft_export) - malloc"), 1);
-	ft_strlcpy(key, cmd->argv[i], tmp - cmd->argv[i] + 1);
-	value = ft_strdup(tmp + 1);
+	ft_strlcpy(key, str, equal - str + 1);
+	value = ft_strdup(equal + 1);
 	if (!value)
 		return (perror("minishell (ft_export) - malloc"), free(key), 1);
 	return_value = env_set_key(key, value);
@@ -133,7 +150,7 @@ int	ft_export(t_command *cmd)
 		else if (tmp - ft_strchr(cmd->argv[i], '+') == 1)
 			return_value = export_concat(cmd->argv[i]);
 		else
-			return_value = export_value(cmd, tmp, i);
+			return_value = export_value(cmd->argv[i], tmp);
 		if (return_value == 1)
 			break ;
 		i++;

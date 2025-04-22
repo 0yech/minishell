@@ -50,11 +50,18 @@ int	env_fill_node(char *envp, t_env *node)
 	return (0);
 }
 
-int	env_update_var(char	*key, char *alloc_key, char *alloc_value)
+/**
+ * @brief Checks if a variable with the given key already exists, then either
+ * updates the existing variable or creates a new one at the end of the env
+ * list. Sets the value to alloc_value.
+ *
+ * @return 0 if everything went fine, 1 if an error occurred.
+ */
+static int	env_update_var(char *alloc_key, char *alloc_value)
 {
 	t_env	*node;
 
-	node = env_get_key(key);
+	node = env_get_key(alloc_key);
 	if (node)
 	{
 		if (node->value)
@@ -103,5 +110,5 @@ int	env_set_key(char *key, char *value)
 	alloc_key = ft_strdup(key);
 	if (!alloc_key)
 		return (perror("minishell (env_set_key) - malloc"), 1);
-	return (env_update_var(key, alloc_key, alloc_value));
+	return (env_update_var(alloc_key, alloc_value));
 }

@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-// TODO : Variables can only have alnum and _ characters in their name.
 // TODO : Hide _ and ? variables from export output
 
 /**
@@ -38,7 +37,7 @@ int	export_print(void)
 		if (tmp->name && (write(STDOUT_FILENO, "export ", 7) == -1
 				|| write(STDOUT_FILENO, tmp->name, ft_strlen(tmp->name)) == -1))
 			return (perror("minishell (export_print) - write"), 0);
-		if (tmp->value && tmp->value[0] && (write(STDOUT_FILENO, "=\"", 2) == -1
+		if (tmp->value && (write(STDOUT_FILENO, "=\"", 2) == -1
 				|| write(STDOUT_FILENO, tmp->value, ft_strlen(tmp->value)) == -1
 				|| write(STDOUT_FILENO, "\"", 1) == -1))
 			return (perror("minishell (export_print) - write"), 0);

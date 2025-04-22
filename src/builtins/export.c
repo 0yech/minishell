@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-// TODO : can't set a variable containing ? in its name AND
-// printing echo $?hello should print <exitstatus>hello
+// TODO : Variables can only have alnum and _ characters in their name.
 // TODO : Hide _ and ? variables from export output
 
 /**

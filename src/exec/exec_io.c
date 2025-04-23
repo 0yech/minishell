@@ -53,7 +53,7 @@ static int	set_flags(t_token *arg)
 	int	flags;
 
 	flags = O_WRONLY | O_CREAT;
-	if (arg->type == HEREDOC || arg->type == REDIRECT_IN)
+	if (arg->type == REDIRECT_IN)
 		return (flags);
 	if (arg->type == REDIRECT_OUT)
 		flags |= O_TRUNC;
@@ -64,11 +64,12 @@ static int	set_flags(t_token *arg)
 
 /**
  * @brief Sets up the fds of the command given as argument.
+ * Handles heredocs, redirections both in and out of files.
  * @param cmd The command to set up.
  * @param arg The arguments of the command.
  * @return 0 if everything went well, -1 otherwise.
  */
-int	setup_redirections(t_command *cmd, t_token **arg)
+void	setup_io(t_command *cmd, t_token **arg)
 {
 	int	i;
 
@@ -87,7 +88,7 @@ int	setup_redirections(t_command *cmd, t_token **arg)
 				perror("minishell (setup_redirections) - open I");
 			}
 		}
-		else if (arg[i]->type == REDIRECT_OUT
+		else if ((arg[i]->type == REDIRECT_OUT || arg[i]->type == APPEND)
 			&& arg[i + 1] && arg[i + 1]->type == REDIRECT_FILE)
 		{
 			cmd->fdio->fdout = open(arg[i + 1]->value, set_flags(arg[i]), 0644);
@@ -99,5 +100,4 @@ int	setup_redirections(t_command *cmd, t_token **arg)
 		}
 		i++;
 	}
-	return (0);
 }

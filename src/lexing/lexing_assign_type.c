@@ -94,8 +94,6 @@ void	assign_types(t_token **token_list)
 			current_has_cmd = false;
 		if (current->type == COMMAND)
 			current_has_cmd = true;
-		printf("[!] - Token : %s\n", current->value);
-		printf("[!] - Type : %d\n", current->type);
 		current = current->next;
 	}
 }

@@ -108,8 +108,8 @@ int	execute_piped_commands(t_command *cmd)
 	current = cmd;
 	while (current)
 	{
-		if (setup_redirections(current, current->arguments) == 0
-			&& current->isvalid == true
+		setup_io(current, current->arguments);
+		if (current->isvalid == true
 			&& current->command && current->command[0]
 			&& process_command(current) == -1)
 			return (-1);

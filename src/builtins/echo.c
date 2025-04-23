@@ -22,7 +22,7 @@ int	ft_echo(t_command *cmd)
 	if (cmd->arguments[1] && cmd->arguments[1]->type == OPTION
 		&& ft_strncmp(*tmp, "-n", ft_strlen(*tmp) + 1) == 0)
 		nl = 0;
-	if (*tmp && *tmp + 1 && nl == 0)
+	if (*tmp && *(tmp + 1) && nl == 0)
 		tmp++;
 	while (*tmp)
 	{

@@ -98,6 +98,7 @@ int	exec_pipe_builtin(t_command *current)
 	int	exit_status;
 	int	pid;
 
+	ignore_sig(SIGINT);
 	pid = fork();
 	if (pid == -1)
 		return (perror("minishell (exec_pipe_builtin) - fork"), -1);
@@ -110,7 +111,9 @@ int	exec_pipe_builtin(t_command *current)
 		perror("minishell (exec_pipe_builtin) - close");
 	if (pid == 0)
 		ft_exit(NULL, exit_status);
+	stat_loc = 0;
 	if (wait(&stat_loc) == -1 && errno != EINTR)
 		perror("minishell (exec_pipe_builtin) - wait");
+	signal_handler();
 	return (WEXITSTATUS(stat_loc));
 }

@@ -29,6 +29,7 @@ bool	check_name(char *name)
 		return (false);
 	tmp = ft_strchr(name, '+');
 	if (tmp && *(tmp + 1) != '=')
+		return (false);
 	while (*name && *name != '=')
 	{
 		if (!ft_isalnum(*name) && *name != '_')

@@ -70,6 +70,7 @@ static int	process_command(t_command *current)
 			exec_update_env(exec_builtin(current));
 		return (0);
 	}
+	ignore_sig(SIGINT);
 	pid = fork();
 	if (pid == -1)
 		return (perror("minishell (execute_piped_commands) - fork"), -1);
@@ -77,8 +78,10 @@ static int	process_command(t_command *current)
 		close_parent(current);
 	else if (pid == 0)
 		exec_child(current);
+	stat_loc = 0;
 	if (wait(&stat_loc) == -1 && errno != EINTR)
 		perror("minishell (execute_piped_commands) - wait");
+	signal_handler();
 	exec_update_env(WEXITSTATUS(stat_loc));
 	return (0);
 }

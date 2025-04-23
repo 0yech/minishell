@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+// TODO (optional): In echo "<<", the << token shouldn't be interpreted as a heredoc, for example
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	**token_list;

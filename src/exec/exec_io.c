@@ -62,19 +62,6 @@ static int	set_flags(t_token *arg)
 	return (flags);
 }
 
-static void	setup_hd(t_command *cmd, t_token **arg)
-{
-	int	i;
-
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i]->type == HEREDOC)
-			heredoc_handler(cmd, arg[i + 1]);
-		i++;
-	}
-}
-
 /**
  * @brief Sets up the fds of the command given as argument.
  * @param cmd The command to set up.
@@ -86,23 +73,29 @@ int	setup_redirections(t_command *cmd, t_token **arg)
 	int	i;
 
 	i = 0;
-	setup_hd(cmd, arg);
 	while (arg[i])
 	{
-		if (arg[i]->type == REDIRECT_IN && arg[i + 1]
+		if (arg[i]->type == HEREDOC)
+			heredoc_handler(cmd, arg[i + 1]);
+		else if (arg[i]->type == REDIRECT_IN && arg[i + 1]
 			&& arg[i + 1]->type == REDIRECT_FILE)
 		{
 			cmd->fdio->fdin = open(arg[i + 1]->value, O_RDONLY);
 			if (cmd->fdio->fdin == -1)
-				return (perror("minishell (setup_redirections) - open I"), -1);
-			i++;
-			continue ;
+			{
+				cmd->isvalid = false;
+				perror("minishell (setup_redirections) - open I");
+			}
 		}
-		if (arg[i + 1] && arg[i + 1]->type == REDIRECT_FILE)
+		else if (arg[i]->type == REDIRECT_OUT
+			&& arg[i + 1] && arg[i + 1]->type == REDIRECT_FILE)
 		{
 			cmd->fdio->fdout = open(arg[i + 1]->value, set_flags(arg[i]), 0644);
 			if (cmd->fdio->fdout == -1)
-				return (perror("minishell (setup_redirections) - open O"), -1);
+			{
+				cmd->isvalid = false;
+				perror("minishell (setup_redirections) - open O");
+			}
 		}
 		i++;
 	}

@@ -74,6 +74,7 @@ void	env_init(char **envp)
 	t_env	**envcpy;
 	t_env	*shlvl;
 	char	*new_shlvl;
+	char	cwd[999];
 
 	envcpy = env_get();
 	*envcpy = fill_envcpy(envp);
@@ -89,4 +90,7 @@ void	env_init(char **envp)
 	}
 	else if (env_set_key("SHLVL", "1") == 1)
 		printf("minishell (env_init): failed to set SHLVL!\n");
+	if (getcwd(cwd, 999) == NULL)
+		perror("minishell (env_init) - getcwd");
+	env_set_key("PWD", cwd);
 }

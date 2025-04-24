@@ -94,7 +94,7 @@ int	ft_cd(t_command *cmd)
 {
 	t_env	*var;
 
-	if (cmd->argv[2])
+	if (cmd->argv[1] && cmd->argv[2])
 		return (write(2, "minishell: cd: too many arguments\n", 35), 1);
 	if (cmd->argv[1] == NULL || cmd->arguments[1]->type != ARGUMENT
 		|| !ft_strncmp(cmd->argv[1], "~", 2))

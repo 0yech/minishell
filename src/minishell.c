@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 // TODO (optional): In echo "<<", the << token shouldn't be interpreted as a heredoc, for example
-// TODO: Redirections to files followed with pipes are broken (ex: less Makefile > out.txt | less)
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -40,6 +39,5 @@ int	main(int argc, char **argv, char **envp)
 		}
 		command_handler(token_list);
 	}
-	free(input);
 	return (env_clear(env_get()), exit(0), 0);
 }

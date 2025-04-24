@@ -14,6 +14,8 @@
 
 /**
  * @brief Static getter for the current token list.
+ * @param token_list If the pointer is set, sets the static contained in the
+ * function to the pointer provided.
  */
 t_token	**fetch_tokens(t_token **token_list)
 {
@@ -26,6 +28,8 @@ t_token	**fetch_tokens(t_token **token_list)
 
 /**
  * @brief Static getter for the current command list.
+ * @param command_list If the pointer is set, sets the static contained in the
+ * function to the pointer provided.
  */
 t_command	*fetch_commands(t_command *command_list)
 {

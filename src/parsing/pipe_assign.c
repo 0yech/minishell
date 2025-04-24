@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Goes through the command list and sets pipe fds for good communication
+ * between commands.
+ */
 void	assign_pipes(t_command *cmd_list)
 {
 	int			pipefd[2];

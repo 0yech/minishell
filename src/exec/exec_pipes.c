@@ -116,8 +116,8 @@ int	execute_piped_commands(t_command *cmd)
 		current = current->next;
 	}
 	if (dup2(cmd->fdio->stdincpy, STDIN_FILENO) == -1)
-		perror("minishell (execute_piped_commands) - dup2 (in)");
+		return (perror("minishell (execute_piped_commands) - dup2 (in)"), -1);
 	if (dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO) == -1)
-		perror("minishell (execute_piped_commands) - dup2 (out)");
+		return (perror("minishell (execute_piped_commands) - dup2 (out)"), -1);
 	return (0);
 }

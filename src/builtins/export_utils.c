@@ -32,7 +32,7 @@ bool	check_name(char *name)
 		return (false);
 	while (*name && *name != '=')
 	{
-		if (!ft_isalnum(*name) && *name != '_')
+		if (!ft_isalnum(*name) && *name != '_' && *name != '+')
 			return (false);
 		name++;
 	}

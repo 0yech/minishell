@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-// TODO (optional): In echo "<<", the << token shouldn't be interpreted as a heredoc, for example
+// TODO (optional): In echo "<<", the << shouldn't be interpreted as a heredoc
 
 int	main(int argc, char **argv, char **envp)
 {

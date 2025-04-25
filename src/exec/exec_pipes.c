@@ -119,5 +119,7 @@ int	execute_piped_commands(t_command *cmd)
 		return (perror("minishell (execute_piped_commands) - dup2 (in)"), -1);
 	if (dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO) == -1)
 		return (perror("minishell (execute_piped_commands) - dup2 (out)"), -1);
+	close(cmd->fdio->stdincpy);
+	close(cmd->fdio->stdoutcpy);
 	return (0);
 }

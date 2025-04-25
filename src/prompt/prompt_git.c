@@ -105,10 +105,10 @@ char	*get_git_branch(void)
 	bytes_read = read(fd, branch, sizeof(branch) - 1);
 	if (bytes_read == -1)
 		return (perror("minishell (get_git_branch) - read"), NULL);
-	if (bytes_read == 0)
-		return (NULL);
 	if (close(fd) == -1)
 		perror("minishell (get_git_branch) - close");
+	if (bytes_read == 0)
+		return (NULL);
 	branch[bytes_read] = '\0';
 	git_str_replace(branch, bytes_read);
 	if (ft_strncmp(branch, "ref: refs/heads/", 16) == 0)

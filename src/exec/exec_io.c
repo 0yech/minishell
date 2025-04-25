@@ -81,7 +81,8 @@ void	setup_io(t_command *cmd, t_token **arg)
 		else if (arg[i]->type == REDIRECT_IN && arg[i + 1]
 			&& arg[i + 1]->type == REDIRECT_FILE)
 		{
-			close(cmd->fdio->fdin);
+			if (cmd->fdio->fdin)
+				close(cmd->fdio->fdin);
 			cmd->fdio->fdin = open(arg[i + 1]->value, O_RDONLY);
 			if (cmd->fdio->fdin == -1)
 			{
@@ -92,7 +93,8 @@ void	setup_io(t_command *cmd, t_token **arg)
 		else if ((arg[i]->type == REDIRECT_OUT || arg[i]->type == APPEND)
 			&& arg[i + 1] && arg[i + 1]->type == REDIRECT_FILE)
 		{
-			close(cmd->fdio->fdout);
+			if (cmd->fdio->fdout)
+				close(cmd->fdio->fdout);
 			cmd->fdio->fdout = open(arg[i + 1]->value, set_flags(arg[i]), 0644);
 			if (cmd->fdio->fdout == -1)
 			{

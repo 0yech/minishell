@@ -51,7 +51,8 @@ int	exec_update_env(int exit_status)
 }
 
 /**
- * @brief Executes a command as a child process and redirects its output to
+ * @brief Executes a command as a child process (only if a pipe is present
+ * in the form of multiple commands and redirects its output to
  * the appropriate file descriptor.
  *
  * @param current The command to execute.
@@ -119,7 +120,5 @@ int	execute_piped_commands(t_command *cmd)
 		return (perror("minishell (execute_piped_commands) - dup2 (in)"), -1);
 	if (dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO) == -1)
 		return (perror("minishell (execute_piped_commands) - dup2 (out)"), -1);
-	close(cmd->fdio->stdincpy);
-	close(cmd->fdio->stdoutcpy);
-	return (0);
+	return (close(cmd->fdio->stdincpy), close(cmd->fdio->stdoutcpy), 0);
 }

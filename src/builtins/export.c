@@ -99,8 +99,8 @@ static int	export_no_value(char *key)
  * @brief Extracts key and value from the command argv array and calls
  * env_set_key with them.
  *
- * @details The cmd argument should be an export command followed by a key/value pair
- * in the format key=value.
+ * @details The cmd argument should be an export command followed by a
+ * key/value pair in the format key=value.
  *
  * @param str The key/value pair to extract from.
  * @param equal A pointer to the equal character in the key/value pair.

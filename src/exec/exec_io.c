@@ -113,5 +113,7 @@ void	setup_io(t_command *cmd, t_token **arg)
 		else
 			setup_redirections(cmd, arg, i);
 		i++;
+		if (cmd->isvalid == false)
+			close(cmd->fdio->fdout);
 	}
 }

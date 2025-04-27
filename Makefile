@@ -37,6 +37,7 @@ CFILES		=	$(SRCDIR)/minishell.c \
 				$(SRCDIR)/exec/exec_tools.c \
 				$(SRCDIR)/exec/exec_dupes.c \
 				$(SRCDIR)/exec/exec_fd_tools.c \
+				$(SRCDIR)/exec/exec_update_env.c \
 				$(SRCDIR)/prompt/prompt.c \
 				$(SRCDIR)/prompt/prompt_git.c \
 				$(SRCDIR)/token_tools.c \

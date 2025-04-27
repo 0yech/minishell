@@ -44,27 +44,6 @@ static void	exec_child(t_command *current)
 }
 
 /**
- * @brief Updates the environment after attempting to execute a command.
- * 
- * @details Updates the ? variable with the exit_status.
- * 
- * @param exit_status The exit status returned by the command.
- * @return 0 if all went well, -1 otherwise.
- */
-int	exec_update_env(int exit_status)
-{
-	char	*str_exit_status;
-
-	str_exit_status = ft_itoa(exit_status);
-	if (!str_exit_status)
-		return (perror("minishell (exec_update_env) - malloc"), -1);
-	if (env_set_key("?", str_exit_status) == 1)
-		return (free(str_exit_status), -1);
-	free(str_exit_status);
-	return (0);
-}
-
-/**
  * @brief Executes a command as a child process (only if a pipe is present
  * in the form of multiple commands and redirects its output to
  * the appropriate file descriptor.
@@ -121,6 +100,24 @@ void	wait_for_exec(t_command *cmd, pid_t pids[1024], int *status, int index)
 	}
 }
 
+int	parallel_exec(t_command *current, int i, pid_t pids[1024])
+{
+	while (current)
+	{
+		setup_io(current, current->arguments);
+		if (current->isvalid == true && current->command && current->command[0])
+		{
+			pids[i] = process_command(current);
+			if (pids[i] != -1)
+				i++;
+		}
+		else if (!current->isvalid)
+			print_exec_checks(current, current->exec_code);
+		current = current->next;
+	}
+	return (i);
+}
+
 /**
  * @brief Executes a command as a child process and redirects its output to
  * the appropriate file descriptor.
@@ -143,25 +140,12 @@ int	execute_piped_commands(t_command *cmd)
 	if (cmd && !cmd->next && is_builtin(cmd))
 	{
 		setup_io(cmd, cmd->arguments);
-		int status = exec_builtin(cmd);
-		exec_update_env(status);
+		exec_update_env(exec_builtin(cmd));
 		redirect_dupes(cmd);
 		return (close(cmd->fdio->stdincpy), close(cmd->fdio->stdoutcpy), 0);
 	}
 	current = cmd;
-	while (current)
-	{
-		setup_io(current, current->arguments);
-		if (current->isvalid == true && current->command && current->command[0])
-		{
-			pids[i] = process_command(current);
-			if (pids[i] != -1)
-				i++;
-		}
-		else if (!current->isvalid)
-			print_exec_checks(current, current->exec_code);
-		current = current->next;
-	}
+	i = parallel_exec(current, i, pids);
 	wait_for_exec(current, pids, &status, i);
 	redirect_dupes(cmd);
 	return (close(cmd->fdio->stdincpy), close(cmd->fdio->stdoutcpy), 0);

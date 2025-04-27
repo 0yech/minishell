@@ -27,6 +27,8 @@ static void	exec_child(t_command *current)
 		begone_child();
 		exit(126);
 	}
+	if (current->fdio)
+		child_fdio_redirections(current);
 	if (current->exec_code != 0)
 	{
 		exit_code = get_exitno(current->exec_code);
@@ -42,6 +44,7 @@ static void	exec_child(t_command *current)
 	begone_child();
 	exit(126);
 }
+
 
 /**
  * @brief Executes a command as a child process (only if a pipe is present
@@ -86,17 +89,17 @@ void	wait_for_exec(t_command *cmd, pid_t pids[1024], int *status, int index)
 
 	j = 0;
 	tmp = cmd;
-	while (tmp)
-	{
-		close_parent(tmp);
-		tmp = tmp->next;
-	}
 	while (j < index)
 	{
 		if (waitpid(pids[j], status, 0) == -1 && errno != EINTR)
 			perror("waitpiderror");
 		exec_update_env(WEXITSTATUS(*status));
 		j++;
+	}
+	while (tmp)
+	{
+		close_parent(tmp);
+		tmp = tmp->next;
 	}
 }
 

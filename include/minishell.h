@@ -223,6 +223,7 @@ int			exec_pipe_builtin(t_command *current);
 // Exec dupes - exec_dupes.c
 int			fill_dupes(t_command *cmd);
 int			redirect_dupes(t_command *cmd);
+void		child_fdio_redirections(t_command *current);
 void		close_all_parents(t_command *cmd);
 
 // Help - help.c

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 06:14:25 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/27 07:06:17 by nrey             ###   ########.fr       */
+/*   Updated: 2025/04/27 16:49:08 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,18 @@ int	fill_dupes(t_command *cmd)
 	if (cmd->fdio->stdoutcpy == -1)
 		return (perror("minishell (execute_piped_commands) - dup (out)"), -1);
 	return (0);
+}
+
+void	child_fdio_redirections(t_command *current)
+{
+	if (current->fdio->fdin != STDIN_FILENO && current->fdio->fdin != -1)
+	{
+		dup2(current->fdio->fdin, STDIN_FILENO);
+		close(current->fdio->fdin);
+	}
+	if (current->fdio->fdout != STDOUT_FILENO && current->fdio->fdout != -1)
+	{
+		dup2(current->fdio->fdout, STDOUT_FILENO);
+		close(current->fdio->fdout);
+	}
 }

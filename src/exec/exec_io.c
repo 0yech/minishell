@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:41:17 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/27 16:33:26 by nrey             ###   ########.fr       */
+/*   Updated: 2025/04/27 17:40:29 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	setup_redirections(t_command *cmd, t_token **arg, int i)
 	if (arg[i]->type == REDIRECT_IN && arg[i + 1]
 		&& arg[i + 1]->type == REDIRECT_FILE)
 	{
-		if (cmd->fdio->fdin)
+		if (cmd->fdio->fdin != -1 && cmd->fdio->fdin > STDERR_FILENO)
 			close(cmd->fdio->fdin);
 		cmd->fdio->fdin = open(arg[i + 1]->value, O_RDONLY);
 		if (cmd->fdio->fdin == -1)
@@ -86,7 +86,7 @@ static void	setup_redirections(t_command *cmd, t_token **arg, int i)
 	else if ((arg[i]->type == REDIRECT_OUT || arg[i]->type == APPEND)
 		&& arg[i + 1] && arg[i + 1]->type == REDIRECT_FILE)
 	{
-		if (cmd->fdio->fdout)
+		if (cmd->fdio->fdout != -1 && cmd->fdio->fdout > STDERR_FILENO)
 			close(cmd->fdio->fdout);
 		cmd->fdio->fdout = open(arg[i + 1]->value, set_flags(arg[i]), 0644);
 		if (cmd->fdio->fdout == -1)

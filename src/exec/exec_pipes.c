@@ -59,12 +59,12 @@ static int	process_command(t_command *current)
 	pid_t		pid;
 	int			status;
 
-	ignore_sig(SIGINT);
 	pid = fork();
 	if (pid == -1)
 		return (perror("minishell (execute_piped_commands) - fork"), -1);
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		if (is_builtin(current))
 		{
 			close_child(current);
@@ -78,7 +78,6 @@ static int	process_command(t_command *current)
 	}
 	else if (pid > 0)
 		close_parent(current);
-	signal_handler();
 	return (pid);
 }
 

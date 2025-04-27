@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:56:38 by nrey              #+#    #+#             */
-/*   Updated: 2025/04/17 18:52:05 by nrey             ###   ########.fr       */
+/*   Updated: 2025/04/27 06:54:25 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ int	exec_types(t_command *current)
 	return (0);
 }
 
+int	get_exitno(int code)
+{
+	if (code == 2)
+		return (127);
+	else if (code == 3 || code == 4)
+		return (126);
+	return (0);
+}
+
 /**
  * @brief Prints an appropriate error message depending on the code.
  *
@@ -108,12 +117,11 @@ void	exec_checks(t_command *cmd)
 		if (is_builtin(current) == 0)
 		{
 			code = exec_types(current);
-			if (code != 0)
-				current->isvalid = false;
-			else
-				current->isvalid = true;
-			print_exec_checks(current, code);
+			current->isvalid = (code == 0);
+			current->exec_code = code;
 		}
+		else
+			current->isvalid = true;
 		current = current->next;
 	}
 }

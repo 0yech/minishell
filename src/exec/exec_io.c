@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_io.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fireinside <aisling.fontaine@pm.me>        +#+  +:+       +#+        */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:41:17 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/16 20:43:34 by fireinside       ###   ########.fr       */
+/*   Updated: 2025/04/27 06:56:30 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,17 @@
  */
 int	close_child(t_command *current)
 {
-	if (current->fdio->fdout != STDOUT_FILENO)
-	{
-		if (close(STDOUT_FILENO) == -1)
-			return (perror("minishell (close_child - stdout) - close"), -1);
-		dup2(current->fdio->fdout, STDOUT_FILENO);
-	}
 	if (current->fdio->fdin != STDIN_FILENO)
 	{
-		if (close(STDIN_FILENO) == -1)
-			return (perror("minishell (close_child - stdin) - close"), -1);
 		dup2(current->fdio->fdin, STDIN_FILENO);
+		close(current->fdio->fdin);
 	}
+	if (current->fdio->fdout != STDOUT_FILENO)
+	{
+		dup2(current->fdio->fdout, STDOUT_FILENO);
+		close(current->fdio->fdout);
+	}
+	close_all_other_fds(fetch_commands(NULL), current);
 	return (0);
 }
 
@@ -39,12 +38,16 @@ int	close_child(t_command *current)
  */
 int	close_parent(t_command *current)
 {
-	if (current->fdio->fdin != STDIN_FILENO
-		&& close(current->fdio->fdin) == -1)
-		return (perror("minishell (close_parent - fdin) - close"), -1);
-	if (current->fdio->fdout != STDOUT_FILENO
-		&& close(current->fdio->fdout) == -1)
-		return (perror("minishell (close_parent - fdin) - close"), -1);
+	if (current->fdio->fdin > STDERR_FILENO)
+	{
+		close(current->fdio->fdin);
+		current->fdio->fdin = STDIN_FILENO;
+	}
+	if (current->fdio->fdout > STDERR_FILENO)
+	{
+		close(current->fdio->fdout);
+		current->fdio->fdout = STDOUT_FILENO;
+	}
 	return (0);
 }
 

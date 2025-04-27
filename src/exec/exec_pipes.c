@@ -19,13 +19,27 @@
 static void	exec_child(t_command *current)
 {
 	char	**envtab;
+	int		exit_code;
 
-	close_child(current);
 	envtab = env_to_char(*env_get());
 	if (!envtab)
-		return ;
+	{
+		begone_child();
+		exit(126);
+	}
+	if (current->exec_code != 0)
+	{
+		exit_code = get_exitno(current->exec_code);
+		print_exec_checks(current, current->exec_code);
+		env_clear(env_get());
+		free_array(envtab);
+		begone_child();
+		exit(exit_code);
+	}
+	close_child(current);
 	execve(find_executable_path(current->command), current->argv, envtab);
 	perror("minishell (exec_child) - execve");
+	begone_child();
 	exit(126);
 }
 
@@ -61,30 +75,50 @@ int	exec_update_env(int exit_status)
 static int	process_command(t_command *current)
 {
 	pid_t		pid;
-	int			stat_loc;
+	int			status;
 
-	if (is_builtin(current))
-	{
-		if (current && current->command && current->next)
-			exec_update_env(exec_pipe_builtin(current));
-		else
-			exec_update_env(exec_builtin(current));
-		return (0);
-	}
 	ignore_sig(SIGINT);
 	pid = fork();
 	if (pid == -1)
 		return (perror("minishell (execute_piped_commands) - fork"), -1);
-	if (pid > 0)
+	if (pid == 0)
+	{
+		if (is_builtin(current))
+		{
+			close_child(current);
+			status = exec_builtin(current);
+			env_clear(env_get());
+			begone_child();
+			exit(status);
+		}
+		else
+			exec_child(current);
+	}
+	else if (pid > 0)
 		close_parent(current);
-	else if (pid == 0)
-		exec_child(current);
-	stat_loc = 0;
-	if (wait(&stat_loc) == -1 && errno != EINTR)
-		perror("minishell (execute_piped_commands) - wait");
 	signal_handler();
-	exec_update_env(WEXITSTATUS(stat_loc));
-	return (0);
+	return (pid);
+}
+
+void	wait_for_exec(t_command *cmd, pid_t pids[1024], int *status, int index)
+{
+	int			j;
+	t_command	*tmp;
+
+	j = 0;
+	tmp = cmd;
+	while (tmp)
+	{
+		close_parent(tmp);
+		tmp = tmp->next;
+	}
+	while (j < index)
+	{
+		if (waitpid(pids[j], status, 0) == -1 && errno != EINTR)
+			perror("waitpiderror");
+		exec_update_env(WEXITSTATUS(*status));
+		j++;
+	}
 }
 
 /**
@@ -97,28 +131,28 @@ static int	process_command(t_command *current)
 int	execute_piped_commands(t_command *cmd)
 {
 	t_command	*current;
+	pid_t		pids[1024];
+	int			i;
+	int			status;
 
+	i = 0;
+	status = 0;
 	if (!cmd)
 		return (-1);
-	cmd->fdio->stdincpy = dup(STDIN_FILENO);
-	if (cmd->fdio->stdincpy == -1)
-		return (perror("minishell (execute_piped_commands) - dup (in)"), -1);
-	cmd->fdio->stdoutcpy = dup(STDOUT_FILENO);
-	if (cmd->fdio->stdoutcpy == -1)
-		return (perror("minishell (execute_piped_commands) - dup (out)"), -1);
+	fill_dupes(cmd);
 	current = cmd;
 	while (current)
 	{
 		setup_io(current, current->arguments);
-		if (current->isvalid == true
-			&& current->command && current->command[0]
-			&& process_command(current) == -1)
-			return (-1);
+		if (current->command && current->command[0])
+		{
+			pids[i] = process_command(current);
+			if (pids[i] != -1)
+				i++;
+		}
 		current = current->next;
 	}
-	if (dup2(cmd->fdio->stdincpy, STDIN_FILENO) == -1)
-		return (perror("minishell (execute_piped_commands) - dup2 (in)"), -1);
-	if (dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO) == -1)
-		return (perror("minishell (execute_piped_commands) - dup2 (out)"), -1);
+	wait_for_exec(current, pids, &status, i);
+	redirect_dupes(cmd);
 	return (close(cmd->fdio->stdincpy), close(cmd->fdio->stdoutcpy), 0);
 }

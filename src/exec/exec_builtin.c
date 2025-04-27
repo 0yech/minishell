@@ -6,11 +6,26 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:39:04 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/17 19:38:14 by nrey             ###   ########.fr       */
+/*   Updated: 2025/04/27 07:06:58 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	close_all_fds(t_command *cmd_list)
+{
+	t_command	*tmp;
+
+	tmp = cmd_list;
+	while (tmp)
+	{
+		if (tmp->fdio->fdin > STDERR_FILENO)
+			close(tmp->fdio->fdin);
+		if (tmp->fdio->fdout > STDERR_FILENO)
+			close(tmp->fdio->fdout);
+		tmp = tmp->next;
+	}
+}
 
 /**
  * @brief Frees tokens and commands in the child process.
@@ -28,7 +43,10 @@ void	begone_child(void)
 		free(tokenlist);
 	}
 	if (cmdlist)
+	{
+		close_all_fds(cmdlist);
 		free_command_list(cmdlist);
+	}
 }
 
 /**
@@ -41,7 +59,6 @@ int	is_builtin(t_command *current)
 	if (!current || !current->command)
 		return (0);
 	if (ft_strncmp(current->command, "cd", 3) == 0
-		|| ft_strncmp(current->command, "pwd", 4) == 0
 		|| ft_strncmp(current->command, "env", 4) == 0
 		|| ft_strncmp(current->command, "export", 7) == 0
 		|| ft_strncmp(current->command, "unset", 6) == 0
@@ -106,14 +123,11 @@ int	exec_pipe_builtin(t_command *current)
 	{
 		close_child(current);
 		exit_status = exec_builtin(current);
+		begone_child();
+		exit(exit_status);
 	}
-	if (close(current->fdio->fdout) == -1)
-		perror("minishell (exec_pipe_builtin) - close");
-	if (pid == 0)
-		ft_exit(NULL, exit_status);
-	stat_loc = 0;
-	if (wait(&stat_loc) == -1 && errno != EINTR)
-		perror("minishell (exec_pipe_builtin) - wait");
+	if (waitpid(pid, &stat_loc, 0) == -1 && errno != EINTR)
+		perror("minishell (exec_pipe_builtin) - waitpid");
 	signal_handler();
 	return (WEXITSTATUS(stat_loc));
 }

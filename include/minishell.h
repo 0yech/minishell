@@ -91,6 +91,7 @@ typedef struct s_command
 	struct s_command	*next;
 	struct s_command	*prev;
 	bool				isvalid;
+	int					exec_code;
 }	t_command;
 
 typedef struct s_env
@@ -194,12 +195,19 @@ int			valid_pipes(t_token *token);
 // Pipe assignation - pipe_assign.c
 void		assign_pipes(t_command *cmd_list);
 
+// Exec_checks.c
+void		print_exec_checks(t_command *current, int code);
+int			get_exitno(int code);
+void		close_all_other_fds(t_command *cmd_list, t_command *current_cmd);
+void		close_all_fds(t_command *cmd_list);
+
 // Exec Tools - exec_tools.c
 char		*find_executable_path(char *command);
 
 // Exec Main - exec_pipes.c
 int			execute_piped_commands(t_command *cmd);
 int			exec_update_env(int exit_status);
+void		wait_execution(pid_t pids[1024], int index, int *status);
 
 // Exec fd/io - exec_io.c
 int			close_child(t_command *current);
@@ -211,6 +219,11 @@ void		begone_child(void);
 int			is_builtin(t_command *current);
 int			exec_builtin(t_command *current);
 int			exec_pipe_builtin(t_command *current);
+
+// Exec dupes - exec_dupes.c
+int			fill_dupes(t_command *cmd);
+int			redirect_dupes(t_command *cmd);
+void		close_all_parents(t_command *cmd);
 
 // Help - help.c
 void		help_menu(int argc, char **argv);

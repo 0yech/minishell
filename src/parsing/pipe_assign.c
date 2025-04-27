@@ -22,15 +22,20 @@ void	assign_pipes(t_command *cmd_list)
 	t_command	*current;
 
 	current = cmd_list;
-	while (current && current->next)
+	while (current)
 	{
-		if (pipe(pipefd) == -1)
+		if (current->next)
 		{
-			perror("minishell (assign_pipes) - pipe");
-			exit(1);
+			if (pipe(pipefd) == -1)
+			{
+				perror("pipe");
+				exit(1);
+			}
+			current->fdio->fdout = pipefd[1];
+			current->next->fdio->fdin = pipefd[0];
 		}
-		current->fdio->fdout = pipefd[1];
-		current->next->fdio->fdin = pipefd[0];
+		else
+			current->fdio->fdout = STDOUT_FILENO;
 		current = current->next;
 	}
 }

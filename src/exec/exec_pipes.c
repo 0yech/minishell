@@ -158,6 +158,8 @@ int	execute_piped_commands(t_command *cmd)
 			if (pids[i] != -1)
 				i++;
 		}
+		else if (!current->isvalid)
+			print_exec_checks(current, current->exec_code);
 		current = current->next;
 	}
 	wait_for_exec(current, pids, &status, i);

@@ -140,11 +140,19 @@ int	execute_piped_commands(t_command *cmd)
 	if (!cmd)
 		return (-1);
 	fill_dupes(cmd);
+	if (cmd && !cmd->next && is_builtin(cmd))
+	{
+		setup_io(cmd, cmd->arguments);
+		int status = exec_builtin(cmd);
+		exec_update_env(status);
+		redirect_dupes(cmd);
+		return (close(cmd->fdio->stdincpy), close(cmd->fdio->stdoutcpy), 0);
+	}
 	current = cmd;
 	while (current)
 	{
 		setup_io(current, current->arguments);
-		if (current->command && current->command[0])
+		if (current->isvalid == true && current->command && current->command[0])
 		{
 			pids[i] = process_command(current);
 			if (pids[i] != -1)

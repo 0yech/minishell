@@ -14,6 +14,13 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Called by child processes to close all fds that aren't the ones related
+ * to the command the child is tasked to run.
+ *
+ * @param cmd_list The head of the command list.
+ * @param current_cmd The command the child is tasked to execute.
+ */
 void	close_all_other_fds(t_command *cmd_list, t_command *current_cmd)
 {
 	t_command	*tmp;
@@ -23,15 +30,17 @@ void	close_all_other_fds(t_command *cmd_list, t_command *current_cmd)
 	{
 		if (tmp != current_cmd)
 		{
-			if (tmp->fdio->fdin != STDIN_FILENO && tmp->fdio->fdin > 2)
+			if (tmp->fdio->fdin != STDIN_FILENO
+				&& tmp->fdio->fdin > STDERR_FILENO)
 			{
-				if (close(tmp->fdio->fdin) == -1)
+				if (xclose(&tmp->fdio->fdin) == -1)
 					perror("minishell (close_all_other_fds) - close (out)");
 				tmp->fdio->fdin = STDIN_FILENO;
 			}
-			if (tmp->fdio->fdout != STDOUT_FILENO && tmp->fdio->fdout > 2)
+			if (tmp->fdio->fdout != STDOUT_FILENO
+				&& tmp->fdio->fdout > STDERR_FILENO)
 			{
-				if (close(tmp->fdio->fdout) == -1)
+				if (xclose(&tmp->fdio->fdout) == -1)
 					perror("minishell (close_all_other_fds) - close (in)");
 				tmp->fdio->fdout = STDOUT_FILENO;
 			}

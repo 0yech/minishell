@@ -74,8 +74,8 @@ static void	help_man(void)
 
 void	help_menu(int argc, char **argv)
 {
-	if (argc > 1 && (ft_strncmp(argv[1], "--h", 4) == 0
-			|| ft_strncmp(argv[1], "--H", 4) == 0))
+	if (argc > 1 && (ft_strncmp(argv[1], "-h", 3) == 0
+			|| ft_strncmp(argv[1], "-H", 3) == 0))
 	{
 		if (argc == 2)
 			return (help_man(), ft_exit(NULL, 0));

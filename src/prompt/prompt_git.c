@@ -105,7 +105,7 @@ char	*get_git_branch(void)
 	bytes_read = read(fd, branch, sizeof(branch) - 1);
 	if (bytes_read == -1)
 		return (perror("minishell (get_git_branch) - read"), NULL);
-	if (close(fd) == -1)
+	if (xclose(&fd) == -1)
 		perror("minishell (get_git_branch) - close");
 	if (bytes_read == 0)
 		return (NULL);

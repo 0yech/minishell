@@ -13,6 +13,27 @@
 #include "minishell.h"
 
 /**
+ * @brief Closes an fd and sets it to -1 to express it is closed.
+ *
+ * @return 0 if everything went well, -1 if close failed.
+ */
+int	xclose(int *fd)
+{
+	int	return_value;
+
+	if (!fd)
+		return (-1);
+	return_value = 0;
+	if (close(*fd) == -1)
+	{
+		perror("minishell (xclose) - close");
+		return_value = -1;
+	}
+	*fd = -1;
+	return (return_value);
+}
+
+/**
  * @brief Resets STDIN and STDOUT to their standard file descriptors.
  * @param cmd The command containing the stdin and stdout copies.
  */
@@ -41,23 +62,25 @@ void fill_dupes(t_command* cmd)
 }
 
 /**
+ * @brief
  *
  * @param current
  */
+// TODO: is this even needed anymore?
 void	child_fdio_redirections(t_command *current)
 {
 	if (current->fdio->fdin != STDIN_FILENO && current->fdio->fdin != -1)
 	{
 		if (dup2(current->fdio->fdin, STDIN_FILENO) == -1)
 			perror("minishell (child_fdio_redirections) - dup2 (in)");
-		if (close(current->fdio->fdin) == -1)
+		if (xclose(&current->fdio->fdin) == -1)
 			perror("minishell (child_fdio_redirections) - close (in)");
 	}
 	if (current->fdio->fdout != STDOUT_FILENO && current->fdio->fdout != -1)
 	{
 		if (dup2(current->fdio->fdout, STDOUT_FILENO) == -1)
 			perror("minishell (child_fdio_redirections) - dup2 (out)");
-		if (close(current->fdio->fdout) == -1)
+		if (xclose(&current->fdio->fdout) == -1)
 			perror("minishell (child_fdio_redirections) - close (out)");
 	}
 }

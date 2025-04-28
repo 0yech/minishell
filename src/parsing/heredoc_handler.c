@@ -69,7 +69,7 @@ void	heredoc_handler(t_command *cmd, t_token *hd_delim)
 	}
 	if (line)
 		free(line);
-	if (close(pipefd[1]) == -1)
+	if (xclose(&pipefd[1]) == -1)
 		perror("minishell (heredoc_handler) - close");
 	cmd->fdio->fdin = pipefd[0];
 }

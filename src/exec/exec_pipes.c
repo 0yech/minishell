@@ -140,14 +140,22 @@ int	execute_piped_commands(t_command *cmd)
 	if (!cmd)
 		return (-1);
 	fill_dupes(cmd);
-	if (cmd && !cmd->next && is_builtin(cmd))
+	if (!cmd->next && is_builtin(cmd))
 	{
 		setup_io(cmd, cmd->arguments);
 		exec_update_env(exec_builtin(cmd));
 		redirect_dupes(cmd);
-		return (close(cmd->fdio->stdincpy), close(cmd->fdio->stdoutcpy), 0);
+		if (xclose(&cmd->fdio->stdincpy) == -1)
+			perror("minishell (execute_piped_commands) - close (in)");
+		if (xclose(&cmd->fdio->stdoutcpy) == -1)
+			perror("minishell (execute_piped_commands) - close (out)");
+		return (0);
 	}
 	wait_for_exec(cmd, pids, parallel_exec(cmd, pids));
 	redirect_dupes(cmd);
-	return (close(cmd->fdio->stdincpy), close(cmd->fdio->stdoutcpy), 0);
+	if (xclose(&cmd->fdio->stdincpy) == -1)
+		perror("minishell (execute_piped_commands) - close (in)");
+	if (xclose(&cmd->fdio->stdoutcpy) == -1)
+		perror("minishell (execute_piped_commands) - close (out)");
+	return (0);
 }

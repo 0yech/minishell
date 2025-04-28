@@ -18,18 +18,20 @@
  */
 int	close_child(t_command *current)
 {
-	if (current->fdio->fdin != STDIN_FILENO)
+	if (current->fdio->fdin != STDIN_FILENO
+		&& current->fdio->fdin > STDERR_FILENO)
 	{
 		if (dup2(current->fdio->fdin, STDIN_FILENO) == -1)
 			return (perror("minishell (close_child) - dup2 (in)"), -1);
-		if (close(current->fdio->fdin) == -1)
+		if (xclose(&current->fdio->fdin) == -1)
 			return (perror("minishell (close_child) - close (in)"), -1);
 	}
-	if (current->fdio->fdout != STDOUT_FILENO)
+	if (current->fdio->fdout != STDOUT_FILENO
+		&& current->fdio->fdout > STDERR_FILENO)
 	{
 		if (dup2(current->fdio->fdout, STDOUT_FILENO) == -1)
 			return (perror("minishell (close_child) - dup2 (out)"), -1);
-		if (close(current->fdio->fdout) == -1)
+		if (xclose(&current->fdio->fdout) == -1)
 			return (perror("minishell (close_child) - close (out)"), -1);
 	}
 	close_all_other_fds(fetch_commands(NULL), current);
@@ -44,12 +46,14 @@ int	close_parent(t_command *current)
 {
 	if (current->fdio->fdin > STDERR_FILENO)
 	{
-		close(current->fdio->fdin);
+		if (xclose(&current->fdio->fdin) == -1)
+			perror("minishell (close_parent) - close (in)");
 		current->fdio->fdin = STDIN_FILENO;
 	}
 	if (current->fdio->fdout > STDERR_FILENO)
 	{
-		close(current->fdio->fdout);
+		if (xclose(&current->fdio->fdout) == -1)
+			perror("minishell (close_parent) - close (out)");
 		current->fdio->fdout = STDOUT_FILENO;
 	}
 	return (0);
@@ -70,7 +74,7 @@ static int	set_flags(t_token *arg)
 }
 
 /**
- * @brief Setup in and our redirections if applicable by the current
+ * @brief Set up in and out redirections if applicable by the current
  * arg[i] token.
  */
 static void	setup_redirections(t_command *cmd, t_token **arg, int i)
@@ -79,24 +83,24 @@ static void	setup_redirections(t_command *cmd, t_token **arg, int i)
 		&& arg[i + 1]->type == REDIRECT_FILE)
 	{
 		if (cmd->fdio->fdin != -1 && cmd->fdio->fdin > STDERR_FILENO)
-			close(cmd->fdio->fdin);
+			xclose(&cmd->fdio->fdin);
 		cmd->fdio->fdin = open(arg[i + 1]->value, O_RDONLY);
 		if (cmd->fdio->fdin == -1)
 		{
 			cmd->isvalid = false;
-			perror("minishell (setup_redirections) - open I");
+			perror("minishell (setup_redirections) - open (in)");
 		}
 	}
 	else if ((arg[i]->type == REDIRECT_OUT || arg[i]->type == APPEND)
 		&& arg[i + 1] && arg[i + 1]->type == REDIRECT_FILE)
 	{
 		if (cmd->fdio->fdout != -1 && cmd->fdio->fdout > STDERR_FILENO)
-			close(cmd->fdio->fdout);
+			xclose(&cmd->fdio->fdout);
 		cmd->fdio->fdout = open(arg[i + 1]->value, set_flags(arg[i]), 0644);
 		if (cmd->fdio->fdout == -1)
 		{
 			cmd->isvalid = false;
-			perror("minishell (setup_redirections) - open O");
+			perror("minishell (setup_redirections) - open (out)");
 		}
 	}
 }
@@ -119,8 +123,8 @@ void	setup_io(t_command *cmd, t_token **arg)
 			heredoc_handler(cmd, arg[i + 1]);
 		else
 			setup_redirections(cmd, arg, i);
+		if (cmd->isvalid == false && xclose(&cmd->fdio->fdout) == -1)
+			perror("minishell (setup_io) - close");
 		i++;
-		if (cmd->isvalid == false)
-			close(cmd->fdio->fdout);
 	}
 }

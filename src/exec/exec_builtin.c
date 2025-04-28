@@ -19,10 +19,10 @@ void	close_all_fds(t_command *cmd_list)
 	tmp = cmd_list;
 	while (tmp)
 	{
-		if (tmp->fdio->fdin > STDERR_FILENO)
-			close(tmp->fdio->fdin);
-		if (tmp->fdio->fdout > STDERR_FILENO)
-			close(tmp->fdio->fdout);
+		if (tmp->fdio->fdin > STDERR_FILENO && close(tmp->fdio->fdin) == -1)
+			perror("minishell (close_all_fds) - close (in)");
+		if (tmp->fdio->fdout > STDERR_FILENO && close(tmp->fdio->fdout) == -1)
+			perror("minishell (close_all_fds) - close (in)");
 		tmp = tmp->next;
 	}
 }

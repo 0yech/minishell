@@ -20,13 +20,17 @@ int	close_child(t_command *current)
 {
 	if (current->fdio->fdin != STDIN_FILENO)
 	{
-		dup2(current->fdio->fdin, STDIN_FILENO);
-		close(current->fdio->fdin);
+		if (dup2(current->fdio->fdin, STDIN_FILENO) == -1)
+			return (perror("minishell (close_child) - dup2 (in)"), -1);
+		if (close(current->fdio->fdin) == -1)
+			return (perror("minishell (close_child) - close (in)"), -1);
 	}
 	if (current->fdio->fdout != STDOUT_FILENO)
 	{
-		dup2(current->fdio->fdout, STDOUT_FILENO);
-		close(current->fdio->fdout);
+		if (dup2(current->fdio->fdout, STDOUT_FILENO) == -1)
+			return (perror("minishell (close_child) - dup2 (out)"), -1);
+		if (close(current->fdio->fdout) == -1)
+			return (perror("minishell (close_child) - close (out)"), -1);
 	}
 	close_all_other_fds(fetch_commands(NULL), current);
 	return (0);

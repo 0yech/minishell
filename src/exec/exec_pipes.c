@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+#define MAX_PID 1024
+
 /**
  * @brief Executes a command as a child process.
  * In case of error with execve, exits the child with 126.
@@ -73,27 +75,28 @@ static int	process_command(t_command *current)
 			begone_child();
 			exit(status);
 		}
-		else
-			exec_child(current);
+		exec_child(current);
 	}
 	else if (pid > 0)
 		close_parent(current);
 	return (pid);
 }
 
-void	wait_for_exec(t_command *cmd, pid_t pids[1024], int *status, int index)
+void	wait_for_exec(t_command *cmd, pid_t pids[MAX_PID], int index)
 {
-	int			j;
+	int			i;
+	int			status;
 	t_command	*tmp;
 
-	j = 0;
+	i = 0;
+	status = 0;
 	tmp = cmd;
-	while (j < index)
+	while (i < index)
 	{
-		if (waitpid(pids[j], status, 0) == -1 && errno != EINTR)
-			perror("waitpiderror");
-		exec_update_env(WEXITSTATUS(*status));
-		j++;
+		if (waitpid(pids[i], &status, 0) == -1 && errno != EINTR)
+			perror("minishell (wait_for_exec) - waitpid");
+		exec_update_env(WEXITSTATUS(status));
+		i++;
 	}
 	while (tmp)
 	{
@@ -102,8 +105,11 @@ void	wait_for_exec(t_command *cmd, pid_t pids[1024], int *status, int index)
 	}
 }
 
-int	parallel_exec(t_command *current, int i, pid_t pids[1024])
+static int	parallel_exec(t_command *current, pid_t pids[MAX_PID])
 {
+	int	i;
+
+	i = 0;
 	while (current)
 	{
 		setup_io(current, current->arguments);
@@ -129,13 +135,8 @@ int	parallel_exec(t_command *current, int i, pid_t pids[1024])
  */
 int	execute_piped_commands(t_command *cmd)
 {
-	t_command	*current;
-	pid_t		pids[1024];
-	int			i;
-	int			status;
+	pid_t		pids[MAX_PID];
 
-	i = 0;
-	status = 0;
 	if (!cmd)
 		return (-1);
 	fill_dupes(cmd);
@@ -146,9 +147,7 @@ int	execute_piped_commands(t_command *cmd)
 		redirect_dupes(cmd);
 		return (close(cmd->fdio->stdincpy), close(cmd->fdio->stdoutcpy), 0);
 	}
-	current = cmd;
-	i = parallel_exec(current, i, pids);
-	wait_for_exec(current, pids, &status, i);
+	wait_for_exec(cmd, pids, parallel_exec(cmd, pids));
 	redirect_dupes(cmd);
 	return (close(cmd->fdio->stdincpy), close(cmd->fdio->stdoutcpy), 0);
 }

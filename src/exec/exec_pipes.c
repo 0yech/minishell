@@ -29,8 +29,8 @@ static void	exec_child(t_command *current)
 		begone_child();
 		exit(126);
 	}
-	if (current->fdio)
-		child_fdio_redirections(current);
+	// if (current->fdio)
+		// child_fdio_redirections(current);
 	if (current->exec_code != 0)
 	{
 		exit_code = get_exitno(current->exec_code);

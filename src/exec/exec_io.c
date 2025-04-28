@@ -42,7 +42,7 @@ int	close_child(t_command *current)
  * @brief Called by the parent process. Closes the command given as argument's
  * fds, we don't need them as the parent (?).
  */
-int	close_parent(t_command *current)
+void close_parent(t_command* current)
 {
 	if (current->fdio->fdin > STDERR_FILENO)
 	{
@@ -56,7 +56,6 @@ int	close_parent(t_command *current)
 			perror("minishell (close_parent) - close (out)");
 		current->fdio->fdout = STDOUT_FILENO;
 	}
-	return (0);
 }
 
 static int	set_flags(t_token *arg)
@@ -82,8 +81,7 @@ static void	setup_redirections(t_command *cmd, t_token **arg, int i)
 	if (arg[i]->type == REDIRECT_IN && arg[i + 1]
 		&& arg[i + 1]->type == REDIRECT_FILE)
 	{
-		if (cmd->fdio->fdin != -1 && cmd->fdio->fdin > STDERR_FILENO)
-			xclose(&cmd->fdio->fdin);
+		xclose(&cmd->fdio->fdin);
 		cmd->fdio->fdin = open(arg[i + 1]->value, O_RDONLY);
 		if (cmd->fdio->fdin == -1)
 		{
@@ -94,8 +92,7 @@ static void	setup_redirections(t_command *cmd, t_token **arg, int i)
 	else if ((arg[i]->type == REDIRECT_OUT || arg[i]->type == APPEND)
 		&& arg[i + 1] && arg[i + 1]->type == REDIRECT_FILE)
 	{
-		if (cmd->fdio->fdout != -1 && cmd->fdio->fdout > STDERR_FILENO)
-			xclose(&cmd->fdio->fdout);
+		xclose(&cmd->fdio->fdout);
 		cmd->fdio->fdout = open(arg[i + 1]->value, set_flags(arg[i]), 0644);
 		if (cmd->fdio->fdout == -1)
 		{

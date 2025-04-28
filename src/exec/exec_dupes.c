@@ -13,22 +13,22 @@
 #include "minishell.h"
 
 /**
- * @brief Closes an fd and sets it to -1 to express it is closed.
+ * @brief Safe close syscall.
+ * Closes a fd and sets it to -1 to express it is closed.
+ * Does not close the fd if it is negative.
  *
- * @return 0 if everything went well, -1 if close failed.
+ * @return 0 if everything went well, 1 if the pointer is NULL or the fd isS
+ * negative (invalid), -1 if close failed.
  */
 int	xclose(int *fd)
 {
 	int	return_value;
 
-	if (!fd)
-		return (-1);
+	if (!fd || *fd < 0)
+		return (1);
 	return_value = 0;
 	if (close(*fd) == -1)
-	{
-		perror("minishell (xclose) - close");
 		return_value = -1;
-	}
 	*fd = -1;
 	return (return_value);
 }

@@ -13,6 +13,7 @@
 #include "minishell.h"
 
 // TODO (optional): In echo "<<", the << shouldn't be interpreted as a heredoc
+// TODO : exit leaks its two fds, easy fix
 
 int	main(int argc, char **argv, char **envp)
 {

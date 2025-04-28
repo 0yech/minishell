@@ -211,7 +211,7 @@ void		wait_execution(pid_t pids[1024], int index, int *status);
 
 // Exec fd/io - exec_io.c
 int			close_child(t_command *current);
-int			close_parent(t_command *current);
+void		close_parent(t_command* current);
 void		setup_io(t_command *cmd, t_token **arg);
 
 // Exec builtins - exec_builtin.c

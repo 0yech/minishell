@@ -169,6 +169,7 @@ t_command	*fetch_commands(t_command *command_list);
 t_token		**fetch_tokens(t_token **token_list);
 
 // Signal handler - signal_handler.c
+void		default_sig(int signal_id);
 void		ignore_sig(int signal_id);
 void		signal_handler(void);
 
@@ -215,7 +216,7 @@ void		close_parent(t_command* current);
 void		setup_io(t_command *cmd, t_token **arg);
 
 // Exec builtins - exec_builtin.c
-void		begone_child(void);
+void		clear_data(void);
 int			is_builtin(t_command *current);
 int			exec_builtin(t_command *current);
 int			exec_pipe_builtin(t_command *current);

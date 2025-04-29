@@ -26,7 +26,7 @@ static void	exec_child(t_command *current)
 	envtab = env_to_char(*env_get());
 	if (!envtab)
 	{
-		begone_child();
+		clear_data();
 		exit(126);
 	}
 	// if (current->fdio)
@@ -37,13 +37,13 @@ static void	exec_child(t_command *current)
 		print_exec_checks(current, current->exec_code);
 		env_clear(env_get());
 		free_array(envtab);
-		begone_child();
+		clear_data();
 		exit(exit_code);
 	}
 	close_child(current);
 	execve(find_executable_path(current->command), current->argv, envtab);
 	perror("minishell (exec_child) - execve");
-	begone_child();
+	clear_data();
 	exit(126);
 }
 
@@ -61,18 +61,19 @@ static int	process_command(t_command *current)
 	pid_t		pid;
 	int			status;
 
+	ignore_sig(SIGINT);
 	pid = fork();
 	if (pid == -1)
 		return (perror("minishell (execute_piped_commands) - fork"), -1);
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		default_sig(SIGINT);
 		if (is_builtin(current))
 		{
 			close_child(current);
 			status = exec_builtin(current);
 			env_clear(env_get());
-			begone_child();
+			clear_data();
 			exit(status);
 		}
 		exec_child(current);
@@ -139,19 +140,16 @@ int	execute_piped_commands(t_command *cmd)
 
 	if (!cmd)
 		return (-1);
-	fill_dupes(cmd);
 	if (!cmd->next && is_builtin(cmd))
 	{
 		setup_io(cmd, cmd->arguments);
 		exec_update_env(exec_builtin(cmd));
 		redirect_dupes(cmd);
-		if (xclose(&cmd->fdio->stdincpy) == -1)
-			perror("minishell (execute_piped_commands) - close (in)");
-		if (xclose(&cmd->fdio->stdoutcpy) == -1)
-			perror("minishell (execute_piped_commands) - close (out)");
 		return (0);
 	}
+	fill_dupes(cmd);
 	wait_for_exec(cmd, pids, parallel_exec(cmd, pids));
+	signal_handler();
 	redirect_dupes(cmd);
 	if (xclose(&cmd->fdio->stdincpy) == -1)
 		perror("minishell (execute_piped_commands) - close (in)");

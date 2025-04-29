@@ -23,6 +23,16 @@ void	refresh_prompt(int sig)
 	rl_redisplay();
 }
 
+void	default_sig(int signal_id)
+{
+	struct sigaction	sig;
+
+	ft_memset(&sig, 0, sizeof(sig));
+	sig.sa_handler = SIG_DFL;
+	if (sigaction(signal_id, &sig, NULL) == -1)
+		perror("minishell (default_sig) - sigaction");
+}
+
 /**
  * @brief Sets the current process to SIG_IGN the signal given as argument.
  * 
@@ -35,7 +45,7 @@ void	ignore_sig(int signal_id)
 	ft_memset(&sig, 0, sizeof(sig));
 	sig.sa_handler = SIG_IGN;
 	if (sigaction(signal_id, &sig, NULL) == -1)
-		perror("minishell (ignores_sig) - sigaction");
+		perror("minishell (ignore_sig) - sigaction");
 }
 
 void	signal_handler(void)

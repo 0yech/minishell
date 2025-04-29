@@ -28,9 +28,12 @@ void	close_all_fds(t_command *cmd_list)
 }
 
 /**
- * @brief Frees tokens and commands in the child process.
+ * @brief Frees tokens and commands in the current process.
+ *
+ * @details Calls the fetch_tokens and fetch_commands static getters
+ * to get the current process' lexer tokens and commands.
  */
-void	begone_child(void)
+void	clear_data(void)
 {
 	t_token		**tokenlist;
 	t_command	*cmdlist;
@@ -123,7 +126,7 @@ int	exec_pipe_builtin(t_command *current)
 	{
 		close_child(current);
 		exit_status = exec_builtin(current);
-		begone_child();
+		clear_data();
 		exit(exit_status);
 	}
 	if (waitpid(pid, &stat_loc, 0) == -1 && errno != EINTR)

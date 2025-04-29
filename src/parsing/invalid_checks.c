@@ -12,17 +12,11 @@
 
 #include "minishell.h"
 
-static bool	is_token_after_pipe_invalid(t_token_type type)
-{
-	return (type == PIPE || type == REDIRECT_IN || type == REDIRECT_OUT
-		|| type == APPEND || type == HEREDOC);
-}
-
 static int	is_valid_pipe(t_token *token)
 {
 	if (token->type == PIPE)
 	{
-		if (!token->next || is_token_after_pipe_invalid(token->next->type))
+		if (!token->next || token->next->type == PIPE)
 		{
 			write(STDERR_FILENO,
 				"syntax error near unexpected token `|'\n", 39);

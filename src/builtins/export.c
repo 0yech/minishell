@@ -59,8 +59,6 @@ int	export_concat(char *str)
 	slices = ft_split(str, '+');
 	if (!slices)
 		return (perror("minishell (export_concat) - ft_split"), 1);
-	if (slices[0][0] == '=')
-		return (printf("export: Wrong syntax!\n"), free_array(slices), 1);
 	var = env_get_key(slices[0]);
 	concat_str = ft_calloc(export_concat_size(var, slices[1]), sizeof(char));
 	if (!concat_str)

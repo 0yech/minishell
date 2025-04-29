@@ -25,7 +25,7 @@ bool	check_name(char *name)
 {
 	char	*tmp;
 
-	if (ft_isdigit(name[0]) || name[0] == '=')
+	if (ft_isdigit(name[0]) || name[0] == '=' || name[0] == '+')
 		return (false);
 	tmp = ft_strchr(name, '+');
 	if (tmp && *(tmp + 1) != '=')

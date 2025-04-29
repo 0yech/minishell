@@ -73,6 +73,7 @@ static int	process_command(t_command *current)
 			close_child(current);
 			status = exec_builtin(current);
 			env_clear(env_get());
+			close_std_copies(current);
 			clear_data();
 			exit(status);
 		}

@@ -196,9 +196,12 @@ int			valid_pipes(t_token *token);
 // Pipe assignation - pipe_assign.c
 void		assign_pipes(t_command *cmd_list);
 
-// Exec_checks.c
+// rights_checks.c
 void		print_exec_checks(t_command *current, int code);
 int			get_exitno(int code);
+
+// Exec fd utils - exec_fd_tools.c
+void		close_std_copies(t_command *cmd);
 void		close_all_other_fds(t_command *cmd_list, t_command *current_cmd);
 void		close_all_fds(t_command *cmd_list);
 

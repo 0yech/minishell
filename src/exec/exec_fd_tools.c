@@ -15,6 +15,33 @@
 #include "minishell.h"
 
 /**
+ * @brief Closes the standard output and input copies inside a given command
+ * struct.
+ */
+void	close_std_copies(t_command *cmd)
+{
+	if (xclose(&cmd->fdio->stdincpy) == -1)
+		perror("minishell (execute_piped_commands) - close (in)");
+	if (xclose(&cmd->fdio->stdoutcpy) == -1)
+		perror("minishell (execute_piped_commands) - close (out)");
+}
+
+void	close_all_fds(t_command *cmd_list)
+{
+	t_command	*tmp;
+
+	tmp = cmd_list;
+	while (tmp)
+	{
+		if (tmp->fdio->fdin > STDERR_FILENO && xclose(&tmp->fdio->fdin) == -1)
+			perror("minishell (close_all_fds) - close (in)");
+		if (tmp->fdio->fdout > STDERR_FILENO && xclose(&tmp->fdio->fdout) == -1)
+			perror("minishell (close_all_fds) - close (in)");
+		tmp = tmp->next;
+	}
+}
+
+/**
  * @brief Called by child processes to close all fds that aren't the ones related
  * to the command the child is tasked to run.
  *

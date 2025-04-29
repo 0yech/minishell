@@ -12,21 +12,6 @@
 
 #include "minishell.h"
 
-void	close_all_fds(t_command *cmd_list)
-{
-	t_command	*tmp;
-
-	tmp = cmd_list;
-	while (tmp)
-	{
-		if (tmp->fdio->fdin > STDERR_FILENO && xclose(&tmp->fdio->fdin) == -1)
-			perror("minishell (close_all_fds) - close (in)");
-		if (tmp->fdio->fdout > STDERR_FILENO && xclose(&tmp->fdio->fdout) == -1)
-			perror("minishell (close_all_fds) - close (in)");
-		tmp = tmp->next;
-	}
-}
-
 /**
  * @brief Frees tokens and commands in the current process.
  *

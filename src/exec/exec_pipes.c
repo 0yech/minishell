@@ -47,7 +47,6 @@ static void	exec_child(t_command *current)
 	exit(126);
 }
 
-
 /**
  * @brief Executes a command as a child process (only if a pipe is present
  * in the form of multiple commands and redirects its output to
@@ -68,6 +67,7 @@ static int	process_command(t_command *current)
 	if (pid == 0)
 	{
 		default_sig(SIGINT);
+		default_sig(SIGQUIT);
 		if (is_builtin(current))
 		{
 			close_child(current);

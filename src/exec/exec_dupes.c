@@ -37,7 +37,7 @@ int	xclose(int *fd)
  * @brief Resets STDIN and STDOUT to their standard file descriptors.
  * @param cmd The command containing the stdin and stdout copies.
  */
-void redirect_dupes(t_command* cmd)
+void	redirect_dupes(t_command *cmd)
 {
 	if (dup2(cmd->fdio->stdincpy, STDIN_FILENO) == -1)
 		perror("minishell (execute_piped_commands) - dup2 (in)");
@@ -51,7 +51,7 @@ void redirect_dupes(t_command* cmd)
  * @param cmd The command to store the standard fds in.
  * @return 0 if everything went fine, -1 if an error occur
  */
-void fill_dupes(t_command* cmd)
+void	fill_dupes(t_command *cmd)
 {
 	cmd->fdio->stdincpy = dup(STDIN_FILENO);
 	if (cmd->fdio->stdincpy == -1)

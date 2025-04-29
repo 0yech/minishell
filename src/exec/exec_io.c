@@ -42,7 +42,7 @@ int	close_child(t_command *current)
  * @brief Called by the parent process. Closes the command given as argument's
  * fds, we don't need them as the parent (?).
  */
-void close_parent(t_command* current)
+void	close_parent(t_command *current)
 {
 	if (current->fdio->fdin > STDERR_FILENO)
 	{

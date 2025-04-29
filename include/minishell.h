@@ -215,7 +215,7 @@ void		wait_execution(pid_t pids[1024], int index, int *status);
 
 // Exec fd/io - exec_io.c
 int			close_child(t_command *current);
-void		close_parent(t_command* current);
+void		close_parent(t_command *current);
 void		setup_io(t_command *cmd, t_token **arg);
 
 // Exec builtins - exec_builtin.c
@@ -226,8 +226,8 @@ int			exec_pipe_builtin(t_command *current);
 
 // Exec dupes - exec_dupes.c
 int			xclose(int *fd);
-void		fill_dupes(t_command* cmd);
-void		redirect_dupes(t_command* cmd);
+void		fill_dupes(t_command *cmd);
+void		redirect_dupes(t_command *cmd);
 void		child_fdio_redirections(t_command *current);
 void		close_all_parents(t_command *cmd);
 

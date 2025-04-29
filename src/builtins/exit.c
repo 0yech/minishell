@@ -24,10 +24,6 @@ void	ft_exit(t_command *cmd, int exit_code)
 	}
 	else
 		exit_status = exit_code;
-	// if (cmd && xclose(&cmd->fdio->stdincpy) == -1)
-	// 	perror("minishell (execute_piped_commands) - close (in)");
-	// if (cmd && xclose(&cmd->fdio->stdoutcpy) == -1)
-		// perror("minishell (execute_piped_commands) - close (out)");
 	clear_data();
 	rl_clear_history();
 	env_clear(env_get());

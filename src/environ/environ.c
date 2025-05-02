@@ -31,7 +31,7 @@ t_env	**env_get(void)
  * @param envp The environment as passed to the main function.
  * @return A pointer to the head of the linked list just created.
  */
-t_env	*fill_envcpy(char **envp)
+static t_env	*fill_envcpy(char **envp)
 {
 	t_env	*head;
 	t_env	*current;

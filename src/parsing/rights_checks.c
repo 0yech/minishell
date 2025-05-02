@@ -21,7 +21,7 @@
  *
  * @return false if it's NOT a directory, true if it is
 */
-bool	is_dir(char *path)
+static bool	is_dir(char *path)
 {
 	struct stat	cmdstat;
 
@@ -41,7 +41,7 @@ bool	is_dir(char *path)
  * - 3: Command is a directory.
  * - 4: Command exists but is not executable.
  */
-int	exec_types(t_command *current)
+static int	exec_types(t_command *current)
 {
 	char	*path;
 
@@ -66,7 +66,7 @@ int	get_exitno(int code)
 {
 	if (code == 2)
 		return (127);
-	else if (code == 3 || code == 4)
+	if (code == 3 || code == 4)
 		return (126);
 	return (0);
 }

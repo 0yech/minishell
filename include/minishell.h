@@ -91,7 +91,7 @@ typedef struct s_command
 	struct s_command	*next;
 	struct s_command	*prev;
 	bool				isvalid;
-	int					exec_code;
+	int					exec_code; // return value of exec_types()
 }	t_command;
 
 typedef struct s_env
@@ -231,7 +231,7 @@ void		redirect_dupes(t_command *cmd);
 void		child_fdio_redirections(t_command *current);
 void		close_all_parents(t_command *cmd);
 
-// Help - help.c
+// Help - help folder
 void		help_menu(int argc, char **argv);
 void		print_help_header(void);
 void		print_void_lines(int amount);

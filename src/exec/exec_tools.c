@@ -13,8 +13,8 @@
 #include "minishell.h"
 
 /**
- * @brief Returns a string starting from `str` pointer until the delimiter,  if it
- * found. Puts a NULL character after the delim.
+ * @brief Returns a string starting from the `str` pointer until the delimiter
+ * if it found. Puts a NULL character after the delim.
  * Saves the `str` if present inside the `save` static variable.
  *  * @param str A malloced string.
  */

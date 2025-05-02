@@ -13,8 +13,6 @@
 #include "minishell.h"
 
 // TODO (optional): In echo "<<", the << shouldn't be interpreted as a heredoc
-// TODO: exec format error leaks a loooot
-// (trying to launch ./launch.sh in minishell, for example)
 
 int	main(int argc, char **argv, char **envp)
 {

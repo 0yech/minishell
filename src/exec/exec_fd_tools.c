@@ -26,6 +26,11 @@ void	close_std_copies(t_command *cmd)
 		perror("minishell (execute_piped_commands) - close (out)");
 }
 
+/**
+ * @brief Closes all fdin and fdout in a command list if they aren't part of
+ * the three standard file descriptors.
+ * @param cmd_list A pointer to the head of the command list to go through.
+ */
 void	close_all_fds(t_command *cmd_list)
 {
 	t_command	*tmp;

@@ -20,9 +20,12 @@
  */
 void	close_std_copies(t_command *cmd)
 {
-	if (xclose(&cmd->fdio->stdincpy) == -1)
+	printf("[!] - %d entering close_std_copies...\n", getpid());
+	if (cmd->fdio->stdincpy > STDERR_FILENO
+		&& xclose(&cmd->fdio->stdincpy) == -1)
 		perror("minishell (close_std_copies) - close (in)");
-	if (xclose(&cmd->fdio->stdoutcpy) == -1)
+	if (cmd->fdio->stdoutcpy > STDERR_FILENO
+		&& xclose(&cmd->fdio->stdoutcpy) == -1)
 		perror("minishell (close_std_copies) - close (out)");
 }
 
@@ -60,6 +63,7 @@ void	close_all_other_fds(t_command *cmd_list, t_command *current_cmd)
 	tmp = cmd_list;
 	while (tmp)
 	{
+		close_std_copies(tmp);
 		if (tmp != current_cmd)
 		{
 			if (tmp->fdio->fdin != STDIN_FILENO

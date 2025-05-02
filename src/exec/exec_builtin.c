@@ -89,34 +89,3 @@ int	exec_builtin(t_command *current)
 		ft_exit(current, 0);
 	return (-1);
 }
-
-/**
- * @brief Checks if a command is a builtin, and if yes, executes the builtin.
- *
- * @param current The command to execute as a builtin.
- * @return The exit status of the builtin if the command was indeed one,
- * -1 if an error occurred.
- */
-// FIXME: this isn't used
-int	exec_pipe_builtin(t_command *current)
-{
-	int	stat_loc;
-	int	exit_status;
-	int	pid;
-
-	ignore_sig(SIGINT);
-	pid = fork();
-	if (pid == -1)
-		return (perror("minishell (exec_pipe_builtin) - fork"), -1);
-	if (pid == 0)
-	{
-		close_child(current);
-		exit_status = exec_builtin(current);
-		clear_data();
-		exit(exit_status);
-	}
-	if (waitpid(pid, &stat_loc, 0) == -1 && errno != EINTR)
-		perror("minishell (exec_pipe_builtin) - waitpid");
-	signal_handler();
-	return (WEXITSTATUS(stat_loc));
-}

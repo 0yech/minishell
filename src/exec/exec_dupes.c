@@ -17,6 +17,7 @@
  * Closes a fd and sets it to -1 to express it is closed.
  * Does not close the fd if it is negative.
  *
+ * @note Make sure to call perror when xclose returns -1!
  * @return 0 if everything went well, 1 if the pointer is NULL or the fd is
  * negative (invalid), -1 if close failed.
  */
@@ -24,11 +25,11 @@ int	xclose(int *fd)
 {
 	int	return_value;
 
+	if (fd)
+		printf("[!] - %d attempting to close fd %d...\n", getpid(), *fd);
 	if (!fd || *fd < 0)
 		return (1);
-	return_value = 0;
-	if (close(*fd) == -1)
-		return_value = -1;
+	return_value = close(*fd);
 	*fd = -1;
 	return (return_value);
 }

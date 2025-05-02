@@ -222,7 +222,6 @@ void		setup_io(t_command *cmd, t_token **arg);
 void		clear_data(void);
 int			is_builtin(t_command *current);
 int			exec_builtin(t_command *current);
-int			exec_pipe_builtin(t_command *current);
 
 // Exec dupes - exec_dupes.c
 int			xclose(int *fd);

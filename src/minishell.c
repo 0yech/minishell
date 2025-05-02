@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 // TODO (optional): In echo "<<", the << shouldn't be interpreted as a heredoc
-// TODO : piped builtins have mishandled fds (echo wow | echo wow)
 
 int	main(int argc, char **argv, char **envp)
 {

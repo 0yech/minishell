@@ -25,8 +25,6 @@ int	xclose(int *fd)
 {
 	int	return_value;
 
-	if (fd)
-		printf("[!] - %d attempting to close fd %d...\n", getpid(), *fd);
 	if (!fd || *fd < 0)
 		return (1);
 	return_value = close(*fd);
@@ -60,28 +58,4 @@ void	fill_dupes(t_command *cmd)
 	cmd->fdio->stdoutcpy = dup(STDOUT_FILENO);
 	if (cmd->fdio->stdoutcpy == -1)
 		perror("minishell (fill_dupes) - dup (out)");
-}
-
-/**
- * @brief
- *
- * @param current
- */
-// TODO: is this even needed anymore?
-void	child_fdio_redirections(t_command *current)
-{
-	if (current->fdio->fdin != STDIN_FILENO && current->fdio->fdin != -1)
-	{
-		if (dup2(current->fdio->fdin, STDIN_FILENO) == -1)
-			perror("minishell (child_fdio_redirections) - dup2 (in)");
-		if (xclose(&current->fdio->fdin) == -1)
-			perror("minishell (child_fdio_redirections) - close (in)");
-	}
-	if (current->fdio->fdout != STDOUT_FILENO && current->fdio->fdout != -1)
-	{
-		if (dup2(current->fdio->fdout, STDOUT_FILENO) == -1)
-			perror("minishell (child_fdio_redirections) - dup2 (out)");
-		if (xclose(&current->fdio->fdout) == -1)
-			perror("minishell (child_fdio_redirections) - close (out)");
-	}
 }

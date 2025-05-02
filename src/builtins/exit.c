@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+// TODO : exiting with alphabetical arguments should return an error and exit with status code 2
 void	ft_exit(t_command *cmd, int exit_code)
 {
 	int	exit_status;

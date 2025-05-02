@@ -69,6 +69,8 @@ int	exec_builtin(t_command *current)
 {
 	if (!current->next)
 		close_child(current);
+	if (current->fdio->fdout < 0)
+		return (1);
 	if (ft_strncmp(current->command, "cd", 3) == 0)
 		return (ft_cd(current));
 	if (ft_strncmp(current->command, "pwd", 4) == 0)

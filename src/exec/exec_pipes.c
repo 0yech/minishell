@@ -21,7 +21,7 @@
 static void	exec_child(t_command *current)
 {
 	char	**envtab;
-	int		exit_code;
+	char	*path;
 
 	envtab = env_to_char(*env_get());
 	if (!envtab)
@@ -29,20 +29,20 @@ static void	exec_child(t_command *current)
 		clear_data();
 		exit(126);
 	}
-	// if (current->fdio)
-		// child_fdio_redirections(current);
-	if (current->exec_code != 0)
+	close_child(current);
+	path = find_executable_path(current->command);
+	if (!path)
 	{
-		exit_code = get_exitno(current->exec_code);
-		print_exec_checks(current, current->exec_code);
-		env_clear(env_get());
 		free_array(envtab);
 		clear_data();
-		exit(exit_code);
+		exit(126);
 	}
-	close_child(current);
-	execve(find_executable_path(current->command), current->argv, envtab);
+	execve(path, current->argv, envtab);
 	perror("minishell (exec_child) - execve");
+	close_std_copies(current);
+	free(path);
+	free_array(envtab);
+	env_clear(env_get());
 	clear_data();
 	exit(126);
 }

@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Returns a string starting from `str` pointer until the delimiter,  if it
+ * found. Puts a NULL character after the delim.
+ * Saves the `str` if present inside the `save` static variable.
+ *  * @param str A malloced string.
+ */
 static char	*ft_strtok(char *str, const char *delim)
 {
 	static char	*save;
@@ -56,8 +62,10 @@ static char	*join_path_command(char *path, char *command)
 }
 
 /**
- * @brief Finds the full path of the executable of a command string.
+ * @brief Finds the full path of the executable in a command string.
  *
+ * @note `paths` isn't freed until the end because `ft_strtok` holds a static
+ * pointer to it.
  * @param command The command to look up, as a string.
  * @return The full path of the command, ready to be executed.
  */

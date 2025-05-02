@@ -26,8 +26,6 @@ int	ft_echo(t_command *cmd)
 		tmp++;
 	while (*tmp)
 	{
-		if (cmd->fdio->fdout == -1) // FIXME: writing to a file without permissions prints a perror (fix that in redirections somewhere)
-			return (-1);
 		if (write(STDOUT_FILENO, *tmp, ft_strlen(*tmp)) == -1)
 			return (perror("minishell (ft_echo) - write"), -1);
 		if (*(tmp + 1))

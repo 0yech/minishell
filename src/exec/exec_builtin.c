@@ -88,6 +88,6 @@ int	exec_builtin(t_command *current)
 	if (ft_strncmp(current->command, "echo", 5) == 0)
 		return (ft_echo(current));
 	if (ft_strncmp(current->command, "exit", 5) == 0)
-		ft_exit(current, 0);
+		return (ft_exit(current, 0));
 	return (-1);
 }

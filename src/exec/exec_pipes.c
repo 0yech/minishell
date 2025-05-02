@@ -86,8 +86,8 @@ static int	process_command(t_command *current)
 
 // TODO: Pipelines should return the exit status of the rightmost command
 // that failed, or 0 if all commands exited with 0.
-// We could loop over the commands and as we waitpid them, only update the exit status
-// to 0 if no error was found before
+// We could loop over the commands and as we waitpid them, only update the
+// exit status to 0 if no error was found before
 static void	wait_for_exec(t_command *cmd, pid_t pids[MAX_PID], int index)
 {
 	int			i;

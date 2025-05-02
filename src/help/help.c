@@ -65,11 +65,22 @@ void	print_help_header(void)
 	print_void_lines(2);
 }
 
-static void	help_man(void)
+static void	help_man(char *argv)
 {
-	print_void_lines(50);
-	print_help_header();
-	print_man();
+	if (ft_strncmp(argv, "echo", 5) == 0)
+		help_echo();
+	else if (ft_strncmp(argv, "cd", 3) == 0)
+		help_cd();
+	else if (ft_strncmp(argv, "export", 7) == 0)
+		help_export();
+	else if (ft_strncmp(argv, "env", 4) == 0)
+		help_env();
+	else if (ft_strncmp(argv, "exit", 5) == 0)
+		help_exit();
+	else if (ft_strncmp(argv, "unset", 6) == 0)
+		help_unset();
+	else if (ft_strncmp(argv, "pwd", 4) == 0)
+		help_pwd();
 }
 
 void	help_menu(int argc, char **argv)
@@ -78,25 +89,15 @@ void	help_menu(int argc, char **argv)
 			|| ft_strncmp(argv[1], "-H", 3) == 0))
 	{
 		if (argc == 2)
-			return (help_man(), ft_exit(NULL, 0));
-		if (argc > 2)
 		{
-			if (ft_strncmp(argv[2], "echo", 5) == 0)
-				help_echo();
-			else if (ft_strncmp(argv[2], "cd", 3) == 0)
-				help_cd();
-			else if (ft_strncmp(argv[2], "export", 7) == 0)
-				help_export();
-			else if (ft_strncmp(argv[2], "env", 4) == 0)
-				help_env();
-			else if (ft_strncmp(argv[2], "exit", 5) == 0)
-				help_exit();
-			else if (ft_strncmp(argv[2], "unset", 6) == 0)
-				help_unset();
-			else if (ft_strncmp(argv[2], "pwd", 4) == 0)
-				help_pwd();
+			print_void_lines(50);
+			print_help_header();
+			print_man();
+			ft_exit(NULL, 0);
 		}
+		if (argc > 2)
+			help_man(argv[2]);
 		printf("minishell help usage : ./minishell --h [BUILTIN]\n");
-		return (ft_exit(NULL, 0));
+		ft_exit(NULL, 0);
 	}
 }

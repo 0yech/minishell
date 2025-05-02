@@ -63,7 +63,7 @@ static int	process_command(t_command *current)
 	ignore_sig(SIGINT);
 	pid = fork();
 	if (pid == -1)
-		return (perror("minishell (execute_piped_commands) - fork"), -1);
+		return (perror("minishell (process_command) - fork"), -1);
 	if (pid == 0)
 	{
 		default_sig(SIGINT);

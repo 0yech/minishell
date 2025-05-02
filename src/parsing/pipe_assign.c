@@ -28,7 +28,7 @@ void	assign_pipes(t_command *cmd_list)
 		{
 			if (pipe(pipefd) == -1)
 			{
-				perror("pipe");
+				perror("minishell (assign_pipes) - pipe");
 				exit(1);
 			}
 			current->fdio->fdout = pipefd[1];

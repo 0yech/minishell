@@ -97,6 +97,7 @@ int	exec_builtin(t_command *current)
  * @return The exit status of the builtin if the command was indeed one,
  * -1 if an error occurred.
  */
+// FIXME: this isn't used
 int	exec_pipe_builtin(t_command *current)
 {
 	int	stat_loc;

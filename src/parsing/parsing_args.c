@@ -76,7 +76,7 @@ char	**args_to_argv(t_token **args)
 			argv[i] = ft_strdup((*args)->value);
 			if (!argv[i])
 			{
-				perror("minishell (extract_args) - ft_strdup");
+				perror("minishell (args_to_argv) - ft_strdup");
 				while (i > 0)
 					free(argv[--i]);
 				return (free(argv), NULL);

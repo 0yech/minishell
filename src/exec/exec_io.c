@@ -81,7 +81,8 @@ static void	setup_redirections(t_command *cmd, t_token **arg, int i)
 	if (arg[i]->type == REDIRECT_IN && arg[i + 1]
 		&& arg[i + 1]->type == REDIRECT_FILE)
 	{
-		xclose(&cmd->fdio->fdin);
+		if (xclose(&cmd->fdio->fdin) == -1)
+			perror("minishell (setup_redirections) - close (in)");
 		cmd->fdio->fdin = open(arg[i + 1]->value, O_RDONLY);
 		if (cmd->fdio->fdin == -1)
 		{
@@ -92,7 +93,8 @@ static void	setup_redirections(t_command *cmd, t_token **arg, int i)
 	else if ((arg[i]->type == REDIRECT_OUT || arg[i]->type == APPEND)
 		&& arg[i + 1] && arg[i + 1]->type == REDIRECT_FILE)
 	{
-		xclose(&cmd->fdio->fdout);
+		if (xclose(&cmd->fdio->fdout) == -1)
+			perror("minishell (setup_redirections) - close (out)");
 		cmd->fdio->fdout = open(arg[i + 1]->value, set_flags(arg[i]), 0644);
 		if (cmd->fdio->fdout == -1)
 		{

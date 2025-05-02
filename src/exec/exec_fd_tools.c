@@ -21,9 +21,9 @@
 void	close_std_copies(t_command *cmd)
 {
 	if (xclose(&cmd->fdio->stdincpy) == -1)
-		perror("minishell (execute_piped_commands) - close (in)");
+		perror("minishell (close_std_copies) - close (in)");
 	if (xclose(&cmd->fdio->stdoutcpy) == -1)
-		perror("minishell (execute_piped_commands) - close (out)");
+		perror("minishell (close_std_copies) - close (out)");
 }
 
 /**

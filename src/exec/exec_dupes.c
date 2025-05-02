@@ -17,7 +17,7 @@
  * Closes a fd and sets it to -1 to express it is closed.
  * Does not close the fd if it is negative.
  *
- * @return 0 if everything went well, 1 if the pointer is NULL or the fd isS
+ * @return 0 if everything went well, 1 if the pointer is NULL or the fd is
  * negative (invalid), -1 if close failed.
  */
 int	xclose(int *fd)
@@ -40,9 +40,9 @@ int	xclose(int *fd)
 void	redirect_dupes(t_command *cmd)
 {
 	if (dup2(cmd->fdio->stdincpy, STDIN_FILENO) == -1)
-		perror("minishell (execute_piped_commands) - dup2 (in)");
+		perror("minishell (redirect_dupes) - dup2 (in)");
 	if (dup2(cmd->fdio->stdoutcpy, STDOUT_FILENO) == -1)
-		perror("minishell (execute_piped_commands) - dup2 (out)");
+		perror("minishell (redirect_dupes) - dup2 (out)");
 }
 
 /**
@@ -55,10 +55,10 @@ void	fill_dupes(t_command *cmd)
 {
 	cmd->fdio->stdincpy = dup(STDIN_FILENO);
 	if (cmd->fdio->stdincpy == -1)
-		perror("minishell (execute_piped_commands) - dup (in)");
+		perror("minishell (fill_dupes) - dup (in)");
 	cmd->fdio->stdoutcpy = dup(STDOUT_FILENO);
 	if (cmd->fdio->stdoutcpy == -1)
-		perror("minishell (execute_piped_commands) - dup (out)");
+		perror("minishell (fill_dupes) - dup (out)");
 }
 
 /**

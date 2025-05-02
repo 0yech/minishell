@@ -22,7 +22,7 @@ static char	*hd_var_expand(char *line)
 		return (NULL);
 	new_line = ft_calloc(full_token_size(line) + 1, sizeof(char));
 	if (!new_line)
-		return (perror("minishell (var_expand) - malloc"), free(line), NULL);
+		return (perror("minishell (hd_var_expand) - malloc"), free(line), NULL);
 	i = 0;
 	j = 0;
 	while (line[i])

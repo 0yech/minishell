@@ -20,7 +20,6 @@
  */
 void	close_std_copies(t_command *cmd)
 {
-	printf("[!] - %d entering close_std_copies...\n", getpid());
 	if (cmd->fdio->stdincpy > STDERR_FILENO
 		&& xclose(&cmd->fdio->stdincpy) == -1)
 		perror("minishell (close_std_copies) - close (in)");

@@ -6,9 +6,14 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:41:17 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/27 17:40:29 by nrey             ###   ########.fr       */
+/*   Updated: 2025/05/03 15:30:04 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// TODO : cat <<h1 <missinfile <<h2 > out is broken but not when it has pipes after.
+
+// TODO : builtins using STDOUT are not piping their output correctly, or the fds
+//		have issues, "env | grep SHLVL" doesn't work, same thing with echo & export.
 
 #include "minishell.h"
 

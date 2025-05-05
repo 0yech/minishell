@@ -6,14 +6,9 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:41:17 by fireinside        #+#    #+#             */
-/*   Updated: 2025/05/03 15:30:04 by nrey             ###   ########.fr       */
+/*   Updated: 2025/05/05 20:30:03 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// TODO : cat <<h1 <missinfile <<h2 > out is broken but not when it has pipes after.
-
-// TODO : builtins using STDOUT are not piping their output correctly, or the fds
-//		have issues, "env | grep SHLVL" doesn't work, same thing with echo & export.
 
 #include "minishell.h"
 
@@ -114,21 +109,27 @@ static void	setup_redirections(t_command *cmd, t_token **arg, int i)
  * Handles heredocs, redirections both in and out of files.
  * @param cmd The command to set up.
  * @param arg The arguments of the command.
- * @return 0 if everything went well, -1 otherwise.
  */
 void	setup_io(t_command *cmd, t_token **arg)
 {
 	int	i;
 
 	i = 0;
+	while (cmd->arguments[i])
+	{
+		if (cmd->arguments[i]->type == HEREDOC && cmd->arguments[i + 1])
+			heredoc_handler(cmd, cmd->arguments[i + 1]);
+		i++;
+	}
+	i = 0;
 	while (arg[i])
 	{
-		if (arg[i]->type == HEREDOC)
-			heredoc_handler(cmd, arg[i + 1]);
-		else
+		if (arg[i]->type != HEREDOC)
+		{
 			setup_redirections(cmd, arg, i);
-		if (cmd->isvalid == false && xclose(&cmd->fdio->fdout) == -1)
-			perror("minishell (setup_io) - close");
+			if (cmd->isvalid == false && xclose(&cmd->fdio->fdout) == -1)
+				perror("minishell (setup_io) - close");
+		}
 		i++;
 	}
 }

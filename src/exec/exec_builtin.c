@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:39:04 by fireinside        #+#    #+#             */
-/*   Updated: 2025/04/27 16:58:42 by nrey             ###   ########.fr       */
+/*   Updated: 2025/05/05 20:09:19 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	exec_builtin(t_command *current)
 {
 	if (!current->next)
 		close_child(current);
-	if (current->fdio->fdout < 0)
+	if (current->isvalid == false)
 		return (1);
 	if (ft_strncmp(current->command, "cd", 3) == 0)
 		return (ft_cd(current));

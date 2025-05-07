@@ -146,6 +146,5 @@ t_command	*parsing_handler(t_token **token_list)
 		return (free_command_list(command_list), NULL);
 	assign_pipes(command_list);
 	exec_checks(command_list);
-	//print_commands(command_list);
 	return (command_list);
 }

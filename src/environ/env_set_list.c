@@ -78,7 +78,7 @@ static int	env_update_var(char *alloc_key, char *alloc_value)
 	}
 	else
 	{
-		*env_get() = env_new(alloc_key, alloc_value, NULL, NULL);
+		*(env_get()) = env_new(alloc_key, alloc_value, NULL, NULL);
 		if (!*env_get())
 			return (free(alloc_key), free(alloc_value), 1);
 	}

@@ -1,8 +1,6 @@
 ![image](https://github.com/user-attachments/assets/94e4623d-3937-405a-a29d-4ba0c27c78d6)
-
-<!-- Banger shell by two silly princesses, the shell's prompt looks like this silly sour gummy worm :3 -->
 <img align="right" width="199" alt="score" src="https://github.com/user-attachments/assets/5f5276ee-0b96-4363-a30b-5023c3853b1d"/>
-
+<!-- Banger shell by two silly princesses, the shell's prompt looks like this silly sour gummy worm :3 -->
 
 # Minishell
 

@@ -6,7 +6,7 @@
 
 A Unix shell made at 42 School.
 
-By [0yech](https://github.com/0yech) and [Aisling Fontaine](https://github.com/FireInsidE-fie)
+By [0yech](https://github.com/0yech) and [Aisling Fontaine](https://github.com/stellaaash)
 
 ---
 
